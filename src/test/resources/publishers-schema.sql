@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS publishers (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name varchar(40) DEFAULT NULL,
+  address varchar(100) DEFAULT NULL
+) ENGINE=InnoDB;

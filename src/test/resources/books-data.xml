@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <publishers id="1" name="Publisher1" address="Address 1"/>
+    <books id="1"
+           name="name"
+           page_count="12"
+           authors="authors"
+           annotation="annotation"
+           publisher_id="1"
+           publishing_year="1990"
+           weight="140"/>
+</dataset>

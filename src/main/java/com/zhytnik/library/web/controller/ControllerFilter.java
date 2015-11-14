@@ -1,0 +1,40 @@
+package com.zhytnik.library.web.controller;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+
+import static java.lang.String.format;
+
+public class ControllerFilter implements Filter {
+    private Logger logger;
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        logger = Logger.getLogger(getClass());
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        String uri = req.getRequestURI();
+        logger.log(Level.INFO, uri);
+        long t = System.currentTimeMillis();
+
+        chain.doFilter(request, response);
+
+        t = System.currentTimeMillis() - t;
+
+        String msg = format("Executed at %4s mc.", t);
+        logger.log(Level.INFO, msg);
+    }
+
+    @Override
+    public void destroy() {
+
+    }
+}

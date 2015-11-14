@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS categories (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name varchar(50) DEFAULT NULL,
+  description varchar(150) DEFAULT NULL
+) ENGINE=InnoDB;

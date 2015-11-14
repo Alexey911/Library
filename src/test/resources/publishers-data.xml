@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <publishers id="1" name="Publisher1" address="Address 1"/>
+    <publishers id="2" name="Publisher2" address="Address 2"/>
+</dataset>
