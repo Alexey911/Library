@@ -16,7 +16,7 @@ import java.util.Set;
 import static java.util.Objects.isNull;
 
 public abstract class AbstractJDBCDao<T extends DomainObject> implements GenericDao<T>, SearchDao<T> {
-    protected Logger logger;
+    protected static Logger logger;
     private DataSource dataSource;
     private Set<Dependence<? super T>> dependencies;
 

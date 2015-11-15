@@ -18,11 +18,14 @@ public class CommandDispatcher {
 
     private static final String ERROR = "/error";
 
-    private Logger logger;
+    private static Logger logger;
     private Map<String, Class> controllers;
 
+    static {
+        logger = Logger.getLogger(CommandDispatcher.class);
+    }
+
     public CommandDispatcher() {
-        logger = Logger.getLogger(getClass());
         controllers = new HashMap<>();
         addCommand("/categories/show", ShowCategoriesCommand.class);
         addCommand("/categories/add", AddCategoryCommand.class);

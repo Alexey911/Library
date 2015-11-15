@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 import java.util.Set;
 
 public abstract class Service<T extends DomainObject> {
-    protected Logger logger;
+    protected static Logger logger;
     private GenericDao<T> dao;
     private Criteria criteria;
 

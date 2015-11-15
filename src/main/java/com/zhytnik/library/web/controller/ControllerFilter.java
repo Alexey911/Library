@@ -10,11 +10,14 @@ import java.io.IOException;
 import static java.lang.String.format;
 
 public class ControllerFilter implements Filter {
-    private Logger logger;
+    private static Logger logger;
+
+    static {
+        logger = Logger.getLogger(ControllerFilter.class);
+    }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        logger = Logger.getLogger(getClass());
     }
 
     @Override
