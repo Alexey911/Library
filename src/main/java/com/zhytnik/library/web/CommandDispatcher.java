@@ -19,11 +19,12 @@ public class CommandDispatcher {
     private static final String ERROR = "/error";
 
     private static Logger logger;
-    private Map<String, Class> controllers;
 
     static {
         logger = Logger.getLogger(CommandDispatcher.class);
     }
+
+    private Map<String, Class> controllers;
 
     public CommandDispatcher() {
         controllers = new HashMap<>();
@@ -47,8 +48,7 @@ public class CommandDispatcher {
     }
 
     public Command getCommand(Request request) {
-        String path = getPreparedPath(request);
-        Class commandClass = controllers.get(path);
+        Class commandClass = controllers.get(request.getPathInfo());
         Command command;
         if (isNull(commandClass)) {
             command = getErrorCommand(String.format("Action for %s is not found.", request.getRequestURI()));
@@ -62,24 +62,13 @@ public class CommandDispatcher {
         return command;
     }
 
-    private String getPreparedPath(Request request) {
-        String path = request.getPathInfo();
-        String[] avoidEnds = {".jsp", "/"};
-        for (String avoid : avoidEnds) {
-            if (path.endsWith(avoid)) {
-                path = path.substring(0, path.length() - avoid.length());
-            }
-        }
-        return path;
-    }
-
-    private Command getErrorCommand(String message) {
-        logger.log(Level.INFO, message);
+    public Command getErrorCommand(String message) {
+        logger.log(Level.ERROR, message);
         Command command = null;
         try {
             command = (Command) controllers.get(ERROR).newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            logger.log(Level.INFO, e);
+            logger.log(Level.ERROR, e);
         }
         return command;
     }

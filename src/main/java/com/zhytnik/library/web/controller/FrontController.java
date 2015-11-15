@@ -39,8 +39,15 @@ public class FrontController extends HttpServlet {
     private void process(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         Request request = new Request(req);
-        Command command = commandDispatcher.getCommand(request);
-        ModelAndView modelAndView = command.execute(request);
+        ModelAndView modelAndView;
+        Command command;
+        try {
+            command = commandDispatcher.getCommand(request);
+            modelAndView = command.execute(request);
+        } catch (Exception e) {
+            command = commandDispatcher.getErrorCommand(e.getMessage());
+            modelAndView = command.execute(request);
+        }
         viewDispatcher.dispatch(req, res, modelAndView);
     }
 }
