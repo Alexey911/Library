@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean name="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://localhost/work?characterEncoding=UTF-8"></property>
+        <property name="username" value="admin"></property>
+        <property name="password" value="password"></property>
+        <property name="initialSize" value="2"></property>
+        <property name="maxActive" value="4"></property>
+        <property name="maxIdle" value="5"></property>
+        <property name="defaultAutoCommit" value="false"></property>
+    </bean>
+
+    <bean name="bookDao" class="com.zhytnik.library.dao.jdbc.mysql.BookDao">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="dependencies">
+            <set>
+                <bean class="com.zhytnik.library.dao.jdbc.mysql.dependence.BookToCategoriesDependence"></bean>
+                <bean class="com.zhytnik.library.dao.jdbc.mysql.dependence.BookToPublisherDependence"></bean>
+            </set>
+        </property>
+    </bean>
+
+    <bean name="categoryDao" class="com.zhytnik.library.dao.jdbc.mysql.CategoryDao">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <bean name="publisherDao" class="com.zhytnik.library.dao.jdbc.mysql.PublisherDao">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <bean name="categoryService" class="com.zhytnik.library.service.CategoryService">
+        <property name="dao" ref="categoryDao"></property>
+    </bean>
+
+    <bean name="publisherService" class="com.zhytnik.library.service.PublisherService">
+        <property name="dao" ref="publisherDao"></property>
+    </bean>
+
+    <bean name="bookService" class="com.zhytnik.library.service.BookService">
+        <property name="dao" ref="bookDao"></property>
+    </bean>
+</beans>

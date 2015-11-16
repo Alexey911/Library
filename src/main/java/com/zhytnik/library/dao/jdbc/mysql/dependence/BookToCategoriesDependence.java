@@ -2,7 +2,6 @@ package com.zhytnik.library.dao.jdbc.mysql.dependence;
 
 import com.google.common.collect.Sets;
 import com.zhytnik.library.dao.DaoException;
-import com.zhytnik.library.dao.DaoFactory;
 import com.zhytnik.library.dao.jdbc.Dependence;
 import com.zhytnik.library.dao.jdbc.mysql.CategoryDao;
 import com.zhytnik.library.entity.Book;
@@ -16,9 +15,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.zhytnik.library.tools.Utils.getContext;
+
 public class BookToCategoriesDependence extends Dependence<Book> {
-    public BookToCategoriesDependence(DaoFactory factory) {
-        super(factory);
+    public BookToCategoriesDependence() {
+
     }
 
     @Override
@@ -47,7 +48,9 @@ public class BookToCategoriesDependence extends Dependence<Book> {
             throw new DaoException(e);
         }
         Set<Category> result = new HashSet<>(ids.size());
-        CategoryDao dao = (CategoryDao) getDaoFactory().getDao(Category.class);
+
+        CategoryDao dao = (CategoryDao) getContext().getBean("categoryDao");
+
         result.addAll(ids.stream().map(dao::findById).collect(Collectors.toList()));
         return result;
     }

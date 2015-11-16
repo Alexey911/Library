@@ -28,8 +28,8 @@ public abstract class AbstractJDBCDao<T extends DomainObject> implements Generic
         this.dataSource = dataSource;
     }
 
-    public void addDependence(Dependence<? super T> dependence) {
-        dependencies.add(dependence);
+    public void setDependencies(Set<Dependence<? super T>> dependencies) {
+        this.dependencies = dependencies;
     }
 
     private void updateDependence(T object, Connection connection) {

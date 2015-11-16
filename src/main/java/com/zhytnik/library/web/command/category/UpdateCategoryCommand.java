@@ -2,12 +2,13 @@ package com.zhytnik.library.web.command.category;
 
 import com.zhytnik.library.entity.Category;
 import com.zhytnik.library.service.CategoryService;
-import com.zhytnik.library.service.ServiceFactory;
 import com.zhytnik.library.web.Request;
 import com.zhytnik.library.web.command.SubmitCommand;
 import com.zhytnik.library.web.parser.CategoryParser;
 import com.zhytnik.library.web.view.RedirectView;
 import com.zhytnik.library.web.view.View;
+
+import static com.zhytnik.library.tools.Utils.getContext;
 
 public class UpdateCategoryCommand extends SubmitCommand {
     @Override
@@ -16,7 +17,8 @@ public class UpdateCategoryCommand extends SubmitCommand {
 
         Category category = new CategoryParser().parseFullCategory(request);
 
-        CategoryService service = ServiceFactory.getInstance().getCategoryService();
+        CategoryService service = (CategoryService) getContext().getBean("categoryService");
+
         service.update(category);
 
         return new RedirectView("/categories/show");
