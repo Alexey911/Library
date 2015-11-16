@@ -20,16 +20,11 @@ public class SearchBookInPublisherByCategoryCriteria implements JDBCCriteria {
     }
 
     @Override
-    public void setParameter(Object param) {
+    public void addParameter(Object param) {
         Book b = (Book) param;
         categories = b.getCategories();
         publisher = b.getPublisher();
         name = b.getName();
-    }
-
-    @Override
-    public Object getParameter() {
-        throw new UnsupportedOperationException();
     }
 
     @Override

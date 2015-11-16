@@ -2,8 +2,8 @@ package com.zhytnik.library.dao.jdbc.mysql;
 
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.jdbc.AbstractJDBCDao;
+import com.zhytnik.library.dao.jdbc.JDBCCriteria;
 import com.zhytnik.library.dao.jdbc.mysql.criteria.SearchBookInPublisherByCategoryCriteria;
-import com.zhytnik.library.dao.searchdao.Criteria;
 import com.zhytnik.library.entity.Book;
 import com.zhytnik.library.entity.Publisher;
 import org.apache.log4j.Level;
@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class BookDao extends AbstractJDBCDao<Book> {
-    private Criteria criteria;
+    private JDBCCriteria criteria;
 
     public BookDao() {
         super();
@@ -114,8 +114,8 @@ public class BookDao extends AbstractJDBCDao<Book> {
     }
 
     @Override
-    public Set<Book> findByCriteria(Criteria c) {
-        criteria.setParameter(c.getParameter());
-        return super.findByCriteria(criteria);
+    public Set<Book> find(Object param) {
+        criteria.addParameter(param);
+        return super.find(criteria);
     }
 }

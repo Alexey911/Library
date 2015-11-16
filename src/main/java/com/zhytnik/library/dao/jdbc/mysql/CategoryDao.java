@@ -2,8 +2,8 @@ package com.zhytnik.library.dao.jdbc.mysql;
 
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.jdbc.AbstractJDBCDao;
+import com.zhytnik.library.dao.jdbc.JDBCCriteria;
 import com.zhytnik.library.dao.jdbc.mysql.criteria.SearchCategoryByNameCriteria;
-import com.zhytnik.library.dao.searchdao.Criteria;
 import com.zhytnik.library.entity.Category;
 import org.apache.log4j.Level;
 
@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CategoryDao extends AbstractJDBCDao<Category> {
-    private Criteria criteria;
+    private JDBCCriteria criteria;
 
     public CategoryDao() {
         super();
@@ -91,8 +91,8 @@ public class CategoryDao extends AbstractJDBCDao<Category> {
     }
 
     @Override
-    public Set<Category> findByCriteria(Criteria c) {
-        criteria.setParameter(c.getParameter());
-        return super.findByCriteria(criteria);
+    public Set<Category> find(Object param) {
+        criteria.addParameter(param);
+        return super.find(criteria);
     }
 }

@@ -1,12 +1,13 @@
 package com.zhytnik.library.dao.jdbc;
 
 import com.zhytnik.library.dao.DaoException;
-import com.zhytnik.library.dao.searchdao.Criteria;
 
 import java.sql.PreparedStatement;
 
-public interface JDBCCriteria extends Criteria {
+public interface JDBCCriteria {
     String getSearchQuery();
 
     void prepareStatementForSearch(PreparedStatement ps) throws DaoException;
+
+    void addParameter(Object param);
 }

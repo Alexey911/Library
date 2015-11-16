@@ -1,10 +1,7 @@
 package com.zhytnik.library.service;
 
 import com.zhytnik.library.dao.DaoException;
-import com.zhytnik.library.dao.GenericDao;
-import com.zhytnik.library.dao.searchdao.Criteria;
-import com.zhytnik.library.dao.searchdao.SearchDao;
-import com.zhytnik.library.dao.searchdao.SimpleCriteria;
+import com.zhytnik.library.dao.SearchDao;
 import com.zhytnik.library.entity.DomainObject;
 import com.zhytnik.library.service.exception.DeleteAssociatedObjectException;
 import com.zhytnik.library.service.exception.NotUniqueNameException;
@@ -15,15 +12,13 @@ import java.util.Set;
 
 public abstract class Service<T extends DomainObject> {
     protected static Logger logger;
-    private GenericDao<T> dao;
-    private Criteria criteria;
+    private SearchDao<T> dao;
 
     public Service() {
         logger = Logger.getLogger(getClass());
-        criteria = new SimpleCriteria();
     }
 
-    public void setDao(GenericDao<T> dao) {
+    public void setDao(SearchDao<T> dao) {
         this.dao = dao;
     }
 
@@ -57,8 +52,7 @@ public abstract class Service<T extends DomainObject> {
     }
 
     private void validateUnique(T object) {
-        criteria.setParameter(object);
-        Set<T> items = ((SearchDao) dao).findByCriteria(criteria);
+        Set<T> items = dao.find(object);
         if (!isUniqueInSet(items, object)) {
             String msg = "Not unique " + object;
             logger.log(Level.WARN, msg);

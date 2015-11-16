@@ -2,8 +2,7 @@ package com.zhytnik.library.dao.jdbc;
 
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.GenericDao;
-import com.zhytnik.library.dao.searchdao.Criteria;
-import com.zhytnik.library.dao.searchdao.SearchDao;
+import com.zhytnik.library.dao.SearchDao;
 import com.zhytnik.library.entity.DomainObject;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -174,14 +173,14 @@ public abstract class AbstractJDBCDao<T extends DomainObject> implements Generic
     }
 
     @Override
-    public Set<T> findByCriteria(Criteria c) {
-        if (c == null) {
+    public Set<T> find(Object param) {
+        if (param == null) {
             return getAll();
         }
-        if (!(c instanceof JDBCCriteria)) {
-            throw new DaoException("Unknown criteria: " + c);
+        if (!(param instanceof JDBCCriteria)) {
+            throw new DaoException("Unknown criteria: " + param);
         }
-        JDBCCriteria criteria = (JDBCCriteria) c;
+        JDBCCriteria criteria = (JDBCCriteria) param;
         Set<T> items;
         try (Connection con = dataSource.getConnection();
              PreparedStatement statement = con.prepareStatement(criteria.getSearchQuery())) {

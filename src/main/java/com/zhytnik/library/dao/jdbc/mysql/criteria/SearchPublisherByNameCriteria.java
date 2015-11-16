@@ -14,14 +14,9 @@ public class SearchPublisherByNameCriteria implements JDBCCriteria {
     }
 
     @Override
-    public void setParameter(Object param) {
+    public void addParameter(Object param) {
         Publisher p = (Publisher) param;
         name = p.getName();
-    }
-
-    @Override
-    public Object getParameter() {
-        throw new UnsupportedOperationException();
     }
 
     @Override
