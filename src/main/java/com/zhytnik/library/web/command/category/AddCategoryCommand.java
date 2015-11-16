@@ -1,12 +1,13 @@
 package com.zhytnik.library.web.command.category;
 
-import com.zhytnik.library.web.ModelAndView;
 import com.zhytnik.library.web.Request;
 import com.zhytnik.library.web.command.SubmitCommand;
+import com.zhytnik.library.web.view.SimpleView;
+import com.zhytnik.library.web.view.View;
 
 public class AddCategoryCommand extends SubmitCommand {
     @Override
-    public ModelAndView execute(Request request) {
-        return new ModelAndView("/category/add");
+    public View execute(Request request) {
+        return new SimpleView("/category/add");
     }
 }

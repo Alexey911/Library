@@ -3,14 +3,15 @@ package com.zhytnik.library.web.command.category;
 import com.zhytnik.library.entity.Category;
 import com.zhytnik.library.service.CategoryService;
 import com.zhytnik.library.service.ServiceFactory;
-import com.zhytnik.library.web.ModelAndView;
 import com.zhytnik.library.web.Request;
 import com.zhytnik.library.web.command.SubmitCommand;
 import com.zhytnik.library.web.parser.CategoryParser;
+import com.zhytnik.library.web.view.RedirectView;
+import com.zhytnik.library.web.view.View;
 
 public class DeleteCategoryCommand extends SubmitCommand {
     @Override
-    public ModelAndView execute(Request request) {
+    public View execute(Request request) {
         super.execute(request);
 
         Category category = new CategoryParser().parseCategoryWithId(request);
@@ -18,6 +19,6 @@ public class DeleteCategoryCommand extends SubmitCommand {
 
         service.delete(category);
 
-        return new ShowCategoriesCommand().execute(request);
+        return new RedirectView("/categories/show");
     }
 }

@@ -1,6 +1,7 @@
 package com.zhytnik.library.web;
 
 import com.zhytnik.library.web.model.Model;
+import com.zhytnik.library.web.view.RedirectView;
 import com.zhytnik.library.web.view.View;
 
 import javax.servlet.RequestDispatcher;
@@ -16,7 +17,7 @@ import java.util.Map;
 import static java.util.Objects.isNull;
 
 public class ViewDispatcher {
-    public static final String REDIRECTED_VIEW = "redirected_view";
+    public static final String REDIRECTION = "redirection";
 
     public static final String PREFIX = "/app";
 
@@ -36,12 +37,12 @@ public class ViewDispatcher {
     }
 
     public void dispatch(HttpServletRequest request, HttpServletResponse response,
-                         ModelAndView view) throws IOException, ServletException {
-        if (view.isRedirected()) {
+                         View view) throws IOException, ServletException {
+        if (hasRedirected(request.getSession())) {
             view = loadRedirected(request.getSession());
         }
 
-        if (hasRedirect(request, view)) {
+        if (hasNeedRedirect(request, view)) {
             sendRedirect(request, response, view);
         } else {
             prepareModelData(request, view);
@@ -49,35 +50,44 @@ public class ViewDispatcher {
         }
     }
 
-    private boolean hasRedirect(HttpServletRequest request, View view) {
+    private boolean hasNeedRedirect(HttpServletRequest request, View view) {
         String uri = request.getPathInfo();
         return !uri.equals(view.getForward());
     }
 
-    private ModelAndView loadRedirected(HttpSession session) {
-        ModelAndView modelAndView = (ModelAndView) session.getAttribute(REDIRECTED_VIEW);
-        session.removeAttribute(REDIRECTED_VIEW);
-        return modelAndView;
+    private View loadRedirected(HttpSession session) {
+        View view = (View) session.getAttribute(REDIRECTION);
+        session.removeAttribute(REDIRECTION);
+        return view;
     }
 
-    private void prepareModelData(HttpServletRequest request, Model model) {
-        Map<String, Object> data = model.getData();
-        if (!isNull(data)) {
-            for (Map.Entry<String, Object> pair : data.entrySet()) {
-                request.setAttribute(pair.getKey(), pair.getValue());
+    private boolean hasRedirected(HttpSession session) {
+        return !isNull(session.getAttribute(REDIRECTION));
+    }
+
+    private void prepareModelData(HttpServletRequest request, View view) {
+        if (view instanceof Model) {
+            Map<String, Object> data = ((Model) view).getData();
+            if (!isNull(data)) {
+                for (Map.Entry<String, Object> pair : data.entrySet()) {
+                    request.setAttribute(pair.getKey(), pair.getValue());
+                }
             }
         }
     }
 
     private void sendRedirect(HttpServletRequest request, HttpServletResponse response,
-                              ModelAndView view) throws IOException {
-        HttpSession session = request.getSession();
-        session.setAttribute(REDIRECTED_VIEW, view);
+                              View view) throws IOException {
+        boolean isPrepared = !(view instanceof RedirectView);
+        if (isPrepared) {
+            HttpSession session = request.getSession();
+            session.setAttribute(REDIRECTION, view);
+        }
         response.sendRedirect(PREFIX.concat(view.getForward()));
     }
 
     private void forward(HttpServletRequest request, HttpServletResponse response,
-                         ModelAndView view) throws IOException, ServletException {
+                         View view) throws IOException, ServletException {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 

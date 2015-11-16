@@ -30,13 +30,4 @@ public class ModelAndView implements View, Model {
     public Map<String, Object> getData() {
         return model;
     }
-
-    public void setRedirect(boolean redirect) {
-        view.setRedirect(redirect);
-    }
-
-    @Override
-    public boolean isRedirected() {
-        return view.isRedirected();
-    }
 }

@@ -3,7 +3,6 @@ package com.zhytnik.library.web;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
-import static com.zhytnik.library.web.CommandDispatcher.REDIRECTION;
 import static java.util.Objects.isNull;
 
 public class Request {
@@ -18,22 +17,22 @@ public class Request {
 
         }
         if (hasRedirectedView(request)) {
-            path = REDIRECTION;
+            path = ViewDispatcher.REDIRECTION;
         } else {
             path = request.getPathInfo();
         }
     }
 
     private boolean hasRedirectedView(HttpServletRequest request) {
-        return !isNull(request.getSession().getAttribute(ViewDispatcher.REDIRECTED_VIEW));
+        return !isNull(request.getSession().getAttribute(ViewDispatcher.REDIRECTION));
     }
 
     public String getPathInfo() {
-        return path;
+        return request.getPathInfo();
     }
 
     public String getRequestURI() {
-        return request.getRequestURI();
+        return path;
     }
 
     public String getParameter(String name) {

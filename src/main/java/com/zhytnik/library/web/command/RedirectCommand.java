@@ -1,13 +1,12 @@
 package com.zhytnik.library.web.command;
 
-import com.zhytnik.library.web.ModelAndView;
 import com.zhytnik.library.web.Request;
+import com.zhytnik.library.web.view.SimpleView;
+import com.zhytnik.library.web.view.View;
 
 public class RedirectCommand implements Command {
     @Override
-    public ModelAndView execute(Request request) {
-        ModelAndView modelAndView = new ModelAndView(null);
-        modelAndView.setRedirect(true);
-        return modelAndView;
+    public View execute(Request request) {
+        return new SimpleView(request.getRequestURI());
     }
 }
