@@ -5,12 +5,12 @@ import java.util.Set;
 public class Book extends DomainObject {
     private String name;
     private String annotation;
-    private int pageCount;
+    private Integer pageCount;
     private String authors;
     private Set<Category> categories;
     private Publisher publisher;
-    private int publishingYear;
-    private int weight;
+    private Integer publishingYear;
+    private Integer weight;
 
     public Book() {
 
@@ -24,11 +24,11 @@ public class Book extends DomainObject {
         this.annotation = annotation;
     }
 
-    public int getPageCount() {
+    public Integer getPageCount() {
         return pageCount;
     }
 
-    public void setPageCount(int pageCount) {
+    public void setPageCount(Integer pageCount) {
         this.pageCount = pageCount;
     }
 
@@ -56,19 +56,19 @@ public class Book extends DomainObject {
         this.publisher = publisher;
     }
 
-    public int getPublishingYear() {
+    public Integer getPublishingYear() {
         return publishingYear;
     }
 
-    public void setPublishingYear(int publishingYear) {
+    public void setPublishingYear(Integer publishingYear) {
         this.publishingYear = publishingYear;
     }
 
-    public int getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
