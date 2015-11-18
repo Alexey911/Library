@@ -1,10 +1,10 @@
-package com.zhytnik.library.web.command.category;
+package com.zhytnik.library.web.old.command.category;
 
 import com.zhytnik.library.service.CategoryService;
-import com.zhytnik.library.web.ModelAndView;
-import com.zhytnik.library.web.Request;
-import com.zhytnik.library.web.command.Command;
-import com.zhytnik.library.web.view.View;
+import com.zhytnik.library.web.old.ModelAndView;
+import com.zhytnik.library.web.old.Request;
+import com.zhytnik.library.web.old.command.Command;
+import com.zhytnik.library.web.old.view.View;
 
 import static com.zhytnik.library.tools.Utils.getContext;
 

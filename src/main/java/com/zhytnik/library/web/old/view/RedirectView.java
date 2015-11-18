@@ -1,4 +1,4 @@
-package com.zhytnik.library.web.view;
+package com.zhytnik.library.web.old.view;
 
 public class RedirectView extends SimpleView {
     public RedirectView(String forward) {

@@ -1,4 +1,4 @@
-package com.zhytnik.library.web.view;
+package com.zhytnik.library.web.old.view;
 
 public interface View {
     String getForward();

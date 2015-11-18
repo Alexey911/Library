@@ -1,4 +1,4 @@
-package com.zhytnik.library.web.model;
+package com.zhytnik.library.web.old.model;
 
 import java.util.Map;
 

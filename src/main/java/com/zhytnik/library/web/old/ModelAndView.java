@@ -1,8 +1,8 @@
-package com.zhytnik.library.web;
+package com.zhytnik.library.web.old;
 
-import com.zhytnik.library.web.model.Model;
-import com.zhytnik.library.web.view.SimpleView;
-import com.zhytnik.library.web.view.View;
+import com.zhytnik.library.web.old.model.Model;
+import com.zhytnik.library.web.old.view.SimpleView;
+import com.zhytnik.library.web.old.view.View;
 
 import java.util.HashMap;
 import java.util.Map;

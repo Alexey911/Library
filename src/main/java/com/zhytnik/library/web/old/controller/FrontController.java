@@ -1,10 +1,10 @@
-package com.zhytnik.library.web.controller;
+package com.zhytnik.library.web.old.controller;
 
-import com.zhytnik.library.web.CommandDispatcher;
-import com.zhytnik.library.web.Request;
-import com.zhytnik.library.web.ViewDispatcher;
-import com.zhytnik.library.web.command.Command;
-import com.zhytnik.library.web.view.View;
+import com.zhytnik.library.web.old.CommandDispatcher;
+import com.zhytnik.library.web.old.Request;
+import com.zhytnik.library.web.old.ViewDispatcher;
+import com.zhytnik.library.web.old.command.Command;
+import com.zhytnik.library.web.old.view.View;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

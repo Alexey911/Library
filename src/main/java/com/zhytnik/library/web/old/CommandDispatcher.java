@@ -1,9 +1,9 @@
-package com.zhytnik.library.web;
+package com.zhytnik.library.web.old;
 
-import com.zhytnik.library.web.command.Command;
-import com.zhytnik.library.web.command.ErrorCommand;
-import com.zhytnik.library.web.command.RedirectCommand;
-import com.zhytnik.library.web.command.category.*;
+import com.zhytnik.library.web.old.command.Command;
+import com.zhytnik.library.web.old.command.ErrorCommand;
+import com.zhytnik.library.web.old.command.RedirectCommand;
+import com.zhytnik.library.web.old.command.category.*;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -51,7 +51,7 @@ public class CommandDispatcher {
         Class commandClass = controllers.get(request.getPathInfo());
         Command command;
         if (isNull(commandClass)) {
-            command = getErrorCommand(String.format("Action for %s is not found.", request.getRequestURI()));
+            command = getErrorCommand(format("Action for %s is not found.", request.getRequestURI()));
         } else {
             try {
                 command = (Command) commandClass.newInstance();

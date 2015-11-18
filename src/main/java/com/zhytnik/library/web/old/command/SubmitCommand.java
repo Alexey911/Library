@@ -1,7 +1,7 @@
-package com.zhytnik.library.web.command;
+package com.zhytnik.library.web.old.command;
 
-import com.zhytnik.library.web.Request;
-import com.zhytnik.library.web.view.View;
+import com.zhytnik.library.web.old.Request;
+import com.zhytnik.library.web.old.view.View;
 
 import static java.util.Objects.isNull;
 

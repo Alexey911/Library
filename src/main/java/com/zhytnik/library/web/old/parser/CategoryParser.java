@@ -1,7 +1,7 @@
-package com.zhytnik.library.web.parser;
+package com.zhytnik.library.web.old.parser;
 
 import com.zhytnik.library.entity.Category;
-import com.zhytnik.library.web.Request;
+import com.zhytnik.library.web.old.Request;
 
 public class CategoryParser {
     private static final String ID = "id";

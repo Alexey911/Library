@@ -1,4 +1,4 @@
-package com.zhytnik.library.web.controller;
+package com.zhytnik.library.web.old.controller;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;

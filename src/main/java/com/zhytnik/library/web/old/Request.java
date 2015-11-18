@@ -1,4 +1,4 @@
-package com.zhytnik.library.web;
+package com.zhytnik.library.web.old;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;

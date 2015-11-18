@@ -1,8 +1,8 @@
-package com.zhytnik.library.web;
+package com.zhytnik.library.web.old;
 
-import com.zhytnik.library.web.model.Model;
-import com.zhytnik.library.web.view.RedirectView;
-import com.zhytnik.library.web.view.View;
+import com.zhytnik.library.web.old.model.Model;
+import com.zhytnik.library.web.old.view.RedirectView;
+import com.zhytnik.library.web.old.view.View;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;

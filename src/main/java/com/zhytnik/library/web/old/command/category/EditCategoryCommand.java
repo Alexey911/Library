@@ -1,11 +1,11 @@
-package com.zhytnik.library.web.command.category;
+package com.zhytnik.library.web.old.command.category;
 
 import com.zhytnik.library.entity.Category;
-import com.zhytnik.library.web.ModelAndView;
-import com.zhytnik.library.web.Request;
-import com.zhytnik.library.web.command.SubmitCommand;
-import com.zhytnik.library.web.parser.CategoryParser;
-import com.zhytnik.library.web.view.View;
+import com.zhytnik.library.web.old.ModelAndView;
+import com.zhytnik.library.web.old.Request;
+import com.zhytnik.library.web.old.command.SubmitCommand;
+import com.zhytnik.library.web.old.parser.CategoryParser;
+import com.zhytnik.library.web.old.view.View;
 
 public class EditCategoryCommand extends SubmitCommand {
     @Override
