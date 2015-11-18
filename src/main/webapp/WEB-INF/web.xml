@@ -3,31 +3,47 @@
          xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+
+    <!-- For using of old web part -->
+    <!--    <servlet>
+            <servlet-name>FrontController</servlet-name>
+            <servlet-class>com.zhytnik.library.web.old.controller.FrontController</servlet-class>
+        </servlet>
+
+        <servlet-mapping>
+            <servlet-name>FrontController</servlet-name>
+            <url-pattern>/app/*</url-pattern>
+        </servlet-mapping>
+
+        <filter>
+            <filter-name>ControllerFilter</filter-name>
+            <filter-class>com.zhytnik.library.web.old.controller.ControllerFilter</filter-class>
+        </filter>
+
+        <filter-mapping>
+            <filter-name>ControllerFilter</filter-name>
+            <url-pattern>/app/*</url-pattern>
+        </filter-mapping>
+
+        <welcome-file-list>
+            <welcome-file>index.html</welcome-file>
+        </welcome-file-list>
+
+        <error-page>
+            <location>/error.jsp</location>
+        </error-page>-->
+
     <servlet>
-        <servlet-name>FrontController</servlet-name>
-        <servlet-class>com.zhytnik.library.web.old.controller.FrontController</servlet-class>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>FrontController</servlet-name>
-        <url-pattern>/app/*</url-pattern>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <filter>
-        <filter-name>ControllerFilter</filter-name>
-        <filter-class>com.zhytnik.library.web.old.controller.ControllerFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>ControllerFilter</filter-name>
-        <url-pattern>/app/*</url-pattern>
-    </filter-mapping>
-
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
-
-    <error-page>
-        <location>/error.jsp</location>
-    </error-page>
 </web-app>
