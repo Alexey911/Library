@@ -4,7 +4,7 @@ import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.jdbc.AbstractJDBCDao;
 import com.zhytnik.library.dao.jdbc.JDBCCriteria;
 import com.zhytnik.library.dao.jdbc.mysql.criteria.SearchPublisherByNameCriteria;
-import com.zhytnik.library.entity.Publisher;
+import com.zhytnik.library.model.Publisher;
 import org.apache.log4j.Level;
 
 import java.sql.PreparedStatement;

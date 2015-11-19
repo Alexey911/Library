@@ -1,6 +1,6 @@
 package com.zhytnik.library.service;
 
-import com.zhytnik.library.entity.Publisher;
+import com.zhytnik.library.model.Publisher;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 

@@ -1,6 +1,6 @@
 package com.zhytnik.library.service;
 
-import com.zhytnik.library.entity.Book;
+import com.zhytnik.library.model.Book;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static java.lang.String.format;

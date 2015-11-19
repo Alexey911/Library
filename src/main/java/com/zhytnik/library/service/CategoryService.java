@@ -1,6 +1,6 @@
 package com.zhytnik.library.service;
 
-import com.zhytnik.library.entity.Category;
+import com.zhytnik.library.model.Category;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 

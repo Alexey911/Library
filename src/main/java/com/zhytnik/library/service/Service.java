@@ -2,7 +2,7 @@ package com.zhytnik.library.service;
 
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.SearchDao;
-import com.zhytnik.library.entity.DomainObject;
+import com.zhytnik.library.model.DomainObject;
 import com.zhytnik.library.service.exception.DeleteAssociatedObjectException;
 import com.zhytnik.library.service.exception.NotUniqueNameException;
 import org.apache.log4j.Level;
@@ -11,7 +11,8 @@ import org.apache.log4j.Logger;
 import java.util.Set;
 
 public abstract class Service<T extends DomainObject> {
-    protected static Logger logger;
+    protected Logger logger;
+
     private SearchDao<T> dao;
 
     public Service() {
@@ -20,6 +21,10 @@ public abstract class Service<T extends DomainObject> {
 
     public void setDao(SearchDao<T> dao) {
         this.dao = dao;
+    }
+
+    public T findById(Integer id) {
+        return dao.findById(id);
     }
 
     public void add(T object) {

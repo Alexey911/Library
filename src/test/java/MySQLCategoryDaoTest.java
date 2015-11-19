@@ -1,7 +1,7 @@
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.GenericDao;
 import com.zhytnik.library.dao.jdbc.mysql.CategoryDao;
-import com.zhytnik.library.entity.Category;
+import com.zhytnik.library.model.Category;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;

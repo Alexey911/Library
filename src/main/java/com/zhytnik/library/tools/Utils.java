@@ -3,7 +3,6 @@ package com.zhytnik.library.tools;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,7 +14,7 @@ public class Utils {
 
     static {
         service = Executors.newSingleThreadExecutor();
-        context = new ClassPathXmlApplicationContext("Beans.xml");
+        //context = new ClassPathXmlApplicationContext("Beans.xml");
     }
 
     //this method needs checking of efficiency of using

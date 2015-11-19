@@ -1,7 +1,7 @@
 package com.zhytnik.library.dao.jdbc;
 
 import com.zhytnik.library.dao.DaoException;
-import com.zhytnik.library.entity.DomainObject;
+import com.zhytnik.library.model.DomainObject;
 
 import java.sql.Connection;
 

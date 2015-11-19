@@ -1,4 +1,4 @@
-package com.zhytnik.library.entity;
+package com.zhytnik.library.model;
 
 public class Publisher extends DomainObject {
     private String name;
