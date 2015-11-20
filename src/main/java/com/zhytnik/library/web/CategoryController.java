@@ -3,6 +3,7 @@ package com.zhytnik.library.web;
 import com.zhytnik.library.model.Category;
 import com.zhytnik.library.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,16 +18,17 @@ import javax.validation.Valid;
 @Controller
 public class CategoryController {
     @Autowired
-    private CategoryService categoryService;
+    @Qualifier("categoryService")
+    private CategoryService service;
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
     public ModelAndView showCategories() {
-        return new ModelAndView("category/showAll", "categories", categoryService.getAll());
+        return new ModelAndView("category/showAll", "categories", service.getAll());
     }
 
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
     public String showCategory(@PathVariable Integer id, Model model) {
-        model.addAttribute("category", categoryService.findById(id));
+        model.addAttribute("category", service.findById(id));
         return "category/showOne";
     }
 
@@ -34,7 +36,7 @@ public class CategoryController {
     public String deleteCategory(@ModelAttribute("Category") Category category,
                                  @PathVariable Integer id) {
         category.setId(id);
-        categoryService.delete(category);
+        service.delete(category);
         return "category/showAll";
     }
 
@@ -58,7 +60,7 @@ public class CategoryController {
             return "category/save";
         }
         model.addAttribute("category", category);
-        categoryService.add(category);
+        service.add(category);
         return "redirect:/categories/";
     }
 }
