@@ -1,27 +1,36 @@
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="springForm" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Add category</title>
+    <style type="text/css">
+        .error {
+            color: #ff0000;
+            font-style: italic;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-
-<h2>Category Information</h2>
-<form:form method="POST">
+<springForm:form method="POST" modelAttribute="category" action="/categories/">
     <table>
         <tr>
-            <td><form:label path="name">Name</form:label></td>
-            <td><form:input path="name"/></td>
+            <td><spring:message code="category.name"/></td>
+            <td><springForm:input path="name"/></td>
+            <td><springForm:errors path="name" cssClass="error"/></td>
         </tr>
         <tr>
-            <td><form:label path="description">Description</form:label></td>
-            <td><form:input path="description"/></td>
+            <td><spring:message code="category.description"/></td>
+            <td><springForm:input path="description"/></td>
+            <td><springForm:errors path="description" cssClass="error"/></td>
         </tr>
         <tr>
-            <td colspan="2">
-                <input type="submit" value="Submit"/>
-            </td>
+            <spring:message code="category.save" var="save"/>
+            <td colspan="3"><input type="submit" value="${save}"></td>
         </tr>
     </table>
-</form:form>
+</springForm:form>
 </body>
 </html>
