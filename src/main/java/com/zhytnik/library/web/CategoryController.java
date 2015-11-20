@@ -2,15 +2,13 @@ package com.zhytnik.library.web;
 
 import com.zhytnik.library.model.Category;
 import com.zhytnik.library.service.CategoryService;
+import com.zhytnik.library.service.exception.NotUniqueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -22,12 +20,12 @@ public class CategoryController {
     private CategoryService service;
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
-    public ModelAndView showCategories() {
+    public ModelAndView getCategories() {
         return new ModelAndView("category/showAll", "categories", service.getAll());
     }
 
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
-    public String showCategory(@PathVariable Integer id, Model model) {
+    public String getCategory(@PathVariable Integer id, Model model) {
         model.addAttribute("category", service.findById(id));
         return "category/showOne";
     }
@@ -55,12 +53,16 @@ public class CategoryController {
 
     @RequestMapping(value = "/categories/save", method = RequestMethod.POST)
     public String saveCategory(@ModelAttribute("category") @Valid Category category,
-                               BindingResult bindingResult, Model model) {
+                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "category/save";
         }
-        model.addAttribute("category", category);
         service.add(category);
         return "redirect:/categories/";
+    }
+
+    @ExceptionHandler(NotUniqueException.class)
+    public ModelAndView handleNotUniqueException(NotUniqueException e) {
+        return new ModelAndView("category/saveErr", "errMsg", e.getMessage());
     }
 }

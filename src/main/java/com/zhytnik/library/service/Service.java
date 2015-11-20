@@ -4,7 +4,7 @@ import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.SearchDao;
 import com.zhytnik.library.model.DomainObject;
 import com.zhytnik.library.service.exception.DeleteAssociatedObjectException;
-import com.zhytnik.library.service.exception.NotUniqueNameException;
+import com.zhytnik.library.service.exception.NotUniqueException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -61,7 +61,7 @@ public abstract class Service<T extends DomainObject> {
         if (!isUniqueInSet(items, object)) {
             String msg = "Not unique " + object;
             logger.log(Level.WARN, msg);
-            throw new NotUniqueNameException(msg + "!");
+            throw new NotUniqueException(getExceptionMessageForObject(object));
         }
     }
 
@@ -76,10 +76,16 @@ public abstract class Service<T extends DomainObject> {
         return daoItem.getId().equals(item.getId());
     }
 
-    protected abstract void validateFullness(T object);
+    protected void validateFullness(T object) {
+
+    }
 
     protected void throwIllegalArgException(String message) {
         logger.log(Level.WARN, message);
         throw new IllegalArgumentException(message);
+    }
+
+    protected String getExceptionMessageForObject(T object) {
+        return object.toString();
     }
 }

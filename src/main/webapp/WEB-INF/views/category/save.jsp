@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-<springForm:form method="post" modelAttribute="category">
+<springForm:form method="POST" modelAttribute="category">
     <table>
         <tr>
             <td><spring:message code="category.name"/></td>
@@ -28,7 +28,8 @@
             <td><springForm:errors path="description" cssClass="error"/></td>
         </tr>
         <tr>
-            <td colspan="3"><input type="submit" value="Save Customer"></td>
+            <spring:message code="category.save" var="save"/>
+            <td colspan="3"><input type="submit" value="${save}"></td>
         </tr>
     </table>
 </springForm:form>
