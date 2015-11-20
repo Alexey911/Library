@@ -4,7 +4,7 @@ import com.zhytnik.library.model.Category;
 
 public class CategoryService extends Service<Category> {
     @Override
-    protected String getExceptionMessageForObject(Category c) {
+    protected String getExceptionDescription(Category c) {
         return c.getName();
     }
 }

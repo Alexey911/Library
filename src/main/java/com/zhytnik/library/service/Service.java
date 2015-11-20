@@ -61,7 +61,7 @@ public abstract class Service<T extends DomainObject> {
         if (!isUniqueInSet(items, object)) {
             String msg = "Not unique " + object;
             logger.log(Level.WARN, msg);
-            throw new NotUniqueException(getExceptionMessageForObject(object));
+            throw new NotUniqueException(msg, getExceptionDescription(object));
         }
     }
 
@@ -85,7 +85,7 @@ public abstract class Service<T extends DomainObject> {
         throw new IllegalArgumentException(message);
     }
 
-    protected String getExceptionMessageForObject(T object) {
-        return object.toString();
+    protected String getExceptionDescription(T object) {
+        return "";
     }
 }

@@ -6,6 +6,7 @@ import com.zhytnik.library.service.CategoryService;
 import com.zhytnik.library.service.exception.NotUniqueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,12 +14,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Locale;
 
 @Controller
 public class CategoryController {
     @Autowired
     @Qualifier("categoryService")
     private CategoryService service;
+
+    @Autowired
+    private MessageSource messageSource;
 
     //REST start
 
@@ -78,8 +83,10 @@ public class CategoryController {
     }
 
     @ExceptionHandler(NotUniqueException.class)
-    public ModelAndView handleNotUniqueException(NotUniqueException e) {
-        return new ModelAndView("category/error", "errMsg", e.getMessage());
+    public ModelAndView handleNotUniqueException(NotUniqueException e, Locale locale) {
+        String msg = messageSource.getMessage("category.not_unique",
+                new Object[]{e.getDescription()}, locale);
+        return new ModelAndView("category/error", "errMsg", msg);
     }
 
     @ExceptionHandler(Exception.class)
