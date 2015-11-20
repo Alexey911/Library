@@ -63,6 +63,11 @@ public class CategoryController {
 
     @ExceptionHandler(NotUniqueException.class)
     public ModelAndView handleNotUniqueException(NotUniqueException e) {
-        return new ModelAndView("category/saveErr", "errMsg", e.getMessage());
+        return new ModelAndView("category/errorPage", "errMsg", e.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleException(Exception e) {
+        return new ModelAndView("category/errorPage", "errMsg", e.getMessage());
     }
 }

@@ -19,7 +19,7 @@
 
     <bean id="messageSource"
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
-          p:basename="classpath:messages" p:defaultEncoding="UTF-8"/>
+          p:basenames="classpath:messages,classpath:errors" p:defaultEncoding="UTF-8"/>
 
     <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
           p:paramName="locale"/>
