@@ -24,20 +24,18 @@ public class CategoryController {
     @Autowired
     private MessageSource messageSource;
 
-    //REST start
-
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
-    public ModelAndView get() {
+    public ModelAndView getAll() {
         return new ModelAndView("category/showAll", "categories", service.getAll());
     }
 
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
-    public ModelAndView getAll(@PathVariable Integer id) {
+    public ModelAndView get(@PathVariable Integer id) {
         return new ModelAndView("category/show", "category", service.findById(id));
     }
 
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.DELETE)
-    public String delete(@ModelAttribute("Category") Category category,
+    public String delete(@ModelAttribute("category") Category category,
                          @PathVariable Integer id) {
         category.setId(id);
         service.delete(category);
@@ -56,17 +54,14 @@ public class CategoryController {
 
     @RequestMapping(value = "/categories", method = RequestMethod.PUT)
     public String update(@ModelAttribute("category") @Valid Category category,
-                         @RequestParam(value = "id", required = false) Integer id,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "category/edit";
         }
-        category.setId(id);
+        //TODO: service.update can generate exception =(
         service.update(category);
         return "redirect:/categories/";
     }
-
-    //REST end
 
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET,
             params = "action=edit")

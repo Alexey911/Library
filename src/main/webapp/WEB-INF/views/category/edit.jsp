@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>C Page</title>
+    <title><spring:message code="category.page.title"/></title>
     <style type="text/css">
         .error {
             color: #ff0000;
@@ -28,8 +28,8 @@
             <td><sf:errors path="description" cssClass="error"/></td>
         </tr>
         <tr>
-            <spring:message code="category.save" var="save"/>
-            <td colspan="3"><input type="submit" value="${save}"></td>
+            <spring:message code="change" var="change"/>
+            <td colspan="3"><input type="submit" value="${change}"></td>
         </tr>
     </table>
     <input type="hidden" name="id" value="${category.id}">

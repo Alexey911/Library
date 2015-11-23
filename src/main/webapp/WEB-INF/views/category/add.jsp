@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Add category</title>
+    <title><spring:message code="category.page.add"/></title>
     <style type="text/css">
         .error {
             color: #ff0000;
@@ -27,7 +27,7 @@
             <td><springForm:errors path="description" cssClass="error"/></td>
         </tr>
         <tr>
-            <spring:message code="category.save" var="save"/>
+            <spring:message code="save" var="save"/>
             <td colspan="3"><input type="submit" value="${save}"></td>
         </tr>
     </table>

@@ -2,11 +2,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title>Exception</title>
+    <title><spring:message code="exception"/></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
 <%--@elvariable id="errMsg" type="java.lang.String"--%>
 <p>${errMsg}</p>
-<a href="#" onclick="history.back(); return false;">Back</a>
+<a href="#" onclick="history.back(); return false;"><spring:message code="back"/></a>
 </body>
 </html>

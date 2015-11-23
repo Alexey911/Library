@@ -15,7 +15,7 @@ public class EditCategoryCommand extends SubmitCommand {
         ModelAndView modelAndView = new ModelAndView("/category/edit");
 
         Category category = new CategoryParser().parseFullCategory(request);
-        modelAndView.addObject("category", category);
+        modelAndView.addObject("category.title", category);
 
         return modelAndView;
     }
