@@ -92,11 +92,11 @@ public class MySQLCategoryDaoTest {/*
 
     @Test
     public void getAllCategories() {
-        Set<Category> categories = categoryDao.getAll();
+        Set<Category> categories = categoryDao.showEditPage();
         int size = categories.size();
         Category category = new Category();
         categoryDao.persist(category);
-        categories = categoryDao.getAll();
+        categories = categoryDao.showEditPage();
 
         assertNotNull(categories);
         assertTrue(categories.size() - size == 1);

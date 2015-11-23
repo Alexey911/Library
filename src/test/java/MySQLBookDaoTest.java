@@ -116,8 +116,8 @@ public class MySQLBookDaoTest {/*
     }
 
     @Test
-    public void getAll() {
-        Set<Book> books = bookDao.getAll();
+    public void showEditPage() {
+        Set<Book> books = bookDao.showEditPage();
         assertTrue(books.size() == 1);
     }
 

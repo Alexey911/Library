@@ -6,10 +6,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 public class CategoryDao extends AbstractHibernateDao<Category>
         implements com.zhytnik.library.dao.CategoryDao {
     public CategoryDao() {
@@ -17,11 +13,11 @@ public class CategoryDao extends AbstractHibernateDao<Category>
     }
 
     @Override
-    public Set<Category> findByName(String name) throws DaoException {
+    public Category findByName(String name) throws DaoException {
         Session session = openSession();
         Criteria criteria = session.createCriteria(Category.class);
-        List<Category> categories = criteria.add(Restrictions.eq("name", name)).list();
+        Object category = criteria.add(Restrictions.eq("name", name)).uniqueResult();
         closeSession(session);
-        return new HashSet<>(categories);
+        return (Category) category;
     }
 }

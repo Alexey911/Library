@@ -1,6 +1,5 @@
 package com.zhytnik.library.web;
 
-import com.google.common.base.Objects;
 import com.zhytnik.library.model.Category;
 import com.zhytnik.library.service.CategoryService;
 import com.zhytnik.library.service.exception.NotUniqueException;
@@ -33,11 +32,7 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
-    public ModelAndView getAll(@PathVariable Integer id,
-                               @RequestParam(required = false) String action) {
-        if (Objects.equal(action, "edit")) {
-            return new ModelAndView("category/edit", "category", service.findById(id));
-        }
+    public ModelAndView getAll(@PathVariable Integer id) {
         return new ModelAndView("category/show", "category", service.findById(id));
     }
 
@@ -72,6 +67,12 @@ public class CategoryController {
     }
 
     //REST end
+
+    @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET,
+            params = "action=edit")
+    public ModelAndView showEditPage(@PathVariable Integer id) {
+        return new ModelAndView("category/edit", "category", service.findById(id));
+    }
 
     @RequestMapping(value = "/categories/add", method = RequestMethod.GET)
     public String showAddPage(Model model) {

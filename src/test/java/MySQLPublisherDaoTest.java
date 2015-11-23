@@ -92,11 +92,11 @@ public class MySQLPublisherDaoTest {/*
 
     @Test
     public void getAllPublishers() {
-        Set<Publisher> publishers = publisherDao.getAll();
+        Set<Publisher> publishers = publisherDao.showEditPage();
         int size = publishers.size();
         Publisher p = new Publisher();
         publisherDao.persist(p);
-        publishers = publisherDao.getAll();
+        publishers = publisherDao.showEditPage();
 
         assertNotNull(publishers);
         assertTrue(publishers.size() - size == 1);
