@@ -12,6 +12,11 @@ public class BookService extends Service<Book> {
     }
 
     @Override
+    protected boolean isUniqueItem(Book object) {
+        return false;
+    }
+
+    @Override
     public void validateFullness(Book b) {
         String illegalFormat = "Set %s of book: %s";
         if (isNullOrEmpty(b.getName())) {

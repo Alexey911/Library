@@ -43,6 +43,7 @@
             classpath*:context/dataSource-context.xml
             classpath*:context/dao-context.xml
             classpath*:context/service-context.xml
+            classpath*:context/hibernate-context.xml
         </param-value>
     </context-param>
 

@@ -85,12 +85,6 @@ public class CategoryDao extends AbstractJDBCDao<Category> {
     }
 
     @Override
-    public Category create() throws DaoException {
-        Category c = new Category();
-        return persist(c);
-    }
-
-    @Override
     public Set<Category> find(Object param) {
         criteria.addParameter(param);
         return super.find(criteria);

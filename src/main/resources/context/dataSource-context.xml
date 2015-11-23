@@ -11,13 +11,9 @@
 
     <context:property-placeholder location="classpath*:app.properties"/>
 
-    <bean name="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-          p:driverClassName="${db.driver}"
+    <bean name="dataSource" class="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"
           p:url="${db.url}"
-          p:username="${db.username}"
-          p:password="${db.password}"
-          p:initialSize="${db.initialSize}"
-          p:maxIdle="${db.maxIdle}"
-          p:maxActive="${db.maxActive}"
-          p:defaultAutoCommit="${db.defaultAutoCommit}"/>
+          p:user="${db.username}"
+          p:characterEncoding="${encoding}"
+          p:password="${db.password}"/>
 </beans>

@@ -85,12 +85,6 @@ public class PublisherDao extends AbstractJDBCDao<Publisher> {
     }
 
     @Override
-    public Publisher create() throws DaoException {
-        Publisher p = new Publisher();
-        return persist(p);
-    }
-
-    @Override
     public Set<Publisher> find(Object param) {
         criteria.addParameter(param);
         return super.find(criteria);

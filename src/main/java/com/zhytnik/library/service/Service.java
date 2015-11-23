@@ -1,7 +1,7 @@
 package com.zhytnik.library.service;
 
 import com.zhytnik.library.dao.DaoException;
-import com.zhytnik.library.dao.SearchDao;
+import com.zhytnik.library.dao.GenericDao;
 import com.zhytnik.library.model.DomainObject;
 import com.zhytnik.library.service.exception.DeleteAssociatedObjectException;
 import com.zhytnik.library.service.exception.NotUniqueException;
@@ -13,13 +13,13 @@ import java.util.Set;
 public abstract class Service<T extends DomainObject> {
     protected Logger logger;
 
-    private SearchDao<T> dao;
+    private GenericDao<T> dao;
 
     public Service() {
         logger = Logger.getLogger(getClass());
     }
 
-    public void setDao(SearchDao<T> dao) {
+    public void setGenericDao(GenericDao<T> dao) {
         this.dao = dao;
     }
 
@@ -56,25 +56,15 @@ public abstract class Service<T extends DomainObject> {
         return dao.getAll();
     }
 
-    private void validateUnique(T object) {
-        Set<T> items = dao.find(object);
-        if (!isUniqueInSet(items, object)) {
+    public void validateUnique(T object) {
+        if (!isUniqueItem(object)) {
             String msg = "Not unique " + object;
             logger.log(Level.WARN, msg);
             throw new NotUniqueException(msg, getExceptionDescription(object));
         }
     }
 
-    private boolean isUniqueInSet(Set<T> items, T item) {
-        if (items.size() > 1) {
-            return false;
-        }
-        if (items.isEmpty()) {
-            return true;
-        }
-        T daoItem = items.iterator().next();
-        return daoItem.getId().equals(item.getId());
-    }
+    protected abstract boolean isUniqueItem(T object);
 
     protected void validateFullness(T object) {
 

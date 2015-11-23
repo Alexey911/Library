@@ -10,6 +10,11 @@ public class PublisherService extends Service<Publisher> {
     }
 
     @Override
+    protected boolean isUniqueItem(Publisher object) {
+        return false;
+    }
+
+    @Override
     public void validateFullness(Publisher p) {
         if (isNullOrEmpty(p.getName())) {
             throwIllegalArgException("Set name of publisher: " + p);

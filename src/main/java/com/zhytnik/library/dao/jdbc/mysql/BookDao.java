@@ -108,12 +108,6 @@ public class BookDao extends AbstractJDBCDao<Book> {
     }
 
     @Override
-    public Book create() throws DaoException {
-        Book b = new Book();
-        return persist(b);
-    }
-
-    @Override
     public Set<Book> find(Object param) {
         criteria.addParameter(param);
         return super.find(criteria);

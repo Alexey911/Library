@@ -5,8 +5,6 @@ import com.zhytnik.library.model.DomainObject;
 import java.util.Set;
 
 public interface GenericDao<T extends DomainObject> {
-    T create() throws DaoException;
-
     T persist(T object) throws DaoException;
 
     T findById(Integer id) throws DaoException;
