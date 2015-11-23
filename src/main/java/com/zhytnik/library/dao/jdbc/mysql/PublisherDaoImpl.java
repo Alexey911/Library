@@ -13,10 +13,10 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PublisherDao extends AbstractJDBCDao<Publisher> {
+public class PublisherDaoImpl extends AbstractJDBCDao<Publisher> {
     private JDBCCriteria criteria;
 
-    public PublisherDao() {
+    public PublisherDaoImpl() {
         super();
         criteria = new SearchPublisherByNameCriteria();
     }
@@ -84,9 +84,9 @@ public class PublisherDao extends AbstractJDBCDao<Publisher> {
         }
     }
 
-    @Override
+    /*@Override
     public Set<Publisher> find(Object param) {
         criteria.addParameter(param);
         return super.find(criteria);
-    }
+    }*/
 }

@@ -1,7 +1,22 @@
 package com.zhytnik.library.model;
 
-public class Publisher extends DomainObject {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+
+@Entity
+@Table(name = "publisher")
+public class Publisher extends DomainObject implements Serializable {
+    @NotNull
+    @Size(min = 1, max = 40)
+    @Column(name = "name", nullable = false, length = 40)
     private String name;
+
+    @Size(max = 100)
+    @Column(name = "address", nullable = true, length = 100)
     private String address;
 
     public Publisher() {
@@ -31,6 +46,9 @@ public class Publisher extends DomainObject {
 
     @Override
     public String toString() {
-        return "Publisher (name = " + name + ", address = " + address + ", id = " + getId() + ")";
+        //noinspection StringBufferReplaceableByString
+        return new StringBuilder().append("Publisher [name = ").append(name).
+                append(", address = ").append(address).
+                append(", id = ").append(getId()).append("]").toString();
     }
 }

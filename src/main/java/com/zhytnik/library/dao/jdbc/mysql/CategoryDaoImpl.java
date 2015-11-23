@@ -13,10 +13,10 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CategoryDao extends AbstractJDBCDao<Category> {
+public class CategoryDaoImpl extends AbstractJDBCDao<Category> {
     private JDBCCriteria criteria;
 
-    public CategoryDao() {
+    public CategoryDaoImpl() {
         super();
         criteria = new SearchCategoryByNameCriteria();
     }
@@ -84,9 +84,9 @@ public class CategoryDao extends AbstractJDBCDao<Category> {
         }
     }
 
-    @Override
+    /*@Override
     public Set<Category> find(Object param) {
         criteria.addParameter(param);
         return super.find(criteria);
-    }
+    }*/
 }

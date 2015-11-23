@@ -14,10 +14,10 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BookDao extends AbstractJDBCDao<Book> {
+public class BookDaoImpl extends AbstractJDBCDao<Book> {
     private JDBCCriteria criteria;
 
-    public BookDao() {
+    public BookDaoImpl() {
         super();
         criteria = new SearchBookInPublisherByCategoryCriteria();
     }
@@ -107,9 +107,9 @@ public class BookDao extends AbstractJDBCDao<Book> {
         }
     }
 
-    @Override
+    /*@Override
     public Set<Book> find(Object param) {
         criteria.addParameter(param);
         return super.find(criteria);
-    }
+    }*/
 }

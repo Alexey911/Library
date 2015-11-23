@@ -6,18 +6,22 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-public class CategoryDao extends AbstractHibernateDao<Category>
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class CategoryDaoImpl extends AbstractHibernateDao<Category>
         implements com.zhytnik.library.dao.CategoryDao {
-    public CategoryDao() {
+    public CategoryDaoImpl() {
         super(Category.class);
     }
 
     @Override
-    public Category findByName(String name) throws DaoException {
+    public Set<Category> findByName(String name) throws DaoException {
         Session session = openSession();
         Criteria criteria = session.createCriteria(Category.class);
-        Object category = criteria.add(Restrictions.eq("name", name)).uniqueResult();
+        List<Category> categories = criteria.add(Restrictions.eq("name", name)).list();
         closeSession(session);
-        return (Category) category;
+        return new HashSet<>(categories);
     }
 }

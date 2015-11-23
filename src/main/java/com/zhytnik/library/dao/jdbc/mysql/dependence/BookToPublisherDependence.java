@@ -2,8 +2,8 @@ package com.zhytnik.library.dao.jdbc.mysql.dependence;
 
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.jdbc.Dependence;
-import com.zhytnik.library.dao.jdbc.mysql.BookDao;
-import com.zhytnik.library.dao.jdbc.mysql.PublisherDao;
+import com.zhytnik.library.dao.jdbc.mysql.BookDaoImpl;
+import com.zhytnik.library.dao.jdbc.mysql.PublisherDaoImpl;
 import com.zhytnik.library.model.Book;
 import com.zhytnik.library.model.Publisher;
 
@@ -23,7 +23,7 @@ public class BookToPublisherDependence extends Dependence<Book> {
             return;
         }
 
-        PublisherDao dao = (PublisherDao) getContext().getBean("publisherDao");
+        PublisherDaoImpl dao = (PublisherDaoImpl) getContext().getBean("publisherDao");
 
         Publisher copy = dao.findById(p.getId());
         p.setName(copy.getName());
@@ -34,7 +34,7 @@ public class BookToPublisherDependence extends Dependence<Book> {
     protected void delete(Book book, Connection connection) {
         book.setPublisher(null);
 
-        BookDao dao = (BookDao) getContext().getBean("bookDao");
+        BookDaoImpl dao = (BookDaoImpl) getContext().getBean("bookDao");
 
         dao.update(book);
     }

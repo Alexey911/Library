@@ -13,11 +13,11 @@ import java.io.Serializable;
 public class Category extends DomainObject implements Serializable {
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "name", nullable = true)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
     @Size(max = 150)
-    @Column(name = "description", nullable = true)
+    @Column(name = "description", nullable = true, length = 150)
     private String description;
 
     public Category() {
@@ -47,6 +47,9 @@ public class Category extends DomainObject implements Serializable {
 
     @Override
     public String toString() {
-        return "Category (name = " + name + ", description = " + description + ", id = " + getId() + ")";
+        //noinspection StringBufferReplaceableByString
+        return new StringBuilder().append("Category [name = ").append(name).
+                append(", description = ").append(description).
+                append(", id = ").append(getId()).append("]").toString();
     }
 }

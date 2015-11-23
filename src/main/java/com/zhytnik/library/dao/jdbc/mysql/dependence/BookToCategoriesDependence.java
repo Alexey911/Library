@@ -3,7 +3,7 @@ package com.zhytnik.library.dao.jdbc.mysql.dependence;
 import com.google.common.collect.Sets;
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.jdbc.Dependence;
-import com.zhytnik.library.dao.jdbc.mysql.CategoryDao;
+import com.zhytnik.library.dao.jdbc.mysql.CategoryDaoImpl;
 import com.zhytnik.library.model.Book;
 import com.zhytnik.library.model.Category;
 
@@ -49,7 +49,7 @@ public class BookToCategoriesDependence extends Dependence<Book> {
         }
         Set<Category> result = new HashSet<>(ids.size());
 
-        CategoryDao dao = (CategoryDao) getContext().getBean("categoryDao");
+        CategoryDaoImpl dao = (CategoryDaoImpl) getContext().getBean("categoryDao");
 
         result.addAll(ids.stream().map(dao::findById).collect(Collectors.toList()));
         return result;

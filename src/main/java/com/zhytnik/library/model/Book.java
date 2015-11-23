@@ -1,8 +1,9 @@
 package com.zhytnik.library.model;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class Book extends DomainObject {
+public class Book extends DomainObject implements Serializable {
     private String name;
     private String annotation;
     private Integer pageCount;
@@ -82,7 +83,10 @@ public class Book extends DomainObject {
 
     @Override
     public String toString() {
-        return "Book (name = " + name + ", authors = " + authors + ", publisher = " +
-                publisher + ", categories = " + categories + ")";
+        //noinspection StringBufferReplaceableByString
+        return new StringBuilder().append("Book [name = ").append(name).
+                append(", authors = ").append(authors).
+                append(", publisher = ").append(publisher).
+                append(", categories = ").append(categories).append("]").toString();
     }
 }

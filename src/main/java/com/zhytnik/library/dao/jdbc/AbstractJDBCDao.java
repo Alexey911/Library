@@ -2,7 +2,6 @@ package com.zhytnik.library.dao.jdbc;
 
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.GenericDao;
-import com.zhytnik.library.dao.SearchDao;
 import com.zhytnik.library.model.DomainObject;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -14,7 +13,7 @@ import java.util.Set;
 
 import static java.util.Objects.isNull;
 
-public abstract class AbstractJDBCDao<T extends DomainObject> implements GenericDao<T>, SearchDao<T> {
+public abstract class AbstractJDBCDao<T extends DomainObject> implements GenericDao<T> {
     protected static Logger logger;
     private DataSource dataSource;
     private Set<Dependence<? super T>> dependencies;
@@ -172,7 +171,7 @@ public abstract class AbstractJDBCDao<T extends DomainObject> implements Generic
         return object;
     }
 
-    @Override
+    /*@Override
     public Set<T> find(Object param) {
         if (param == null) {
             return getAll();
@@ -195,7 +194,7 @@ public abstract class AbstractJDBCDao<T extends DomainObject> implements Generic
             throw new DaoException(e);
         }
         return items;
-    }
+    }*/
 
     private void commit(Connection c) throws SQLException {
         try {
