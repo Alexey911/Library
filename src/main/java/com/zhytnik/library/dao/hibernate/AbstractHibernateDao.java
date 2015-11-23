@@ -3,18 +3,17 @@ package com.zhytnik.library.dao.hibernate;
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.GenericDao;
 import com.zhytnik.library.model.DomainObject;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AbstractHibernateDao<T extends DomainObject> implements GenericDao<T> {
+public abstract class AbstractHibernateDao<T extends DomainObject> implements GenericDao<T> {
     @Autowired
-    @Qualifier("sessionFactory")
     private SessionFactory sessionFactory;
 
     private Class<T> aClass;
@@ -27,19 +26,28 @@ public class AbstractHibernateDao<T extends DomainObject> implements GenericDao<
         return sessionFactory.openSession();
     }
 
-    protected Session openSessionWithTransaction() {
-        Session session = sessionFactory.openSession();
+    protected Session openSessionWithTransaction() throws DaoException {
+        Session session;
+        try {
+            session = sessionFactory.openSession();
+        } catch (HibernateException e) {
+            throw new DaoException(e);
+        }
         session.beginTransaction();
         return session;
     }
 
-    protected void closeSession(Session session) {
-        session.close();
+    protected void closeSession(Session session) throws DaoException {
+        try {
+            session.close();
+        } catch (HibernateException e) {
+            throw new DaoException(e);
+        }
     }
 
-    protected void closeSessionWithTransaction(Session session) {
+    protected void closeSessionWithTransaction(Session session) throws DaoException {
         session.getTransaction().commit();
-        session.close();
+        closeSession(session);
     }
 
     @Override
@@ -62,9 +70,9 @@ public class AbstractHibernateDao<T extends DomainObject> implements GenericDao<
 
     @Override
     public void update(T object) throws DaoException {
-        Session session = openSession();
+        Session session = openSessionWithTransaction();
         session.update(object);
-        closeSession(session);
+        closeSessionWithTransaction(session);
     }
 
     @Override
@@ -80,7 +88,7 @@ public class AbstractHibernateDao<T extends DomainObject> implements GenericDao<
     public Set<T> getAll() throws DaoException {
         Session session = openSession();
         List<T> items = session.createCriteria(aClass).list();
-        session.close();
+        closeSession(session);
         return new HashSet<>(items);
     }
 }
