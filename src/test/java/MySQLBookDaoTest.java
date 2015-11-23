@@ -78,6 +78,7 @@ public class MySQLBookDaoTest {
     }
 
     @Test
+    @Ignore
     public void createBook() {
         Book book = bookDao.create();
 
@@ -86,6 +87,7 @@ public class MySQLBookDaoTest {
     }
 
     @Test
+    @Ignore
     public void deleteExistingBook() {
         Book book = bookDao.create();
         bookDao.delete(book);
@@ -134,6 +136,7 @@ public class MySQLBookDaoTest {
     }
 
     @Test
+    @Ignore
     public void updateBook() {
         Book book = initialBook();
 

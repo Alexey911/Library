@@ -86,6 +86,6 @@ public abstract class Service<T extends DomainObject> {
     }
 
     protected String getExceptionDescription(T object) {
-        return "";
+        return object.toString();
     }
 }
