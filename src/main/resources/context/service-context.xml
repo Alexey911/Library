@@ -6,8 +6,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <import resource="dao-context.xml"/>
-
     <bean name="categoryService" class="com.zhytnik.library.service.CategoryService"
           p:categoryDao-ref="categoryDao"/>
 

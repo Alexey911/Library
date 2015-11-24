@@ -40,10 +40,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath*:context/dataSource-context.xml
-            classpath*:context/dao-context.xml
-            classpath*:context/service-context.xml
-            classpath*:context/hibernate-context.xml
+            classpath*:context/*-context.xml
         </param-value>
     </context-param>
 

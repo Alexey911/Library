@@ -19,10 +19,6 @@ public abstract class Service<T extends DomainObject> {
         logger = Logger.getLogger(getClass());
     }
 
-    public void setGenericDao(GenericDao<T> dao) {
-        this.dao = dao;
-    }
-
     public abstract T create();
 
     public T findById(Integer id) {
@@ -79,5 +75,13 @@ public abstract class Service<T extends DomainObject> {
 
     protected String getExceptionDescription(T object) {
         return object.toString();
+    }
+
+    protected GenericDao<T> getDao() {
+        return dao;
+    }
+
+    public void setDao(GenericDao<T> dao) {
+        this.dao = dao;
     }
 }

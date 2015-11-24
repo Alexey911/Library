@@ -4,11 +4,8 @@ import com.zhytnik.library.dao.CategoryDao;
 import com.zhytnik.library.model.Category;
 
 public class CategoryService extends Service<Category> {
-    private CategoryDao dao;
-
     public void setCategoryDao(CategoryDao categoryDao) {
-        setGenericDao(categoryDao);
-        dao = categoryDao;
+        setDao(categoryDao);
     }
 
     @Override
@@ -19,6 +16,7 @@ public class CategoryService extends Service<Category> {
     @Override
     protected boolean isUniqueItem(Category category) {
         String name = category.getName();
+        CategoryDao dao = (CategoryDao) getDao();
         if (dao.isUniqueName(name)) {
             return true;
         }
