@@ -8,9 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import static java.util.Objects.isNull;
 
 public class PublisherDaoImpl extends AbstractHibernateDao<Publisher> implements PublisherDao {
     public PublisherDaoImpl() {
@@ -18,11 +16,11 @@ public class PublisherDaoImpl extends AbstractHibernateDao<Publisher> implements
     }
 
     @Override
-    public Set<Publisher> findByName(String name) throws DaoException {
+    public boolean isUniqueName(String name) throws DaoException {
         Session session = openSession();
         Criteria criteria = session.createCriteria(Category.class);
-        List<Publisher> publishers = criteria.add(Restrictions.eq("name", name)).list();
+        Object result = criteria.add(Restrictions.eq("name", name)).uniqueResult();
         closeSession(session);
-        return new HashSet<>(publishers);
+        return isNull(result);
     }
 }
