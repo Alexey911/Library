@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -26,73 +27,51 @@ public abstract class AbstractHibernateDao<T extends DomainObject> implements Ge
         this.sessionFactory = sessionFactory;
     }
 
-    protected Session openSession() {
-        return sessionFactory.openSession();
-    }
-
-    protected Session openSessionWithTransaction() throws DaoException {
+    protected Session getCurrentSession() {
         Session session;
         try {
-            session = sessionFactory.openSession();
+            session = sessionFactory.getCurrentSession();
         } catch (HibernateException e) {
             throw new DaoException(e);
         }
-        session.beginTransaction();
         return session;
     }
 
-    protected void closeSession(Session session) throws DaoException {
-        try {
-            session.close();
-        } catch (HibernateException e) {
-            throw new DaoException(e);
-        }
-    }
-
-    protected void closeSessionWithTransaction(Session session) throws DaoException {
-        session.getTransaction().commit();
-        closeSession(session);
-    }
-
+    @Transactional
     @Override
     public T persist(T object) throws DaoException {
-        Session session = openSessionWithTransaction();
-        session.save(object);
-        closeSessionWithTransaction(session);
+        getCurrentSession().save(object);
         return object;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public T findById(Integer id) throws DaoException {
-        Session session = openSession();
-        Object item = session.get(aClass, id);
-        closeSession(session);
+        Object item = getCurrentSession().get(aClass, id);
         @SuppressWarnings("unchecked")
         T result = (T) item;
         return result;
     }
 
+    @Transactional
     @Override
     public void update(T object) throws DaoException {
-        Session session = openSessionWithTransaction();
-        session.update(object);
-        closeSessionWithTransaction(session);
+        getCurrentSession().update(object);
     }
 
+    @Transactional
     @Override
     public void delete(T object) throws DaoException {
         Integer id = object.getId();
-        Session session = openSessionWithTransaction();
+        Session session = getCurrentSession();
         Object item = session.load(aClass, id);
         session.delete(item);
-        closeSessionWithTransaction(session);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Set<T> getAll() throws DaoException {
-        Session session = openSession();
-        List<T> items = session.createCriteria(aClass).list();
-        closeSession(session);
+        List<T> items = getCurrentSession().createCriteria(aClass).list();
         return new HashSet<>(items);
     }
 }

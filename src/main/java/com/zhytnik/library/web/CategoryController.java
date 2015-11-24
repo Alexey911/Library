@@ -2,18 +2,19 @@ package com.zhytnik.library.web;
 
 import com.zhytnik.library.model.Category;
 import com.zhytnik.library.service.CategoryService;
-import com.zhytnik.library.service.exception.NotUniqueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Locale;
 
 @Controller
 public class CategoryController {
@@ -83,7 +84,7 @@ public class CategoryController {
         return "category/add";
     }
 
-    @ExceptionHandler(NotUniqueException.class)
+    /*@ExceptionHandler(NotUniqueException.class)
     public ModelAndView handleNotUniqueException(NotUniqueException e, Locale locale) {
         String msg = messageSource.getMessage("category.not_unique",
                 new Object[]{e.getDescription()}, locale);
@@ -94,4 +95,5 @@ public class CategoryController {
     public ModelAndView handleException() {
         return new ModelAndView("category/error", "errMsg", "Oops!!!");
     }
+*/
 }
