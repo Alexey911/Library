@@ -79,7 +79,7 @@ public class CategoryController {
 
     @RequestMapping(value = "/categories/add", method = RequestMethod.GET)
     public String showAddPage(Model model) {
-        model.addAttribute("category", new Category());
+        model.addAttribute("category", service.create());
         return "category/add";
     }
 
