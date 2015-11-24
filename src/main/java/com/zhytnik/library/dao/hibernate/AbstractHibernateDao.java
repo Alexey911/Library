@@ -22,6 +22,10 @@ public abstract class AbstractHibernateDao<T extends DomainObject> implements Ge
         this.aClass = aClass;
     }
 
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     protected Session openSession() {
         return sessionFactory.openSession();
     }

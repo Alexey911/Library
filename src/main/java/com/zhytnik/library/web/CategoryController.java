@@ -24,6 +24,14 @@ public class CategoryController {
     @Autowired
     private MessageSource messageSource;
 
+    public void setCategoryService(CategoryService categoryService) {
+        this.service = categoryService;
+    }
+
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
     public ModelAndView getAll() {
         return new ModelAndView("category/showAll", "categories", service.getAll());
