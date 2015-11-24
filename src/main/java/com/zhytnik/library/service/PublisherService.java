@@ -10,6 +10,11 @@ public class PublisherService extends Service<Publisher> {
     }
 
     @Override
+    public Publisher create() {
+        return new Publisher();
+    }
+
+    @Override
     protected boolean isUniqueItem(Publisher object) {
         return false;
     }

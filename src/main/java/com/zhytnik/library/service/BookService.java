@@ -12,6 +12,11 @@ public class BookService extends Service<Book> {
     }
 
     @Override
+    public Book create() {
+        return new Book();
+    }
+
+    @Override
     protected boolean isUniqueItem(Book object) {
         return false;
     }

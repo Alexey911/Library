@@ -1,27 +1,25 @@
 package com.zhytnik.library.dao.hibernate;
 
+import com.zhytnik.library.dao.CategoryDao;
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.model.Category;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import static java.util.Objects.isNull;
 
-public class CategoryDaoImpl extends AbstractHibernateDao<Category>
-        implements com.zhytnik.library.dao.CategoryDao {
+public class CategoryDaoImpl extends AbstractHibernateDao<Category> implements CategoryDao {
     public CategoryDaoImpl() {
         super(Category.class);
     }
 
     @Override
-    public Set<Category> findByName(String name) throws DaoException {
+    public boolean isUniqueName(String name) throws DaoException {
         Session session = openSession();
         Criteria criteria = session.createCriteria(Category.class);
-        List<Category> categories = criteria.add(Restrictions.eq("name", name)).list();
+        Object result = criteria.add(Restrictions.eq("name", name)).uniqueResult();
         closeSession(session);
-        return new HashSet<>(categories);
+        return isNull(result);
     }
 }

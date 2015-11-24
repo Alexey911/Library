@@ -23,6 +23,8 @@ public abstract class Service<T extends DomainObject> {
         this.dao = dao;
     }
 
+    public abstract T create();
+
     public T findById(Integer id) {
         return dao.findById(id);
     }

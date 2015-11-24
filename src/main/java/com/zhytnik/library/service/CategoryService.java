@@ -12,8 +12,13 @@ public class CategoryService extends Service<Category> {
     }
 
     @Override
+    public Category create() {
+        return new Category();
+    }
+
+    @Override
     protected boolean isUniqueItem(Category category) {
-        return dao.findByName(category.getName()).isEmpty();
+        return dao.isUniqueName(category.getName());
     }
 
     @Override
