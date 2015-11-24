@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-<sf:form method="PUT" modelAttribute="category" action="/categories/">
+<sf:form method="POST" modelAttribute="category" action="/category/update">
     <table>
         <tr>
             <td><spring:message code="category.field.name"/></td>
