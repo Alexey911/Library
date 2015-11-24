@@ -61,11 +61,7 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/categories", method = RequestMethod.PUT)
-    public String update(@ModelAttribute("category") @Valid Category category,
-                         BindingResult bindingResult, Locale locale) {
-        if (bindingResult.hasErrors() || !isUnique(category, bindingResult, locale)) {
-            return "category/edit";
-        }
+    public String update(@ModelAttribute("category") @Valid Category category) {
         service.update(category);
         return "redirect:/categories/";
     }
@@ -87,7 +83,7 @@ public class CategoryController {
         return new ModelAndView("category/edit", "category", service.findById(id));
     }
 
-    @RequestMapping(value = "/category/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/categories/update", method = RequestMethod.POST)
     public String updateInPostMethod(@ModelAttribute("category") @Valid Category category,
                                      BindingResult bindingResult, Locale locale) {
         if (bindingResult.hasErrors() || !isUnique(category, bindingResult, locale)) {

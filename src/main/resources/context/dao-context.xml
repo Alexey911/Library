@@ -19,5 +19,7 @@
 
     <bean name="categoryDao" class="com.zhytnik.library.dao.hibernate.CategoryDaoImpl"/>
 
+    <bean name="publisherDao" class="com.zhytnik.library.dao.hibernate.PublisherDaoImpl"/>
+
     <!--<bean name="publisherDao" parent="dao" class="com.zhytnik.library.dao.jdbc.mysql.PublisherDao"/>-->
 </beans>

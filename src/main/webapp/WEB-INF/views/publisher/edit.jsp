@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title><spring:message code="category.page.edit.header"/></title>
+    <title><spring:message code="publisher.page.edit.header"/></title>
     <style type="text/css">
         .error {
             color: #ff0000;
@@ -15,24 +15,24 @@
     </style>
 </head>
 <body>
-<sf:form method="POST" modelAttribute="category" action="/categories/update">
+<sf:form method="POST" modelAttribute="publisher" action="/publishers/update">
     <table>
         <tr>
-            <td><spring:message code="category.field.name"/></td>
+            <td><spring:message code="publisher.field.name"/></td>
             <td><sf:input path="name"/></td>
             <td><sf:errors path="name" cssClass="error"/></td>
         </tr>
         <tr>
-            <td><spring:message code="category.field.description"/></td>
-            <td><sf:input path="description"/></td>
-            <td><sf:errors path="description" cssClass="error"/></td>
+            <td><spring:message code="publisher.field.address"/></td>
+            <td><sf:input path="address"/></td>
+            <td><sf:errors path="address" cssClass="error"/></td>
         </tr>
         <tr>
-            <spring:message code="category.action.change" var="change"/>
+            <spring:message code="publisher.action.change" var="change"/>
             <td colspan="3"><input type="submit" value="${change}"></td>
         </tr>
     </table>
-    <input type="hidden" name="id" value="${category.id}">
+    <input type="hidden" name="id" value="${publisher.id}">
 </sf:form>
 </body>
 </html>

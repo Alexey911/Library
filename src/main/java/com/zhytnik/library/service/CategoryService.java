@@ -6,10 +6,6 @@ import com.zhytnik.library.model.Category;
 import static java.util.Objects.isNull;
 
 public class CategoryService extends Service<Category> {
-    public void setCategoryDao(CategoryDao categoryDao) {
-        setDao(categoryDao);
-    }
-
     @Override
     public Category create() {
         return new Category();
