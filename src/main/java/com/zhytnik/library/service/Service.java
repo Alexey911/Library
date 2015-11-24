@@ -26,14 +26,12 @@ public abstract class Service<T extends DomainObject> {
     }
 
     public void add(T object) {
-        validateFullness(object);
         validateUnique(object);
         logger.log(Level.INFO, "Add " + object);
         dao.persist(object);
     }
 
     public void update(T object) {
-        validateFullness(object);
         validateUnique(object);
         logger.log(Level.INFO, "Update " + object);
         dao.update(object);
@@ -42,7 +40,7 @@ public abstract class Service<T extends DomainObject> {
     public void delete(T object) {
         logger.log(Level.INFO, "Delete " + object);
         try {
-            dao.delete(object);
+            dao.delete(object.getId());
         } catch (DaoException e) {
             logger.log(Level.WARN, e);
             throw new DeleteAssociatedObjectException(e.getMessage());
@@ -54,28 +52,15 @@ public abstract class Service<T extends DomainObject> {
         return dao.getAll();
     }
 
-    public void validateUnique(T object) {
-        if (!isUniqueItem(object)) {
+    private void validateUnique(T object) throws NotUniqueException {
+        if (!isUnique(object)) {
             String msg = "Not unique " + object;
             logger.log(Level.WARN, msg);
-            throw new NotUniqueException(msg, getExceptionDescription(object));
+            throw new NotUniqueException();
         }
     }
 
-    protected abstract boolean isUniqueItem(T object);
-
-    protected void validateFullness(T object) {
-
-    }
-
-    protected void throwIllegalArgException(String message) {
-        logger.log(Level.WARN, message);
-        throw new IllegalArgumentException(message);
-    }
-
-    protected String getExceptionDescription(T object) {
-        return object.toString();
-    }
+    public abstract boolean isUnique(T object);
 
     protected GenericDao<T> getDao() {
         return dao;

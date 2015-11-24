@@ -2,8 +2,6 @@ package com.zhytnik.library.service;
 
 import com.zhytnik.library.model.Publisher;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
-
 public class PublisherService extends Service<Publisher> {
     public PublisherService() {
         super();
@@ -15,10 +13,10 @@ public class PublisherService extends Service<Publisher> {
     }
 
     @Override
-    protected boolean isUniqueItem(Publisher object) {
+    public boolean isUnique(Publisher object) {
         return false;
     }
-
+/*
     @Override
     public void validateFullness(Publisher p) {
         if (isNullOrEmpty(p.getName())) {
@@ -31,5 +29,5 @@ public class PublisherService extends Service<Publisher> {
         if (p.getAddress().length() > 100) {
             throwIllegalArgException(String.format(format, "Address", 100));
         }
-    }
+    }*/
 }

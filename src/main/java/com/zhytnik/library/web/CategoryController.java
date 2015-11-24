@@ -2,14 +2,17 @@ package com.zhytnik.library.web;
 
 import com.zhytnik.library.model.Category;
 import com.zhytnik.library.service.CategoryService;
-import com.zhytnik.library.service.exception.NotUniqueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -52,12 +55,23 @@ public class CategoryController {
 
     @RequestMapping(value = "/categories", method = RequestMethod.POST)
     public String add(@ModelAttribute("category") @Valid Category category,
-                      BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+                      BindingResult bindingResult, Locale locale) {
+        if (bindingResult.hasErrors() || !isUnique(category, bindingResult, locale)) {
             return "category/add";
         }
         service.add(category);
         return "redirect:/categories/";
+    }
+
+    private boolean isUnique(Category category, BindingResult bindingResult, Locale locale) {
+        boolean isUnique = service.isUnique(category);
+        if (!isUnique) {
+            FieldError fieldError = new FieldError("category", "name",
+                    messageSource.getMessage("category.exception.non.unique.name",
+                            new String[]{category.getName()}, locale));
+            bindingResult.addError(fieldError);
+        }
+        return isUnique;
     }
 
     @RequestMapping(value = "/categories", method = RequestMethod.PUT)
@@ -83,15 +97,15 @@ public class CategoryController {
         return "category/add";
     }
 
-    @ExceptionHandler(NotUniqueException.class)
+    /*@ExceptionHandler(NotUniqueException.class)
     public ModelAndView handleNotUniqueException(NotUniqueException e, Locale locale) {
         String msg = messageSource.getMessage("category.not_unique",
                 new Object[]{e.getDescription()}, locale);
         return new ModelAndView("category/error", "errMsg", msg);
-    }
+    }*/
 
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     public ModelAndView handleException() {
         return new ModelAndView("category/error", "errMsg", "Oops!!!");
-    }
+    }*/
 }

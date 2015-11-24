@@ -9,9 +9,9 @@ public interface GenericDao<T extends DomainObject> {
 
     T findById(Integer id) throws DaoException;
 
-    void update(T object) throws DaoException;
+    void delete(Integer id) throws DaoException;
 
-    void delete(T object) throws DaoException;
+    void update(T object) throws DaoException;
 
     Set<T> getAll() throws DaoException;
 }

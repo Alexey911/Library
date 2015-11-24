@@ -61,8 +61,7 @@ public abstract class AbstractHibernateDao<T extends DomainObject> implements Ge
 
     @Transactional
     @Override
-    public void delete(T object) throws DaoException {
-        Integer id = object.getId();
+    public void delete(Integer id) throws DaoException {
         Session session = getCurrentSession();
         Object item = session.load(aClass, id);
         session.delete(item);

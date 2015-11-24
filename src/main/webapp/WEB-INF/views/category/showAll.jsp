@@ -4,15 +4,15 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title><spring:message code="categories.title"/></title>
+    <title><spring:message code="categories.page.show.header"/></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
-<h1><spring:message code="categories.title"/></h1>
+<h1><spring:message code="categories.name"/></h1>
 <table border="1">
     <tr>
-        <th><spring:message code="category.name"/></th>
-        <th><spring:message code="category.description"/></th>
+        <th><spring:message code="category.field.name"/></th>
+        <th><spring:message code="category.field.description"/></th>
     </tr>
     <%--@elvariable id="categories" type="java.util.Set"--%>
     <c:forEach items="${categories}" var="category">
@@ -23,6 +23,6 @@
         </tr>
     </c:forEach>
 </table>
-<a href="${pageContext.request.contextPath}/categories/add"><spring:message code="add"/></a>
+<a href="${pageContext.request.contextPath}/categories/add"><spring:message code="category.action.add"/></a>
 </body>
 </html>

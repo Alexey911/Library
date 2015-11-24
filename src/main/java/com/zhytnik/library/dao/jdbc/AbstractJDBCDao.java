@@ -113,7 +113,7 @@ public abstract class AbstractJDBCDao<T extends DomainObject> implements Generic
     }
 
     @Override
-    public void delete(T object) throws DaoException {
+    public void delete(Integer id) throws DaoException {/*
         validateId(object);
         try (Connection con = dataSource.getConnection()) {
             String query = getDeleteQuery();
@@ -136,7 +136,7 @@ public abstract class AbstractJDBCDao<T extends DomainObject> implements Generic
             logger.log(Level.ERROR, e);
             throw new DaoException(e);
         }
-        object.setId(null);
+        object.setId(null);*/
     }
 
     @Override

@@ -2,10 +2,6 @@ package com.zhytnik.library.service;
 
 import com.zhytnik.library.model.Book;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
-import static java.lang.String.format;
-import static java.util.Objects.isNull;
-
 public class BookService extends Service<Book> {
     public BookService() {
         super();
@@ -17,11 +13,11 @@ public class BookService extends Service<Book> {
     }
 
     @Override
-    protected boolean isUniqueItem(Book object) {
+    public boolean isUnique(Book object) {
         return false;
     }
 
-    @Override
+    /*@Override
     public void validateFullness(Book b) {
         String illegalFormat = "Set %s of book: %s";
         if (isNullOrEmpty(b.getName())) {
@@ -43,5 +39,5 @@ public class BookService extends Service<Book> {
         if (b.getAuthors().length() > 100) {
             throwIllegalArgException(format(format, "Authors", 100));
         }
-    }
+    }*/
 }

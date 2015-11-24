@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title><spring:message code="category.page.add"/></title>
+    <title><spring:message code="category.page.edit.header"/></title>
     <style type="text/css">
         .error {
             color: #ff0000;
@@ -17,17 +17,17 @@
 <springForm:form method="POST" modelAttribute="category" action="/categories/">
     <table>
         <tr>
-            <td><spring:message code="category.name"/></td>
+            <td><spring:message code="category.field.name"/></td>
             <td><springForm:input path="name"/></td>
             <td><springForm:errors path="name" cssClass="error"/></td>
         </tr>
         <tr>
-            <td><spring:message code="category.description"/></td>
+            <td><spring:message code="category.field.description"/></td>
             <td><springForm:input path="description"/></td>
             <td><springForm:errors path="description" cssClass="error"/></td>
         </tr>
         <tr>
-            <spring:message code="save" var="save"/>
+            <spring:message code="category.action.save" var="save"/>
             <td colspan="3"><input type="submit" value="${save}"></td>
         </tr>
     </table>

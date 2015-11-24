@@ -30,7 +30,7 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public void delete(Book object) throws DaoException {
+    public void delete(Integer id) throws DaoException {
 
     }
 
