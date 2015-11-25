@@ -12,10 +12,10 @@ import java.util.Arrays;
 
 @Component
 @Aspect
-public class CategoryServiceAspect {
+public class ServiceLogger {
     private static Logger logger = Logger.getLogger("Service");
 
-    public CategoryServiceAspect() {
+    public ServiceLogger() {
 
     }
 
