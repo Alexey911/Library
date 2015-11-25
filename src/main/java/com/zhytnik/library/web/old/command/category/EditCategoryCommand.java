@@ -1,6 +1,6 @@
 package com.zhytnik.library.web.old.command.category;
 
-import com.zhytnik.library.model.Category;
+import com.zhytnik.library.domain.Category;
 import com.zhytnik.library.web.old.ModelAndView;
 import com.zhytnik.library.web.old.Request;
 import com.zhytnik.library.web.old.command.SubmitCommand;

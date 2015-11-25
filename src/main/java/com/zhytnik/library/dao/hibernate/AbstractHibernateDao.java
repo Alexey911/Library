@@ -2,7 +2,7 @@ package com.zhytnik.library.dao.hibernate;
 
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.GenericDao;
-import com.zhytnik.library.model.DomainObject;
+import com.zhytnik.library.domain.DomainObject;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,10 +17,10 @@ public abstract class AbstractHibernateDao<T extends DomainObject> implements Ge
     @Autowired
     private SessionFactory sessionFactory;
 
-    private Class<T> aClass;
+    private Class<T> clazz;
 
-    public AbstractHibernateDao(Class<T> aClass) {
-        this.aClass = aClass;
+    public AbstractHibernateDao(Class<T> clazz) {
+        this.clazz = clazz;
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -47,7 +47,7 @@ public abstract class AbstractHibernateDao<T extends DomainObject> implements Ge
     @Transactional(readOnly = true)
     @Override
     public T findById(Integer id) throws DaoException {
-        Object item = getCurrentSession().get(aClass, id);
+        Object item = getCurrentSession().get(clazz, id);
         @SuppressWarnings("unchecked")
         T result = (T) item;
         return result;
@@ -63,14 +63,14 @@ public abstract class AbstractHibernateDao<T extends DomainObject> implements Ge
     @Override
     public void delete(Integer id) throws DaoException {
         Session session = getCurrentSession();
-        Object item = session.load(aClass, id);
+        Object item = session.load(clazz, id);
         session.delete(item);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Set<T> getAll() throws DaoException {
-        List<T> items = getCurrentSession().createCriteria(aClass).list();
+        List<T> items = getCurrentSession().createCriteria(clazz).list();
         return new HashSet<>(items);
     }
 }

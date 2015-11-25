@@ -13,14 +13,18 @@ import java.util.Arrays;
 @Component
 @Aspect
 public class CategoryServiceAspect {
-    private static Logger logger = Logger.getLogger("Services");
+    private static Logger logger = Logger.getLogger("Service");
+
+    public CategoryServiceAspect() {
+
+    }
 
     @AfterReturning(
             pointcut = "execution(public * com.zhytnik.library.service.Service.*(..)))",
             returning = "result")
     public void methodsWithResult(JoinPoint joinPoint, Object result) {
         //noinspection StringBufferReplaceableByString
-        String msg = new StringBuilder().append(joinPoint.getSignature().getName()).
+        String msg = new StringBuilder().append(joinPoint.getSignature().toShortString()).
                 append("(").append(Arrays.toString(joinPoint.getArgs())).
                 append(") return ").append(result).toString();
         logger.log(Level.INFO, msg);
@@ -31,7 +35,7 @@ public class CategoryServiceAspect {
             throwing = "error")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable error) {
         //noinspection StringBufferReplaceableByString
-        String msg = new StringBuilder().append(joinPoint.getSignature().getName()).
+        String msg = new StringBuilder().append(joinPoint.getSignature().toShortString()).
                 append("(").append(Arrays.toString(joinPoint.getArgs())).
                 append(") throw ").append(error).toString();
         logger.log(Level.INFO, msg);

@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1><spring:message code="category.name"/></h1>
-<%--@elvariable id="category" type="com.zhytnik.library.model.Category"--%>
+<%--@elvariable id="category" type="com.zhytnik.library.domain.Category"--%>
 <table>
     <tr>
         <td><spring:message code="category.field.name"/></td>

@@ -1,7 +1,7 @@
 package com.zhytnik.library.service;
 
 import com.zhytnik.library.dao.PublisherDao;
-import com.zhytnik.library.model.Publisher;
+import com.zhytnik.library.domain.Publisher;
 
 import static java.util.Objects.isNull;
 

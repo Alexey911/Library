@@ -4,8 +4,8 @@ import com.google.common.collect.Sets;
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.jdbc.Dependence;
 import com.zhytnik.library.dao.jdbc.mysql.CategoryDaoImpl;
-import com.zhytnik.library.model.Book;
-import com.zhytnik.library.model.Category;
+import com.zhytnik.library.domain.Book;
+import com.zhytnik.library.domain.Category;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

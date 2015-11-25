@@ -2,7 +2,7 @@ package com.zhytnik.library.dao.jdbc;
 
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.GenericDao;
-import com.zhytnik.library.model.DomainObject;
+import com.zhytnik.library.domain.DomainObject;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 

@@ -1,4 +1,4 @@
-package com.zhytnik.library.model;
+package com.zhytnik.library.domain;
 
 import java.io.Serializable;
 import java.util.Set;

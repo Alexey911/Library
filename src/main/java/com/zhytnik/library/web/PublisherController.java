@@ -1,6 +1,6 @@
 package com.zhytnik.library.web;
 
-import com.zhytnik.library.model.Publisher;
+import com.zhytnik.library.domain.Publisher;
 import com.zhytnik.library.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

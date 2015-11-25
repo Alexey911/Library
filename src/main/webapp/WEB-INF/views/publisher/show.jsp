@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1><spring:message code="publisher.name"/></h1>
-<%--@elvariable id="publisher" type="com.zhytnik.library.model.Publisher"--%>
+<%--@elvariable id="publisher" type="com.zhytnik.library.domain.Publisher"--%>
 <table>
     <tr>
         <td><spring:message code="publisher.field.name"/></td>

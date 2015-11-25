@@ -1,7 +1,7 @@
 package com.zhytnik.library.service;
 
 import com.zhytnik.library.dao.CategoryDao;
-import com.zhytnik.library.model.Category;
+import com.zhytnik.library.domain.Category;
 
 import static java.util.Objects.isNull;
 

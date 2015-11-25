@@ -1,6 +1,6 @@
 package com.zhytnik.library.web;
 
-import com.zhytnik.library.model.Category;
+import com.zhytnik.library.domain.Category;
 import com.zhytnik.library.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

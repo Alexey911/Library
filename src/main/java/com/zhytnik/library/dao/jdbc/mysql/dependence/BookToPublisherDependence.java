@@ -4,8 +4,8 @@ import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.jdbc.Dependence;
 import com.zhytnik.library.dao.jdbc.mysql.BookDaoImpl;
 import com.zhytnik.library.dao.jdbc.mysql.PublisherDaoImpl;
-import com.zhytnik.library.model.Book;
-import com.zhytnik.library.model.Publisher;
+import com.zhytnik.library.domain.Book;
+import com.zhytnik.library.domain.Publisher;
 
 import java.sql.Connection;
 

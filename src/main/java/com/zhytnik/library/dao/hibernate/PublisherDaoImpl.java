@@ -2,8 +2,8 @@ package com.zhytnik.library.dao.hibernate;
 
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.PublisherDao;
-import com.zhytnik.library.model.Category;
-import com.zhytnik.library.model.Publisher;
+import com.zhytnik.library.domain.Category;
+import com.zhytnik.library.domain.Publisher;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;

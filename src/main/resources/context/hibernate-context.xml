@@ -16,7 +16,7 @@
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
           p:configLocation="classpath:hibernate.cfg.xml"
           p:dataSource-ref="dataSource"
-          p:packagesToScan="com.zhytnik.library.model">
+          p:packagesToScan="com.zhytnik.library.domain">
     </bean>
 
     <bean id="transactionManager"

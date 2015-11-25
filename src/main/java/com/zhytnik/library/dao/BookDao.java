@@ -1,8 +1,8 @@
 package com.zhytnik.library.dao;
 
-import com.zhytnik.library.model.Book;
-import com.zhytnik.library.model.Category;
-import com.zhytnik.library.model.Publisher;
+import com.zhytnik.library.domain.Book;
+import com.zhytnik.library.domain.Category;
+import com.zhytnik.library.domain.Publisher;
 
 import java.util.Set;
 

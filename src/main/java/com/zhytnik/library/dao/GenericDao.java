@@ -1,6 +1,6 @@
 package com.zhytnik.library.dao;
 
-import com.zhytnik.library.model.DomainObject;
+import com.zhytnik.library.domain.DomainObject;
 
 import java.util.Set;
 

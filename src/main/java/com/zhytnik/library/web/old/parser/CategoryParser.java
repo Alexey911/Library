@@ -1,6 +1,6 @@
 package com.zhytnik.library.web.old.parser;
 
-import com.zhytnik.library.model.Category;
+import com.zhytnik.library.domain.Category;
 import com.zhytnik.library.web.old.Request;
 
 public class CategoryParser {

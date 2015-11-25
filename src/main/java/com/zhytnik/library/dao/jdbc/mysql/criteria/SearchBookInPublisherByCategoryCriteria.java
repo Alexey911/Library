@@ -2,9 +2,9 @@ package com.zhytnik.library.dao.jdbc.mysql.criteria;
 
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.jdbc.JDBCCriteria;
-import com.zhytnik.library.model.Book;
-import com.zhytnik.library.model.Category;
-import com.zhytnik.library.model.Publisher;
+import com.zhytnik.library.domain.Book;
+import com.zhytnik.library.domain.Category;
+import com.zhytnik.library.domain.Publisher;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

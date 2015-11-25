@@ -4,7 +4,7 @@ import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.jdbc.AbstractJDBCDao;
 import com.zhytnik.library.dao.jdbc.JDBCCriteria;
 import com.zhytnik.library.dao.jdbc.mysql.criteria.SearchCategoryByNameCriteria;
-import com.zhytnik.library.model.Category;
+import com.zhytnik.library.domain.Category;
 import org.apache.log4j.Level;
 
 import java.sql.PreparedStatement;

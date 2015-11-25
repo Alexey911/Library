@@ -1,6 +1,6 @@
 package com.zhytnik.library.service;
 
-import com.zhytnik.library.model.Book;
+import com.zhytnik.library.domain.Book;
 
 public class BookService extends Service<Book> {
     public BookService() {
