@@ -11,6 +11,10 @@ public class CategoryService extends Service<Category> {
         return new Category();
     }
 
+    public void setCategoryDao(CategoryDao categoryDao) {
+        setDao(categoryDao);
+    }
+
     @Override
     public boolean isUnique(Category category) {
         String name = category.getName();

@@ -2,15 +2,23 @@
 
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.zhytnik.library.service"/>
+
+    <aop:aspectj-autoproxy/>
+
+    <context:annotation-config/>
 
     <bean name="categoryService" class="com.zhytnik.library.service.CategoryService"
-          p:dao-ref="categoryDao"/>
+          p:categoryDao-ref="categoryDao"/>
 
     <bean name="publisherService" class="com.zhytnik.library.service.PublisherService"
-          p:dao-ref="publisherDao"/>
+          p:publisherDao-ref="publisherDao"/>
 
     <!--<bean name="publisherService" class="com.zhytnik.library.service.PublisherService" p:dao-ref="publisherDao"/>-->
 
