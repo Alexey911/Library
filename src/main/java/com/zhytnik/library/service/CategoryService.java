@@ -16,16 +16,19 @@ public class CategoryService extends Service<Category> {
     }
 
     @Override
-    public boolean isUnique(Category category) {
-        String name = category.getName();
+    public boolean isUnique(Category c) {
+        c.setName(c.getName().trim());
+        c.setDescription(c.getDescription().trim());
+
+        String name = c.getName();
         CategoryDao dao = (CategoryDao) getDao();
         if (dao.isUniqueName(name)) {
             return true;
         }
-        if (isNull(category.getId())) {
+        if (isNull(c.getId())) {
             return false;
         }
-        Category daoItem = dao.findById(category.getId());
+        Category daoItem = dao.findById(c.getId());
         return daoItem.getName().equals(name);
     }
 }
