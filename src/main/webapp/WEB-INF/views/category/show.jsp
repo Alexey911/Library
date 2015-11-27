@@ -1,6 +1,8 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <html>
 <head>
     <title><spring:message code="category.page.show.header"/></title>
@@ -19,12 +21,14 @@
         <td>${category.description}</td>
     </tr>
 </table>
-<sf:form method="DELETE" modelAttribute="category" action="/categories/${category.id}">
-    <input type="hidden" name="id" value="${category.id}">
-    <input type="submit" value="Delete">
-</sf:form>
-<a href="/categories/${category.id}?action=edit"><spring:message code="category.action.edit"/></a>
-<br>
+<sec:authorize access="hasRole('ROLE_LIBRARIAN')">
+    <sf:form method="DELETE" modelAttribute="category" action="/categories/${category.id}">
+        <input type="hidden" name="id" value="${category.id}">
+        <input type="submit" value="Delete">
+    </sf:form>
+    <a href="/categories/${category.id}?action=edit"><spring:message code="category.action.edit"/></a>
+    <br>
+</sec:authorize>
 <a href="${pageContext.request.contextPath}/categories"><spring:message code="categories.action.show"/></a>
 </body>
 </html>
