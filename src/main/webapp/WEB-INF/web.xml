@@ -5,42 +5,16 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <!-- For using of old web part -->
-    <!--    <servlet>
-            <servlet-name>FrontController</servlet-name>
-            <servlet-class>com.zhytnik.library.web.old.controller.FrontController</servlet-class>
-        </servlet>
-
-        <servlet-mapping>
-            <servlet-name>FrontController</servlet-name>
-            <url-pattern>/app/*</url-pattern>
-        </servlet-mapping>
-
-        <filter>
-            <filter-name>ControllerFilter</filter-name>
-            <filter-class>com.zhytnik.library.web.old.controller.ControllerFilter</filter-class>
-        </filter>
-
-        <filter-mapping>
-            <filter-name>ControllerFilter</filter-name>
-            <url-pattern>/app/*</url-pattern>
-        </filter-mapping>
-
-        <welcome-file-list>
-            <welcome-file>index.html</welcome-file>
-        </welcome-file-list>
-
-        <error-page>
-            <location>/error.jsp</location>
-        </error-page>-->
-
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:context/*-context.xml</param-value>
+        <param-value>
+            classpath*:context/*-context.xml
+            /WEB-INF/spring-security.xml
+        </param-value>
     </context-param>
 
     <servlet>
@@ -82,13 +56,21 @@
 
     <filter>
         <filter-name>httpMethodFilter</filter-name>
-        <filter-class>
-            org.springframework.web.filter.HiddenHttpMethodFilter
-        </filter-class>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
 
     <filter-mapping>
         <filter-name>httpMethodFilter</filter-name>
         <servlet-name>mvc-dispatcher</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 </web-app>

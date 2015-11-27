@@ -4,9 +4,12 @@ import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.GenericDao;
 import com.zhytnik.library.domain.DomainObject;
 import com.zhytnik.library.service.exception.DeleteAssociatedObjectException;
+import com.zhytnik.library.service.exception.NotFoundItemException;
 import com.zhytnik.library.service.exception.NotUniqueException;
 
 import java.util.Set;
+
+import static java.util.Objects.isNull;
 
 public abstract class Service<T extends DomainObject> {
     private GenericDao<T> dao;
@@ -14,7 +17,11 @@ public abstract class Service<T extends DomainObject> {
     public abstract T create();
 
     public T findById(Integer id) {
-        return dao.findById(id);
+        T item = dao.findById(id);
+        if (isNull(item)) {
+            throw new NotFoundItemException();
+        }
+        return item;
     }
 
     public void add(T object) {

@@ -5,6 +5,7 @@ import com.zhytnik.library.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +33,7 @@ public class CategoryController {
         this.messageSource = messageSource;
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
     public ModelAndView getAll() {
         return new ModelAndView("category/showAll", "categories", service.getAll());
@@ -53,7 +55,7 @@ public class CategoryController {
     @RequestMapping(value = "/categories", method = RequestMethod.POST)
     public String add(@ModelAttribute("category") @Valid Category category,
                       BindingResult bindingResult, Locale locale) {
-        if (bindingResult.hasErrors() || !isUnique(category, bindingResult, locale)) {
+        if (bindingResult.hasErrors() || hasErrors(category, bindingResult, locale)) {
             return "category/add";
         }
         service.add(category);
@@ -66,7 +68,14 @@ public class CategoryController {
         return "redirect:/categories/";
     }
 
-    private boolean isUnique(Category category, BindingResult bindingResult, Locale locale) {
+    private boolean hasErrors(Category category, BindingResult bindingResult, Locale locale) {
+        if (category.getName().trim().length() == 0) {
+            FieldError fieldError = new FieldError("category", "name",
+                    messageSource.getMessage("category.exception.not.set.name",
+                            new String[]{category.getName()}, locale));
+            bindingResult.addError(fieldError);
+            return true;
+        }
         boolean isUnique = service.isUnique(category);
         if (!isUnique) {
             FieldError fieldError = new FieldError("category", "name",
@@ -74,7 +83,7 @@ public class CategoryController {
                             new String[]{category.getName()}, locale));
             bindingResult.addError(fieldError);
         }
-        return isUnique;
+        return !isUnique;
     }
 
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET,
@@ -86,7 +95,7 @@ public class CategoryController {
     @RequestMapping(value = "/categories/update", method = RequestMethod.POST)
     public String updateInPostMethod(@ModelAttribute("category") @Valid Category category,
                                      BindingResult bindingResult, Locale locale) {
-        if (bindingResult.hasErrors() || !isUnique(category, bindingResult, locale)) {
+        if (bindingResult.hasErrors() || !hasErrors(category, bindingResult, locale)) {
             return "category/edit";
         }
         service.update(category);

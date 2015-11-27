@@ -16,10 +16,26 @@ public class CategoryService extends Service<Category> {
     }
 
     @Override
-    public boolean isUnique(Category c) {
-        c.setName(c.getName().trim());
-        c.setDescription(c.getDescription().trim());
+    public void add(Category c) {
+        prepare(c);
+        super.add(c);
+    }
 
+    @Override
+    public void update(Category c) {
+        prepare(c);
+        super.update(c);
+    }
+
+    private void prepare(Category c) {
+        c.setName(c.getName().trim());
+        if (!isNull(c.getDescription())) {
+            c.setDescription(c.getDescription().trim());
+        }
+    }
+
+    @Override
+    public boolean isUnique(Category c) {
         String name = c.getName();
         CategoryDao dao = (CategoryDao) getDao();
         if (dao.isUniqueName(name)) {
