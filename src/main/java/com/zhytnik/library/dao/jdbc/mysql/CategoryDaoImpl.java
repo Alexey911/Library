@@ -1,9 +1,8 @@
 package com.zhytnik.library.dao.jdbc.mysql;
 
+import com.zhytnik.library.dao.CategoryDao;
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.jdbc.AbstractJDBCDao;
-import com.zhytnik.library.dao.jdbc.JDBCCriteria;
-import com.zhytnik.library.dao.jdbc.mysql.criteria.SearchCategoryByNameCriteria;
 import com.zhytnik.library.domain.Category;
 import org.apache.log4j.Level;
 
@@ -13,14 +12,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CategoryDaoImpl extends AbstractJDBCDao<Category> {
-    private JDBCCriteria criteria;
-
-    public CategoryDaoImpl() {
-        super();
-        criteria = new SearchCategoryByNameCriteria();
-    }
-
+public class CategoryDaoImpl extends AbstractJDBCDao<Category> implements CategoryDao {
     @Override
     public String getSelectQuery() {
         return "SELECT * FROM categories";
@@ -82,6 +74,11 @@ public class CategoryDaoImpl extends AbstractJDBCDao<Category> {
             logger.log(Level.ERROR, e);
             throw new DaoException(e);
         }
+    }
+
+    @Override
+    public boolean isUniqueName(String name) throws DaoException {
+        return false;
     }
 
     /*@Override

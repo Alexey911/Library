@@ -1,9 +1,8 @@
 package com.zhytnik.library.dao.jdbc.mysql;
 
 import com.zhytnik.library.dao.DaoException;
+import com.zhytnik.library.dao.PublisherDao;
 import com.zhytnik.library.dao.jdbc.AbstractJDBCDao;
-import com.zhytnik.library.dao.jdbc.JDBCCriteria;
-import com.zhytnik.library.dao.jdbc.mysql.criteria.SearchPublisherByNameCriteria;
 import com.zhytnik.library.domain.Publisher;
 import org.apache.log4j.Level;
 
@@ -13,14 +12,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PublisherDaoImpl extends AbstractJDBCDao<Publisher> {
-    private JDBCCriteria criteria;
-
-    public PublisherDaoImpl() {
-        super();
-        criteria = new SearchPublisherByNameCriteria();
-    }
-
+public class PublisherDaoImpl extends AbstractJDBCDao<Publisher> implements PublisherDao {
     @Override
     protected String getSelectQuery() {
         return "SELECT * FROM publishers";
@@ -82,6 +74,11 @@ public class PublisherDaoImpl extends AbstractJDBCDao<Publisher> {
             logger.log(Level.ERROR, e);
             throw new DaoException(e);
         }
+    }
+
+    @Override
+    public boolean isUniqueName(String name) throws DaoException {
+        return false;
     }
 
     /*@Override

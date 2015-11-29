@@ -1,9 +1,8 @@
 package com.zhytnik.library.dao.jdbc.mysql;
 
+import com.zhytnik.library.dao.BookDao;
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.jdbc.AbstractJDBCDao;
-import com.zhytnik.library.dao.jdbc.JDBCCriteria;
-import com.zhytnik.library.dao.jdbc.mysql.criteria.SearchBookInPublisherByCategoryCriteria;
 import com.zhytnik.library.domain.Book;
 import com.zhytnik.library.domain.Publisher;
 import org.apache.log4j.Level;
@@ -14,12 +13,8 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BookDaoImpl extends AbstractJDBCDao<Book> {
-    private JDBCCriteria criteria;
-
+public class BookDaoImpl extends AbstractJDBCDao<Book> implements BookDao {
     public BookDaoImpl() {
-        super();
-        criteria = new SearchBookInPublisherByCategoryCriteria();
     }
 
     @Override
@@ -107,9 +102,18 @@ public class BookDaoImpl extends AbstractJDBCDao<Book> {
         }
     }
 
-    /*@Override
-    public Set<Book> find(Object param) {
-        criteria.addParameter(param);
-        return super.find(criteria);
-    }*/
+    @Override
+    public Set<Book> findBooksInPublisherCategories(Integer publisher, Set<Integer> categories) {
+        return null;
+    }
+
+    @Override
+    public Set<Book> findBooksByCategories(Set<Integer> categories) {
+        return null;
+    }
+
+    @Override
+    public boolean isUniqueName(String name) {
+        return false;
+    }
 }
