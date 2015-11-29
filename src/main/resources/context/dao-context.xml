@@ -5,21 +5,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <!--<bean name="dao" class="com.zhytnik.library.dao.jdbc.AbstractJDBCDao"-->
-    <!--abstract="true" p:dataSource-ref="dataSource"/>-->
-
-    <!--<bean name="bookDao" parent="dao" class="com.zhytnik.library.dao.jdbc.mysql.BookDao">-->
-    <!--<property name="dependencies">-->
-    <!--<set>-->
-    <!--<bean class="com.zhytnik.library.dao.jdbc.mysql.dependence.BookToCategoriesDependence"></bean>-->
-    <!--<bean class="com.zhytnik.library.dao.jdbc.mysql.dependence.BookToPublisherDependence"></bean>-->
-    <!--</set>-->
-    <!--</property>-->
-    <!--</bean>-->
-
     <bean name="categoryDao" class="com.zhytnik.library.dao.hibernate.CategoryDaoImpl"/>
 
     <bean name="publisherDao" class="com.zhytnik.library.dao.hibernate.PublisherDaoImpl"/>
 
-    <!--<bean name="publisherDao" parent="dao" class="com.zhytnik.library.dao.jdbc.mysql.PublisherDao"/>-->
+    <bean name="bookDao" class="com.zhytnik.library.dao.hibernate.BookDaoImpl"/>
 </beans>

@@ -11,10 +11,6 @@ public class CategoryService extends Service<Category> {
         return new Category();
     }
 
-    public void setCategoryDao(CategoryDao categoryDao) {
-        setDao(categoryDao);
-    }
-
     @Override
     public void add(Category c) {
         prepare(c);

@@ -15,10 +15,6 @@ public class PublisherService extends Service<Publisher> {
         return new Publisher();
     }
 
-    public void setPublisherDao(PublisherDao publisherDao) {
-        setDao(publisherDao);
-    }
-
     @Override
     public boolean isUnique(Publisher p) {
         p.setName(p.getName().trim());

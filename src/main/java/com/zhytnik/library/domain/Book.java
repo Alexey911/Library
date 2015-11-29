@@ -1,16 +1,47 @@
 package com.zhytnik.library.domain;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
 
+@Entity
+@Table(name = "book")
 public class Book extends DomainObject implements Serializable {
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
-    private String annotation;
+
+    @NotNull
+    @Column(name = "page_count", nullable = false)
     private Integer pageCount;
+
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "authors", nullable = false, length = 100)
     private String authors;
-    private Set<Category> categories;
+
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "publisher_id")
     private Publisher publisher;
+
+    @Size(min = 1, max = 255)
+    @Column(name = "annotation", nullable = true, length = 255)
+    private String annotation;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "book_categories",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id")})
+    private Set<Category> categories;
+
+    @Column(name = "year", nullable = true)
     private Integer publishingYear;
+
+    @Column(name = "weight", nullable = true)
     private Integer weight;
 
     public Book() {

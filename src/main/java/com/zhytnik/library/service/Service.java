@@ -58,7 +58,7 @@ public abstract class Service<T extends DomainObject> {
         return dao;
     }
 
-    protected void setDao(GenericDao<T> dao) {
+    public void setDao(GenericDao<T> dao) {
         this.dao = dao;
     }
 }
