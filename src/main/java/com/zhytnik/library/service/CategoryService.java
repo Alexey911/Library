@@ -11,19 +11,7 @@ public class CategoryService extends Service<Category> {
         return new Category();
     }
 
-    @Override
-    public void add(Category c) {
-        prepare(c);
-        super.add(c);
-    }
-
-    @Override
-    public void update(Category c) {
-        prepare(c);
-        super.update(c);
-    }
-
-    private void prepare(Category c) {
+    protected void prepare(Category c) {
         c.setName(c.getName().trim());
         if (!isNull(c.getDescription())) {
             c.setDescription(c.getDescription().trim());

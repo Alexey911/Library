@@ -6,13 +6,19 @@ import com.zhytnik.library.domain.Book;
 import static java.util.Objects.isNull;
 
 public class BookService extends Service<Book> {
-    public BookService() {
-        super();
-    }
-
     @Override
     public Book create() {
         return new Book();
+    }
+
+    @Override
+    protected void prepare(Book b) {
+        b.setName(b.getName().trim());
+        b.setAuthors(b.getAuthors().trim());
+        if(!isNull(b.getAnnotation())) {
+            b.setAnnotation(b.getAnnotation().trim());
+        }
+        super.prepare(b);
     }
 
     @Override

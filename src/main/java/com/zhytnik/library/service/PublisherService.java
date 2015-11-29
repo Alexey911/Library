@@ -15,11 +15,15 @@ public class PublisherService extends Service<Publisher> {
         return new Publisher();
     }
 
+    protected void prepare(Publisher p) {
+        p.setName(p.getName().trim());
+        if (!isNull(p.getAddress())) {
+            p.setAddress(p.getAddress().trim());
+        }
+    }
+
     @Override
     public boolean isUnique(Publisher p) {
-        p.setName(p.getName().trim());
-        p.setAddress(p.getAddress().trim());
-
         String name = p.getName();
         PublisherDao dao = (PublisherDao) getDao();
         if (dao.isUniqueName(name)) {

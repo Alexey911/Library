@@ -25,18 +25,20 @@ public abstract class Service<T extends DomainObject> {
     }
 
     public void add(T object) {
+        prepare(object);
         validateUnique(object);
         dao.persist(object);
     }
 
     public void update(T object) {
+        prepare(object);
         validateUnique(object);
         dao.update(object);
     }
 
-    public void delete(T object) {
+    public void delete(Integer id) {
         try {
-            dao.delete(object.getId());
+            dao.delete(id);
         } catch (DaoException e) {
             throw new DeleteAssociatedObjectException(e.getMessage());
         }
@@ -53,6 +55,10 @@ public abstract class Service<T extends DomainObject> {
     }
 
     public abstract boolean isUnique(T object);
+
+    protected void prepare(T object) {
+
+    }
 
     protected GenericDao<T> getDao() {
         return dao;
