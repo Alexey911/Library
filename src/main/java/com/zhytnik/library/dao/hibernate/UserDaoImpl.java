@@ -78,7 +78,7 @@ public class UserDaoImpl implements UserDao {
 
     @Transactional(readOnly = true)
     @Override
-    public List<User> getUsers() {
+    public List<User> getAll() {
         return getCurrentSession().createCriteria(User.class).list();
     }
 }
