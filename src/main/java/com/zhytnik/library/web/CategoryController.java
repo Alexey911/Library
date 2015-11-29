@@ -50,7 +50,7 @@ public class CategoryController {
     public String delete(@ModelAttribute("category") Category category,
                          @PathVariable Integer id) {
         category.setId(id);
-        service.delete(category);
+        service.delete(category.getId());
         return "redirect:/categories/";
     }
 

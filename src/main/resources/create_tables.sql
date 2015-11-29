@@ -1,4 +1,4 @@
-CREATE TABLE `category` (
+CREATE TABLE IF NOT EXISTS `category` (
   `id`          INT(11)                 NOT NULL AUTO_INCREMENT,
   `name`        VARCHAR(50)
                 COLLATE utf8_unicode_ci NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE `category` (
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
 
-CREATE TABLE `publisher` (
+CREATE TABLE IF NOT EXISTS `publisher` (
   `id`      INT(11)                 NOT NULL AUTO_INCREMENT,
   `name`    VARCHAR(50)
             COLLATE utf8_unicode_ci NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE `publisher` (
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
 
-CREATE TABLE `book` (
+CREATE TABLE IF NOT EXISTS `book` (
   `id`           INT(11) NOT NULL AUTO_INCREMENT,
   `name`         VARCHAR(50)      DEFAULT NULL,
   `page_count`   INT(11)          DEFAULT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE `book` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `book_categories` (
+CREATE TABLE IF NOT EXISTS `book_categories` (
   `book_id`     INT(11) DEFAULT NULL,
   `category_id` INT(11) DEFAULT NULL,
   KEY `fk_category` (`category_id`),
@@ -49,4 +49,15 @@ CREATE TABLE `book_categories` (
   CONSTRAINT `fk_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
 )
   ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
+  DEFAULT CHARSET = utf8;
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `id`       INT(11)            NOT NULL AUTO_INCREMENT,
+  `login`    VARCHAR(50) UNIQUE NOT NULL,
+  `password` VARCHAR(65)        NOT NULL,
+  `enabled`  TINYINT(1)         NOT NULL,
+  `role`     VARCHAR(20)        NOT NULL,
+  PRIMARY KEY (`id`)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;

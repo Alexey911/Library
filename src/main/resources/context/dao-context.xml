@@ -10,4 +10,6 @@
     <bean name="publisherDao" class="com.zhytnik.library.dao.hibernate.PublisherDaoImpl"/>
 
     <bean name="bookDao" class="com.zhytnik.library.dao.hibernate.BookDaoImpl"/>
+
+    <bean name="userDao" class="com.zhytnik.library.dao.hibernate.UserDaoImpl"/>
 </beans>

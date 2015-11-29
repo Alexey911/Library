@@ -46,7 +46,7 @@ public class PublisherController {
     public String delete(@ModelAttribute("publisher") Publisher publisher,
                          @PathVariable Integer id) {
         publisher.setId(id);
-        service.delete(publisher);
+        service.delete(publisher.getId());
         return "redirect:/publishers/";
     }
 

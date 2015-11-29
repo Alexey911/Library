@@ -27,7 +27,8 @@ public abstract class Service<T extends DomainObject> {
     public void add(T object) {
         prepare(object);
         validateUnique(object);
-        dao.persist(object);
+        T daoItem = dao.persist(object);
+        object.setId(daoItem.getId());
     }
 
     public void update(T object) {
