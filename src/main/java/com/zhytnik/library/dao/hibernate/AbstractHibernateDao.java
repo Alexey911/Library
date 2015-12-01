@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static java.util.Objects.isNull;
+
 
 public abstract class AbstractHibernateDao<T extends DomainObject> implements GenericDao<T> {
     @Autowired
@@ -88,5 +90,12 @@ public abstract class AbstractHibernateDao<T extends DomainObject> implements Ge
         Criteria criteria = getCurrentSession().createCriteria(clazz).setProjection(projection);
         criteria.setResultTransformer(Transformers.aliasToBean(clazz));
         return criteria;
+    }
+
+    protected boolean isUnique(Criteria criteria, T object) {
+        Object result = criteria.uniqueResult();
+        @SuppressWarnings("unchecked")
+        T daoItem = (T) result;
+        return isNull(daoItem) || (object.isStored() && object.getId().equals(daoItem.getId()));
     }
 }

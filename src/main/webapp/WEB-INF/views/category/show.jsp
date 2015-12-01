@@ -4,29 +4,29 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <title><spring:message code="publisher.page.show.header"/></title>
+    <title><spring:message code="category.page.show.header"/></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
-<h1><spring:message code="publisher.name"/></h1>
+<h1><spring:message code="category.name"/></h1>
 <%--@elvariable id="category" type="com.zhytnik.library.domain.Category"--%>
 <table>
     <tr>
-        <td><spring:message code="publisher.field.name"/></td>
+        <td><spring:message code="category.field.name"/></td>
         <td>${category.name}</td>
     </tr>
     <tr>
-        <td><spring:message code="publisher.field.address"/></td>
+        <td><spring:message code="category.field.description"/></td>
         <td>${category.description}</td>
     </tr>
 </table>
 <sec:authorize access="hasAnyRole('ROLE_LIBRARIAN', 'ROLE_ADMIN')">
-    <sf:form method="DELETE" action="/publishers/${publisher.id}">
+    <sf:form method="DELETE" action="/categories/${category.id}">
         <input type="submit" value="Delete">
     </sf:form>
-    <a href="/publishers/${publisher.id}?action=edit"><spring:message code="publisher.action.edit"/></a>
+    <a href="/categories/${category.id}?action=edit"><spring:message code="category.action.edit"/></a>
     <br>
 </sec:authorize>
-<a href="${pageContext.request.contextPath}/publishers"><spring:message code="publishers.action.show"/></a>
+<a href="${pageContext.request.contextPath}/categories"><spring:message code="categories.action.show"/></a>
 </body>
 </html>

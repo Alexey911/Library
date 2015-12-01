@@ -26,7 +26,7 @@ public class PublisherService extends Service<Publisher> {
     public boolean isUnique(Publisher p) {
         String name = p.getName();
         PublisherDao dao = (PublisherDao) getDao();
-        if (dao.isUniqueName(name)) {
+        if (dao.hasUniqueName(p)) {
             return true;
         }
         if (isNull(p.getId())) {

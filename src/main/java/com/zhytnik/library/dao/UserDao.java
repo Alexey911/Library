@@ -13,5 +13,5 @@ public interface UserDao extends GenericDao<User> {
 
     Set<User> getAll();
 
-    boolean isUniqueLogin(User user);
+    boolean hasUniqueLogin(User user);
 }

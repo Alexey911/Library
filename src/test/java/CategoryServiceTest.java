@@ -37,22 +37,22 @@ public class CategoryServiceTest {
     public void isUnique() {
         Category category = new Category();
 
-        /*when(dao.isUniqueName("nam")).thenReturn(false);
+        /*when(dao.hasUniqueName("nam")).thenReturn(false);
         category.setName("nam");
         assertFalse(service.isUnique(category));
 
-        when(dao.isUniqueName("name")).thenReturn(true);
+        when(dao.hasUniqueName("name")).thenReturn(true);
         category.setName("name");
         assertTrue(service.isUnique(category));
 
         category.setId(1);
-        when(dao.isUniqueName("name")).thenReturn(false);
+        when(dao.hasUniqueName("name")).thenReturn(false);
         when(dao.findById(1)).thenReturn(category);
         assertTrue(service.isUnique(category));
 
         category.setName("name");
         category.setId(2);
-        when(dao.isUniqueName("name")).thenReturn(false);
+        when(dao.hasUniqueName("name")).thenReturn(false);
         Category categoryById = new Category("nam", null);
         categoryById.setId(2);
         when(dao.findById(2)).thenReturn(categoryById);
@@ -80,7 +80,7 @@ public class CategoryServiceTest {
 
         Category savedCategory = new Category("name", "desc");
         savedCategory.setId(1);
-        /*when(dao.isUniqueName("name")).thenReturn(true);*/
+        /*when(dao.hasUniqueName("name")).thenReturn(true);*/
         when(dao.persist(category)).thenReturn(savedCategory);
         service.add(category);
         assertThat(category.getId(), is(savedCategory.getId()));
@@ -89,7 +89,7 @@ public class CategoryServiceTest {
     @Test
     public void update() {
         Category category = new Category("name", "desc");
-       /* when(dao.isUniqueName("name")).thenReturn(true);*/
+       /* when(dao.hasUniqueName("name")).thenReturn(true);*/
         service.update(category);
     }
 

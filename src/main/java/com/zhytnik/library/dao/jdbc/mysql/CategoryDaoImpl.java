@@ -77,7 +77,7 @@ public class CategoryDaoImpl extends AbstractJDBCDao<Category> implements Catego
     }
 
     @Override
-    public boolean isUniqueName(Category c) throws DaoException {
+    public boolean hasUniqueName(Category c) throws DaoException {
         return false;
     }
 

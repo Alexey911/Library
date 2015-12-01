@@ -77,7 +77,7 @@ public class PublisherDaoImpl extends AbstractJDBCDao<Publisher> implements Publ
     }
 
     @Override
-    public boolean isUniqueName(String name) throws DaoException {
+    public boolean hasUniqueName(Publisher p) throws DaoException {
         return false;
     }
 

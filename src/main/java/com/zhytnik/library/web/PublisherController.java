@@ -84,7 +84,7 @@ public class PublisherController {
         boolean isUnique = service.isUnique(publisher);
         if (!isUnique) {
             FieldError fieldError = new FieldError("publisher", "name",
-                    messageSource.getMessage("category.exception.non.unique.name",
+                    messageSource.getMessage("publisher.exception.non.unique.name",
                             new String[]{publisher.getName()}, locale));
             bindingResult.addError(fieldError);
         }
@@ -99,7 +99,7 @@ public class PublisherController {
     }
 
     @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/category/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/publisher/update", method = RequestMethod.POST)
     public String updateInPostMethod(@ModelAttribute("publisher") @Valid Publisher publisher,
                                      BindingResult bindingResult, Locale locale) {
         if (bindingResult.hasErrors() || !isUnique(publisher, bindingResult, locale)) {

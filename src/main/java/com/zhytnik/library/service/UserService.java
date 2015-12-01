@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.List;
+import java.util.Set;
 
 import static java.util.Objects.isNull;
 
@@ -60,17 +60,17 @@ public class UserService implements UserDetailsService {
     }
 
     public void add(User user) {
-        if (dao.isUniqueLogin(user)) {
+        if (dao.hasUniqueLogin(user)) {
             encodePassword(user);
             user.setEnabled(true);
-            dao.add(user);
+            dao.persist(user);
         } else {
             throw new NotUniqueException();
         }
     }
 
-    public List<User> getUsers() {
-        List<User> users = dao.getAll();
+    public Set<User> getUsers() {
+        Set<User> users = dao.getAll();
         users.forEach(this::initialUserRole);
         return users;
     }

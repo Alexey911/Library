@@ -113,7 +113,7 @@ public class BookDaoImpl extends AbstractJDBCDao<Book> implements BookDao {
     }
 
     @Override
-    public boolean isUniqueName(String name) {
+    public boolean hasUniqueName(Book book) {
         return false;
     }
 }

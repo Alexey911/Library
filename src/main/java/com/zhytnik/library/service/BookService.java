@@ -25,7 +25,7 @@ public class BookService extends Service<Book> {
     public boolean isUnique(Book b) {
         String name = b.getName();
         BookDao dao = (BookDao) getDao();
-        if (dao.isUniqueName(name)) {
+        if (dao.hasUniqueName(b)) {
             return true;
         }
         if (isNull(b.getId())) {

@@ -9,5 +9,5 @@ public interface BookDao extends GenericDao<Book> {
 
     Set<Book> findBooksByCategories(Set<Integer> categories);
 
-    boolean isUniqueName(String name);
+    boolean hasUniqueName(Book book);
 }

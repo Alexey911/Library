@@ -20,6 +20,6 @@ public class CategoryService extends Service<Category> {
 
     @Override
     protected boolean isUnique(Category c) {
-        return ((CategoryDao) getDao()).isUniqueName(c);
+        return ((CategoryDao) getDao()).hasUniqueName(c);
     }
 }
