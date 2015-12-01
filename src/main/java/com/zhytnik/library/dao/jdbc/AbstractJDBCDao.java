@@ -140,7 +140,7 @@ public abstract class AbstractJDBCDao<T extends DomainObject> implements Generic
     }
 
     @Override
-    public T persist(T object) throws DaoException {
+    public void persist(T object) throws DaoException {
         if (object.getId() != null) {
             String msg = object + " is already persist!";
             logger.log(Level.WARN, msg);
@@ -168,7 +168,6 @@ public abstract class AbstractJDBCDao<T extends DomainObject> implements Generic
             logger.log(Level.ERROR, e);
             throw new DaoException(e);
         }
-        return object;
     }
 
     /*@Override

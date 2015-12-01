@@ -45,12 +45,11 @@ public abstract class AbstractHibernateDao<T extends DomainObject> implements Ge
 
     @Transactional
     @Override
-    public T persist(T object) throws DaoException {
+    public void persist(T object) throws DaoException {
         if (object.isStored()) {
             throw new DaoException();
         }
         getCurrentSession().save(object);
-        return object;
     }
 
     @Transactional(readOnly = true)

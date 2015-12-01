@@ -27,8 +27,7 @@ public abstract class Service<T extends DomainObject> {
     public void add(T object) throws NotUniqueException {
         prepare(object);
         validateUnique(object);
-        T daoItem = dao.persist(object);
-        object.setId(daoItem.getId());
+        dao.persist(object);
     }
 
     public void update(T object) throws NotUniqueException {
