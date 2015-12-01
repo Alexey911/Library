@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -73,6 +74,9 @@ public class UserDaoImpl implements UserDao {
         if (!isNull(user.getId())) {
             throw new DaoException();
         }
+        ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder(256);
+        String hashed = passwordEncoder.encodePassword(user.getPassword(), null);
+        user.setPassword(hashed);
         getCurrentSession().save(user);
     }
 
