@@ -81,7 +81,7 @@ public class CategoryServiceTest {
         Category savedCategory = new Category("name", "desc");
         savedCategory.setId(1);
         /*when(dao.hasUniqueName("name")).thenReturn(true);*/
-        when(dao.persist(category)).thenReturn(savedCategory);
+        //when(dao.persist(category)).thenReturn(savedCategory);
         service.add(category);
         assertThat(category.getId(), is(savedCategory.getId()));
     }

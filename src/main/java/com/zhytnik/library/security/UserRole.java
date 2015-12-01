@@ -17,17 +17,6 @@ public enum UserRole implements GrantedAuthority {
         this.securityLevel = securityLevel;
     }
 
-    public static UserRole getByName(String role) {
-        UserRole result = null;
-        for (UserRole userRole : UserRole.values()) {
-            if (userRole.role.equals(role)) {
-                result = userRole;
-                break;
-            }
-        }
-        return result;
-    }
-
     @Override
     public String getAuthority() {
         return role;

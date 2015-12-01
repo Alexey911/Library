@@ -3,7 +3,6 @@ package com.zhytnik.library.service;
 import com.zhytnik.library.dao.UserDao;
 import com.zhytnik.library.domain.User;
 import com.zhytnik.library.security.UserInfo;
-import com.zhytnik.library.security.UserRole;
 import com.zhytnik.library.service.exception.NotUniqueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,7 +35,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User findById(Integer id) {
-        return initialUserRole(dao.findById(id));
+        return dao.findById(id);
     }
 
     public User findByUserName(String username) {
@@ -70,15 +69,7 @@ public class UserService implements UserDetailsService {
     }
 
     public Set<User> getUsers() {
-        Set<User> users = dao.getAll();
-        users.forEach(this::initialUserRole);
-        return users;
-    }
-
-    private User initialUserRole(User user) {
-        UserRole role = UserRole.getByName(user.getRole());
-        user.setRole(role);
-        return user;
+        return dao.getAll();
     }
 
     public User create() {
