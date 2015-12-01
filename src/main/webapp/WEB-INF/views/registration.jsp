@@ -1,7 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="springForm" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title>Login Page</title>
+    <title>Registration Page</title>
     <style>
         .error {
             padding: 15px;
@@ -32,38 +34,44 @@
         }
     </style>
 </head>
-<body onload='document.loginForm.username.focus();'>
+<body>
 
 <h1>Library</h1>
 
 <div id="login-box">
 
-    <h2>Login with Username and Password</h2>
+    <h2>Registration</h2>
 
+    <%--@elvariable id="error" type="java.lang.String"--%>
     <c:if test="${not empty error}">
         <div class="error">${error}</div>
     </c:if>
+    <%--@elvariable id="msg" type="java.lang.String"--%>
     <c:if test="${not empty msg}">
         <div class="msg">${msg}</div>
     </c:if>
-
-    <form name='loginForm' action="<c:url value='j_spring_security_check'/>" method='POST'>
+    <springForm:form method="POST" modelAttribute="user" action="/registration">
         <table>
             <tr>
-                <td>User:</td>
-                <td><input type='text' name='username' value=''></td>
+                <td><spring:message code="user.field.login"/></td>
+                <td><springForm:input path="login"/></td>
+                <td><springForm:errors path="login" cssClass="error"/></td>
             </tr>
             <tr>
-                <td>Password:</td>
-                <td><input type='password' name='password'/></td>
+                <td><spring:message code="user.field.password"/></td>
+                <td><springForm:input path="password"/></td>
+                <td><springForm:errors path="password" cssClass="error"/></td>
             </tr>
             <tr>
-                <td colspan='2'><input name="submit" type="submit" value="submit"/></td>
+                <td>Librarian</td>
+                <td><input type="checkbox" checked name="librarian"></td>
+            </tr>
+            <tr>
+                <spring:message code="user.action.register" var="register"/>
+                <td colspan="3"><input type="submit" value="${register}"></td>
             </tr>
         </table>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-    </form>
-    <a href="${pageContext.request.contextPath}/registration">Registration</a>
+    </springForm:form>
 </div>
 
 </body>

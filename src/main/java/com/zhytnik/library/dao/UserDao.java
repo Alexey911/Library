@@ -7,6 +7,8 @@ import java.util.List;
 public interface UserDao {
     User findByUserName(String username);
 
+    User findById(Integer id);
+
     void activate(String username);
 
     void disable(String username);
@@ -18,4 +20,6 @@ public interface UserDao {
     void add(User user);
 
     List<User> getAll();
+
+    boolean isUniqueLogin(User user);
 }

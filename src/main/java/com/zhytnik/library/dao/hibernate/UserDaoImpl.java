@@ -2,13 +2,15 @@ package com.zhytnik.library.dao.hibernate;
 
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.UserDao;
+import com.zhytnik.library.domain.Category;
 import com.zhytnik.library.domain.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -27,6 +29,12 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findByUserName(String username) {
         return getUser(getCurrentSession(), username);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public User findById(Integer id) {
+        return (User) getCurrentSession().get(User.class, id);
     }
 
     private User getUser(Session session, String username) {
@@ -74,9 +82,6 @@ public class UserDaoImpl implements UserDao {
         if (!isNull(user.getId())) {
             throw new DaoException();
         }
-        ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder(256);
-        String hashed = passwordEncoder.encodePassword(user.getPassword(), null);
-        user.setPassword(hashed);
         getCurrentSession().save(user);
     }
 
@@ -84,5 +89,23 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAll() {
         return getCurrentSession().createCriteria(User.class).list();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public boolean isUniqueLogin(User u) {
+        String login = u.getLogin();
+        Criteria criteria = getLazyCriteria();
+        Category daoCategory = (Category) criteria.add(Restrictions.eq("login", login)).uniqueResult();
+        return isNull(daoCategory) || (u.isStored() && u.getId().equals(daoCategory.getId()));
+    }
+
+    private Criteria getLazyCriteria() {
+        Criteria criteria = getCurrentSession().createCriteria(Category.class);
+        criteria.setProjection(Projections.projectionList().
+                add(Projections.property("id"), "id").
+                add(Projections.property("login"), "login")).
+                setResultTransformer(Transformers.aliasToBean(Category.class));
+        return criteria;
     }
 }

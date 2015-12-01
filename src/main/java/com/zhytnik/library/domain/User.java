@@ -1,15 +1,24 @@
 package com.zhytnik.library.domain;
 
+import com.zhytnik.library.security.UserRole;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "user")
 public class User extends DomainObject {
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "login", nullable = false, unique = true)
     private String login;
 
+    @NotNull
+    @Size(min = 1, max = 65)
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -18,6 +27,9 @@ public class User extends DomainObject {
 
     @Column(name = "role", nullable = false)
     private String role;
+
+    @Transient
+    private UserRole userRole;
 
     public User() {
 
@@ -51,7 +63,16 @@ public class User extends DomainObject {
         return role;
     }
 
+    public void setRole(UserRole role) {
+        userRole = role;
+        this.role = role.getAuthority();
+    }
+
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
     }
 }

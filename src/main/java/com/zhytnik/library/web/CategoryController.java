@@ -127,9 +127,4 @@ public class CategoryController {
     public ModelAndView handleException(Exception e) {
         return new ModelAndView("category/error", "errMsg", e);
     }
-
-    @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
-    public ModelAndView handleAccessDenied() {
-        return new ModelAndView("login", "msg", "Access Denied");
-    }
 }

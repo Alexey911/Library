@@ -1,6 +1,7 @@
 package com.zhytnik.library.web;
 
 import com.zhytnik.library.domain.Publisher;
+import com.zhytnik.library.security.MinAccessed;
 import com.zhytnik.library.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,6 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Locale;
+
+import static com.zhytnik.library.security.UserRole.LIBRARIAN;
+import static com.zhytnik.library.security.UserRole.USER;
 
 @Controller
 public class PublisherController {
@@ -32,16 +36,20 @@ public class PublisherController {
         this.messageSource = messageSource;
     }
 
+
+    @MinAccessed(USER)
     @RequestMapping(value = "/publishers", method = RequestMethod.GET)
     public ModelAndView getAll() {
         return new ModelAndView("publisher/showAll", "publishers", service.getAll());
     }
 
+    @MinAccessed(USER)
     @RequestMapping(value = "/publishers/{id}", method = RequestMethod.GET)
     public ModelAndView get(@PathVariable Integer id) {
         return new ModelAndView("publisher/show", "publisher", service.findById(id));
     }
 
+    @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/publishers/{id}", method = RequestMethod.DELETE)
     public String delete(@ModelAttribute("publisher") Publisher publisher,
                          @PathVariable Integer id) {
@@ -50,6 +58,7 @@ public class PublisherController {
         return "redirect:/publishers/";
     }
 
+    @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/publishers", method = RequestMethod.POST)
     public String add(@ModelAttribute("publisher") @Valid Publisher publisher,
                       BindingResult bindingResult, Locale locale) {
@@ -60,6 +69,7 @@ public class PublisherController {
         return "redirect:/publishers/";
     }
 
+    @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/publishers", method = RequestMethod.PUT)
     public String update(@ModelAttribute("publisher") @Valid Publisher publisher,
                          BindingResult bindingResult, Locale locale) {
@@ -81,12 +91,14 @@ public class PublisherController {
         return isUnique;
     }
 
+    @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/publishers/{id}", method = RequestMethod.GET,
             params = "action=edit")
     public ModelAndView showEditPage(@PathVariable Integer id) {
         return new ModelAndView("publisher/edit", "publisher", service.findById(id));
     }
 
+    @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/category/update", method = RequestMethod.POST)
     public String updateInPostMethod(@ModelAttribute("publisher") @Valid Publisher publisher,
                                      BindingResult bindingResult, Locale locale) {
@@ -97,6 +109,7 @@ public class PublisherController {
         return "redirect:/publishers/";
     }
 
+    @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/publishers/add", method = RequestMethod.GET)
     public String showAddPage(Model model) {
         model.addAttribute("publisher", service.create());
