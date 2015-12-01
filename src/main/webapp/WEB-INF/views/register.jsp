@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title>Registration Page</title>
+    <title><spring:message code="registration.page.header"/></title>
     <style>
         .error {
             padding: 15px;
@@ -27,12 +27,8 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/user_form_checking.js"></script>
 </head>
 <body>
-
-<h1>Library</h1>
-
 <div>
-
-    <h2>Registration</h2>
+    <h2><spring:message code="library.action.registration"/></h2>
 
     <%--@elvariable id="error" type="java.lang.String"--%>
     <c:if test="${not empty error}">
@@ -53,6 +49,10 @@
                 <td><spring:message code="user.field.password"/></td>
                 <td><springForm:input path="password"/></td>
                 <td><springForm:errors path="password" cssClass="error"/></td>
+            </tr>
+            <tr>
+                <td><spring:message code="user.status.librarian"/></td>
+                <td><label><input type="checkbox"></label></td>
             </tr>
             <tr>
                 <spring:message code="user.action.register" var="register"/>

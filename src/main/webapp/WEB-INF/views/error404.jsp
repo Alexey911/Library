@@ -1,8 +1,9 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title>404</title>
+    <title><spring:message code="404.page.header"/></title>
 </head>
 <body>
-<h1>Oops (=</h1>
+<h1><spring:message code="404.error"/></h1>
 </body>
 </html>

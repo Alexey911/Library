@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController {
-    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/home", "/index"}, method = RequestMethod.GET)
     public ModelAndView showHomePage() {
         return new ModelAndView("index", "info", "Hello User :)");
     }
