@@ -21,5 +21,10 @@
         <td>${user.userRole}</td>
     </tr>
 </table>
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+    <sf:form method="DELETE" action="/users/${user.id}">
+        <input type="submit" value="Delete">
+    </sf:form>
+</sec:authorize>
 </body>
 </html>

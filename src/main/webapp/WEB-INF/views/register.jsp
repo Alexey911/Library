@@ -22,23 +22,15 @@
             background-color: #d9edf7;
             border: 1px solid #bce8f1;
         }
-
-        #login-box {
-            width: 300px;
-            padding: 20px;
-            margin: 100px auto;
-            background: #fff;
-            -webkit-border-radius: 2px;
-            -moz-border-radius: 2px;
-            border: 1px solid #000;
-        }
     </style>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jQuery.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/user_form_checking.js"></script>
 </head>
 <body>
 
 <h1>Library</h1>
 
-<div id="login-box">
+<div>
 
     <h2>Registration</h2>
 
@@ -68,7 +60,7 @@
             </tr>
             <tr>
                 <spring:message code="user.action.register" var="register"/>
-                <td colspan="3"><input type="submit" value="${register}"></td>
+                <td colspan="3"><input type="submit" value="${register}" id="submit"></td>
             </tr>
         </table>
     </springForm:form>

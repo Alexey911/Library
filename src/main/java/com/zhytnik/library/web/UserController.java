@@ -36,4 +36,11 @@ public class UserController {
     public ModelAndView get(@PathVariable Integer id) {
         return new ModelAndView("user/show", "user", service.findById(id));
     }
+
+    @MinAccessed(ADMIN)
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+    public String delete(@PathVariable Integer id) {
+        service.delete(id);
+        return "redirect:/users/";
+    }
 }

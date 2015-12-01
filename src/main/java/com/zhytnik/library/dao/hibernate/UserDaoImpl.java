@@ -2,7 +2,6 @@ package com.zhytnik.library.dao.hibernate;
 
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.UserDao;
-import com.zhytnik.library.domain.Category;
 import com.zhytnik.library.domain.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -72,8 +71,10 @@ public class UserDaoImpl implements UserDao {
 
     @Transactional(readOnly = false)
     @Override
-    public void delete(User user) {
-        getCurrentSession().delete(user);
+    public void delete(Integer id) {
+        Session session = getCurrentSession();
+        Object item = session.load(User.class, id);
+        session.delete(item);
     }
 
     @Transactional(readOnly = false)
@@ -96,16 +97,16 @@ public class UserDaoImpl implements UserDao {
     public boolean isUniqueLogin(User u) {
         String login = u.getLogin();
         Criteria criteria = getLazyCriteria();
-        Category daoCategory = (Category) criteria.add(Restrictions.eq("login", login)).uniqueResult();
-        return isNull(daoCategory) || (u.isStored() && u.getId().equals(daoCategory.getId()));
+        User daoUser = (User) criteria.add(Restrictions.eq("login", login)).uniqueResult();
+        return isNull(daoUser) || (u.isStored() && u.getId().equals(daoUser.getId()));
     }
 
     private Criteria getLazyCriteria() {
-        Criteria criteria = getCurrentSession().createCriteria(Category.class);
+        Criteria criteria = getCurrentSession().createCriteria(User.class);
         criteria.setProjection(Projections.projectionList().
                 add(Projections.property("id"), "id").
                 add(Projections.property("login"), "login")).
-                setResultTransformer(Transformers.aliasToBean(Category.class));
+                setResultTransformer(Transformers.aliasToBean(User.class));
         return criteria;
     }
 }

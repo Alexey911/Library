@@ -58,18 +58,18 @@ public class LoginController {
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String showRegistrationPage(Model model) {
         model.addAttribute("user", service.create());
-        return "registration";
+        return "register";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String register(@ModelAttribute("user") @Valid User user,
-                           @RequestParam("librarian") boolean isLibrarian,
+                           @RequestParam(value = "librarian", required = false) boolean isLibrarian,
                            BindingResult bindingResult, Locale locale) {
         UserRole role = (isLibrarian) ? LIBRARIAN : USER;
-        user.setRole(role);
+        user.setRole(role.getAuthority());
         if (bindingResult.hasErrors() || trySaveAndCheckErrors(user, bindingResult,
                 locale, () -> service.add(user))) {
-            return "registration";
+            return "register";
         }
         return "redirect:home";
     }

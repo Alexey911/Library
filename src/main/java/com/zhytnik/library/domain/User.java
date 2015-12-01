@@ -63,16 +63,23 @@ public class User extends DomainObject {
         return role;
     }
 
-    public void setRole(UserRole role) {
-        userRole = role;
-        this.role = role.getAuthority();
-    }
-
     public void setRole(String role) {
         this.role = role;
     }
 
+    public void setRole(UserRole role) {
+        userRole = role;
+    }
+
     public UserRole getUserRole() {
         return userRole;
+    }
+
+    @Override
+    public String toString() {
+        //noinspection StringBufferReplaceableByString
+        return new StringBuilder().append("User [login = ").append(login).
+                append(", enables = ").append(enabled).
+                append(", role = ").append(userRole).append("]").toString();
     }
 }
