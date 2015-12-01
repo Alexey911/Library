@@ -3,9 +3,12 @@ package com.zhytnik.library.dao.hibernate;
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.GenericDao;
 import com.zhytnik.library.domain.DomainObject;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projection;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,5 +82,11 @@ public abstract class AbstractHibernateDao<T extends DomainObject> implements Ge
     public Set<T> getAll() throws DaoException {
         List<T> items = getCurrentSession().createCriteria(clazz).list();
         return new HashSet<>(items);
+    }
+
+    protected Criteria getLazyCriteria(Projection projection) {
+        Criteria criteria = getCurrentSession().createCriteria(clazz).setProjection(projection);
+        criteria.setResultTransformer(Transformers.aliasToBean(clazz));
+        return criteria;
     }
 }

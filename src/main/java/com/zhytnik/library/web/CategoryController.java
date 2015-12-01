@@ -51,10 +51,8 @@ public class CategoryController {
 
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.DELETE)
-    public String delete(@ModelAttribute("category") Category category,
-                         @PathVariable Integer id) {
-        category.setId(id);
-        service.delete(category.getId());
+    public String delete(@PathVariable Integer id) {
+        service.delete(id);
         return "redirect:/categories/";
     }
 
@@ -95,7 +93,7 @@ public class CategoryController {
                             new String[]{category.getName()}, locale));
             bindingResult.addError(fieldError);
         }
-        return !isUnique;
+        return isUnique;
     }
 
     @MinAccessed(LIBRARIAN)
@@ -125,6 +123,6 @@ public class CategoryController {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleException(Exception e) {
-        return new ModelAndView("category/error", "errMsg", e);
+        return new ModelAndView("error", "errMsg", e);
     }
 }

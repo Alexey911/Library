@@ -118,6 +118,6 @@ public class PublisherController {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleException(Exception e) {
-        return new ModelAndView("publisher/error", "errMsg", e.getMessage());
+        return new ModelAndView("error", "errMsg", e.getMessage());
     }
 }

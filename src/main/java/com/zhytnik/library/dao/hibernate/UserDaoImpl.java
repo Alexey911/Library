@@ -1,39 +1,25 @@
 package com.zhytnik.library.dao.hibernate;
 
-import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.UserDao;
 import com.zhytnik.library.domain.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static java.util.Objects.isNull;
 
-public class UserDaoImpl implements UserDao {
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    private Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
+public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
+    public UserDaoImpl() {
+        super(User.class);
     }
 
     @Transactional(readOnly = true)
     @Override
     public User findByUserName(String username) {
         return getUser(getCurrentSession(), username);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public User findById(Integer id) {
-        return (User) getCurrentSession().get(User.class, id);
     }
 
     private User getUser(Session session, String username) {
@@ -58,38 +44,6 @@ public class UserDaoImpl implements UserDao {
         User user = getUser(session, username);
         user.setEnabled(false);
         session.save(user);
-    }
-
-    @Transactional(readOnly = false)
-    @Override
-    public void update(User user) {
-        if (isNull(user.getId())) {
-            throw new DaoException();
-        }
-        getCurrentSession().update(user);
-    }
-
-    @Transactional(readOnly = false)
-    @Override
-    public void delete(Integer id) {
-        Session session = getCurrentSession();
-        Object item = session.load(User.class, id);
-        session.delete(item);
-    }
-
-    @Transactional(readOnly = false)
-    @Override
-    public void add(User user) {
-        if (!isNull(user.getId())) {
-            throw new DaoException();
-        }
-        getCurrentSession().save(user);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<User> getAll() {
-        return getCurrentSession().createCriteria(User.class).list();
     }
 
     @Transactional(readOnly = true)

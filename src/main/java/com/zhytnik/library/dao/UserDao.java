@@ -2,24 +2,16 @@ package com.zhytnik.library.dao;
 
 import com.zhytnik.library.domain.User;
 
-import java.util.List;
+import java.util.Set;
 
-public interface UserDao {
+public interface UserDao extends GenericDao<User> {
     User findByUserName(String username);
-
-    User findById(Integer id);
 
     void activate(String username);
 
     void disable(String username);
 
-    void update(User user);
-
-    void delete(Integer id);
-
-    void add(User user);
-
-    List<User> getAll();
+    Set<User> getAll();
 
     boolean isUniqueLogin(User user);
 }
