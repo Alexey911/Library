@@ -9,7 +9,6 @@ import com.zhytnik.library.domain.Publisher;
 
 import java.sql.Connection;
 
-import static com.zhytnik.library.tools.Utils.getContext;
 import static java.util.Objects.isNull;
 
 public class BookToPublisherDependence extends Dependence<Book> {
@@ -23,7 +22,7 @@ public class BookToPublisherDependence extends Dependence<Book> {
             return;
         }
 
-        PublisherDaoImpl dao = (PublisherDaoImpl) getContext().getBean("publisherDao");
+        PublisherDaoImpl dao = null;//(PublisherDaoImpl) getContext().getBean("publisherDao");
 
         Publisher copy = dao.findById(p.getId());
         p.setName(copy.getName());
@@ -34,7 +33,7 @@ public class BookToPublisherDependence extends Dependence<Book> {
     protected void delete(Book book, Connection connection) {
         book.setPublisher(null);
 
-        BookDaoImpl dao = (BookDaoImpl) getContext().getBean("bookDao");
+        BookDaoImpl dao = null;// (BookDaoImpl) getContext().getBean("bookDao");
 
         dao.update(book);
     }

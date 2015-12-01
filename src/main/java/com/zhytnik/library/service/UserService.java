@@ -25,8 +25,8 @@ public class UserService extends Service<User> {
     }
 
     @Override
-    protected boolean isUnique(User object) {
-        return false;
+    protected boolean isUnique(User user) {
+        return getUserDao().hasUniqueLogin(user);
     }
 
     private UserDao getUserDao() {

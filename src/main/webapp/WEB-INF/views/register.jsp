@@ -42,7 +42,7 @@
     <c:if test="${not empty msg}">
         <div class="msg">${msg}</div>
     </c:if>
-    <springForm:form method="POST" modelAttribute="user" action="/registration">
+    <springForm:form method="POST" modelAttribute="user">
         <table>
             <tr>
                 <td><spring:message code="user.field.login"/></td>
@@ -55,12 +55,8 @@
                 <td><springForm:errors path="password" cssClass="error"/></td>
             </tr>
             <tr>
-                <td>Librarian</td>
-                <td><input type="checkbox" checked name="librarian"></td>
-            </tr>
-            <tr>
                 <spring:message code="user.action.register" var="register"/>
-                <td colspan="3"><input type="submit" value="${register}" id="submit"></td>
+                <td colspan="3"><input type="submit" value="${register}"></td>
             </tr>
         </table>
     </springForm:form>

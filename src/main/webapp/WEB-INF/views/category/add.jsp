@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-<springForm:form method="POST" modelAttribute="category" action="/categories/">
+<springForm:form method="POST" modelAttribute="category" action="/categories">
     <table>
         <tr>
             <td><spring:message code="category.field.name"/></td>

@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-<springForm:form method="POST" modelAttribute="publisher" action="/publishers/">
+<springForm:form method="POST" modelAttribute="publisher" action="/publishers">
     <table>
         <tr>
             <td><spring:message code="publisher.field.name"/></td>

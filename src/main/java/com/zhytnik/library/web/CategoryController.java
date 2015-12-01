@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -60,40 +59,40 @@ public class CategoryController {
     @RequestMapping(value = "/categories", method = RequestMethod.POST)
     public String add(@ModelAttribute("category") @Valid Category category,
                       BindingResult bindingResult, Locale locale) {
-        if (bindingResult.hasErrors() || trySaveAndCheckErrors(category, bindingResult,
-                locale, () -> service.add(category))) {
-            return "category/add";
-        }
-        return "redirect:/categories/";
+        return trySaveAndShowPage(category, bindingResult, locale,
+                () -> service.add(category), "category/add");
     }
 
-    /*@MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/categories", method = RequestMethod.PUT)
-    public String update(@ModelAttribute("category") @Valid Category category) {
-        service.update(category);
-        return "redirect:/categories/";
-    }*/
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/categories/update", method = RequestMethod.POST)
+    public String updateInPostMethod(@ModelAttribute("category") @Valid Category category,
+                                     BindingResult bindingResult, Locale locale) {
+        return trySaveAndShowPage(category, bindingResult, locale,
+                () -> service.update(category), "category/edit");
+    }
 
-    private boolean trySaveAndCheckErrors(Category category, BindingResult bindingResult,
-                                          Locale locale, Runnable verifyAndSave) {
+    private String trySaveAndShowPage(Category category, BindingResult bindingResult,
+                                      Locale locale, Runnable verifyAndSave, String errorPage) {
+        if (bindingResult.hasErrors()) {
+            return errorPage;
+        }
         if (category.getName().trim().isEmpty()) {
             FieldError fieldError = new FieldError("category", "name",
                     messageSource.getMessage("category.exception.not.set.name",
                             new String[]{category.getName()}, locale));
             bindingResult.addError(fieldError);
-            return true;
+            return errorPage;
         }
-        boolean isUnique = true;
         try {
             verifyAndSave.run();
+            return "redirect:/categories/";
         } catch (NotUniqueException e) {
-            isUnique = false;
             FieldError fieldError = new FieldError("category", "name",
                     messageSource.getMessage("category.exception.non.unique.name",
                             new String[]{category.getName()}, locale));
             bindingResult.addError(fieldError);
+            return errorPage;
         }
-        return isUnique;
     }
 
     @MinAccessed(LIBRARIAN)
@@ -104,21 +103,9 @@ public class CategoryController {
     }
 
     @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/categories/update", method = RequestMethod.POST)
-    public String updateInPostMethod(@ModelAttribute("category") @Valid Category category,
-                                     BindingResult bindingResult, Locale locale) {
-        if (bindingResult.hasErrors() || !trySaveAndCheckErrors(category, bindingResult,
-                locale, () -> service.update(category))) {
-            return "category/edit";
-        }
-        return "redirect:/categories/";
-    }
-
-    @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/categories/add", method = RequestMethod.GET)
-    public String showAddPage(Model model) {
-        model.addAttribute("category", service.create());
-        return "category/add";
+    public ModelAndView showAddPage() {
+        return new ModelAndView("category/add", "category", service.create());
     }
 
     @ExceptionHandler(Exception.class)

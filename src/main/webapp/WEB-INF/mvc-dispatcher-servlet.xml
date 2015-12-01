@@ -17,9 +17,11 @@
 
     <security:global-method-security secured-annotations="enabled" metadata-source-ref="security"/>
 
-    <mvc:resources mapping="/resources/**" location="resources/"/>
-
     <mvc:annotation-driven/>
+
+    <context:component-scan base-package="com.zhytnik.library"/>
+
+    <mvc:resources location="resources/" mapping="/resources/**"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/views/" p:suffix=".jsp"/>
@@ -34,6 +36,4 @@
     <bean id="localeResolver"
           class="org.springframework.web.servlet.i18n.SessionLocaleResolver"
           p:defaultLocale="en"/>
-
-    <context:component-scan base-package="com.zhytnik.library"/>
 </beans>

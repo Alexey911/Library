@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.zhytnik.library.tools.Utils.getContext;
 
 public class BookToCategoriesDependence extends Dependence<Book> {
     public BookToCategoriesDependence() {
@@ -49,7 +48,7 @@ public class BookToCategoriesDependence extends Dependence<Book> {
         }
         Set<Category> result = new HashSet<>(ids.size());
 
-        CategoryDaoImpl dao = (CategoryDaoImpl) getContext().getBean("categoryDao");
+        CategoryDaoImpl dao = null;//(CategoryDaoImpl) getContext().getBean("categoryDao");
 
         result.addAll(ids.stream().map(dao::findById).collect(Collectors.toList()));
         return result;
