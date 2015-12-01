@@ -28,5 +28,5 @@
           p:dao-ref="bookDao"/>
 
     <bean name="userService" class="com.zhytnik.library.service.UserService"
-          p:userDao-ref="userDao"/>
+          p:dao-ref="userDao"/>
 </beans>

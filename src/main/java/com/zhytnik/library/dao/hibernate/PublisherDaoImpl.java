@@ -15,11 +15,11 @@ public class PublisherDaoImpl extends AbstractHibernateDao<Publisher> implements
 
     @Transactional(readOnly = true)
     @Override
-    public boolean hasUniqueName(Publisher p) throws DaoException {
+    public boolean hasUniqueName(Publisher publisher) throws DaoException {
         Criteria criteria = getLazyCriteria(Projections.projectionList().
                 add(Projections.property("id"), "id").
                 add(Projections.property("name"), "name"));
-        criteria.add(Restrictions.eq("name", p.getName()));
-        return isUnique(criteria, p);
+        criteria.add(Restrictions.eq("name", publisher.getName()));
+        return isUnique(criteria, publisher);
     }
 }

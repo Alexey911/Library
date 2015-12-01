@@ -22,7 +22,7 @@
         <csrf/>
     </http>
 
-    <beans:bean id="userDetailsService" class="com.zhytnik.library.service.UserService"/>
+    <beans:bean id="userDetailsService" class="com.zhytnik.library.security.UserInfoService"/>
 
     <beans:bean id="daoAuthenticationProvider"
                 class="org.springframework.security.authentication.dao.DaoAuthenticationProvider"

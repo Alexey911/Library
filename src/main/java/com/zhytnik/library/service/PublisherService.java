@@ -23,16 +23,7 @@ public class PublisherService extends Service<Publisher> {
     }
 
     @Override
-    public boolean isUnique(Publisher p) {
-        String name = p.getName();
-        PublisherDao dao = (PublisherDao) getDao();
-        if (dao.hasUniqueName(p)) {
-            return true;
-        }
-        if (isNull(p.getId())) {
-            return false;
-        }
-        Publisher daoItem = dao.findById(p.getId());
-        return daoItem.getName().equals(name);
+    public boolean isUnique(Publisher publisher) {
+        return ((PublisherDao) getDao()).hasUniqueName(publisher);
     }
 }

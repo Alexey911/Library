@@ -27,7 +27,7 @@ public class UserController {
     @Accessed(ADMIN)
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ModelAndView getAll() {
-        return new ModelAndView("user/showAll", "users", service.getUsers());
+        return new ModelAndView("user/showAll", "users", service.getAll());
     }
 
 

@@ -15,11 +15,11 @@ public class CategoryDaoImpl extends AbstractHibernateDao<Category> implements C
 
     @Transactional(readOnly = true)
     @Override
-    public boolean hasUniqueName(Category c) throws DaoException {
+    public boolean hasUniqueName(Category category) throws DaoException {
         Criteria criteria = getLazyCriteria(Projections.projectionList().
                 add(Projections.property("id"), "id").
                 add(Projections.property("name"), "name"));
-        criteria.add(Restrictions.eq("name", c.getName()));
-        return isUnique(criteria, c);
+        criteria.add(Restrictions.eq("name", category.getName()));
+        return isUnique(criteria, category);
     }
 }

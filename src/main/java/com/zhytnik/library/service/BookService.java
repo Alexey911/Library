@@ -22,16 +22,7 @@ public class BookService extends Service<Book> {
     }
 
     @Override
-    public boolean isUnique(Book b) {
-        String name = b.getName();
-        BookDao dao = (BookDao) getDao();
-        if (dao.hasUniqueName(b)) {
-            return true;
-        }
-        if (isNull(b.getId())) {
-            return false;
-        }
-        Book daoItem = dao.findById(b.getId());
-        return daoItem.getName().equals(name);
+    public boolean isUnique(Book book) {
+        return ((BookDao) getDao()).hasUniqueName(book);
     }
 }
