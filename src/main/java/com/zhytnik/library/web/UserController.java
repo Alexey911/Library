@@ -42,10 +42,26 @@ public class UserController {
         return new ModelAndView("user/show", "user", service.findById(id));
     }
 
-    @MinAccessed(ADMIN)
+    @Accessed(ADMIN)
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
     public String delete(@PathVariable Integer id) {
         service.delete(id);
+        return "redirect:/users/";
+    }
+
+    @Accessed(ADMIN)
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.POST,
+            params = "action=disable")
+    public String block(@PathVariable Integer id) {
+        service.disable(id);
+        return "redirect:/users/";
+    }
+
+    @Accessed(ADMIN)
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.POST,
+            params = "action=activate")
+    public String activate(@PathVariable Integer id) {
+        service.activate(id);
         return "redirect:/users/";
     }
 
@@ -60,7 +76,7 @@ public class UserController {
                            @RequestParam(value = "librarian", required = false) boolean librarian,
                            BindingResult bindingResult, Locale locale) {
         UserRole role = (librarian) ? LIBRARIAN : USER;
-        user.setRole(role.getAuthority());
+        user.setRole(role.toString());
         if (bindingResult.hasErrors() || trySaveAndCheckErrors(user, bindingResult,
                 locale, () -> service.add(user))) {
             return "register";

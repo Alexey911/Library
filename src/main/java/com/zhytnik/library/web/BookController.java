@@ -22,6 +22,6 @@ public class BookController {
     @Secured({"ROLE_USER", "ROLE_LIBRARIAN"})
     @RequestMapping(value = "/books", method = RequestMethod.GET)
     public ModelAndView getAll() {
-        return new ModelAndView("books/show", "books", service.getAll());
+        return new ModelAndView("book/show", "books", service.getAll());
     }
 }

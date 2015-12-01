@@ -21,7 +21,7 @@
         <tr class="field">
             <td><a href="${pageContext.request.contextPath}/users/${user.id}"><c:out
                     value="${user.login}"/></a></td>
-            <td><c:out value="${user.userRole}"/></td>
+            <td><c:out value="${user.role}"/></td>
             <td><c:out value="${user.isEnable()}"/></td>
         </tr>
     </c:forEach>

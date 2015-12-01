@@ -16,12 +16,12 @@ public class UserService extends Service<User> {
         return new User();
     }
 
-    public void activate(String username) {
-        getUserDao().activate(username);
+    public void activate(Integer id) {
+        getUserDao().activate(id);
     }
 
-    public void disable(String username) {
-        getUserDao().disable(username);
+    public void disable(Integer id) {
+        getUserDao().disable(id);
     }
 
     @Override

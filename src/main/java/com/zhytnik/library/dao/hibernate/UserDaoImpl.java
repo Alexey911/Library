@@ -16,30 +16,26 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
     @Transactional(readOnly = true)
     @Override
     public User findByUserName(String username) {
-        return getUser(getCurrentSession(), username);
-    }
-
-    private User getUser(Session session, String username) {
-        Criteria criteria = session.createCriteria(User.class).
+        Criteria criteria = getCurrentSession().createCriteria(User.class).
                 add(Restrictions.eq("login", username));
         return (User) criteria.uniqueResult();
     }
 
     @Transactional(readOnly = false)
     @Override
-    public void activate(String username) {
-        setEnable(username, true);
+    public void activate(Integer id) {
+        setEnable(id, true);
     }
 
     @Transactional(readOnly = false)
     @Override
-    public void disable(String username) {
-        setEnable(username, false);
+    public void disable(Integer id) {
+        setEnable(id, false);
     }
 
-    private void setEnable(String username, boolean isEnable) {
+    private void setEnable(Integer id, boolean isEnable) {
         Session session = getCurrentSession();
-        User user = getUser(session, username);
+        User user = findById(id);
         user.setEnabled(isEnable);
         session.save(user);
     }
