@@ -2,6 +2,8 @@ package com.zhytnik.library.domain;
 
 import javax.persistence.*;
 
+import static java.util.Objects.isNull;
+
 @MappedSuperclass
 public abstract class DomainObject {
     @Id
@@ -15,6 +17,10 @@ public abstract class DomainObject {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public boolean isStored() {
+        return !isNull(id);
     }
 
     @Override

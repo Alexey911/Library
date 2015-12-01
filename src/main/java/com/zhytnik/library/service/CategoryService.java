@@ -19,16 +19,7 @@ public class CategoryService extends Service<Category> {
     }
 
     @Override
-    public boolean isUnique(Category c) {
-        String name = c.getName();
-        CategoryDao dao = (CategoryDao) getDao();
-        if (dao.isUniqueName(name)) {
-            return true;
-        }
-        if (isNull(c.getId())) {
-            return false;
-        }
-        Category daoItem = dao.findById(c.getId());
-        return daoItem.getName().equals(name);
+    protected boolean isUnique(Category c) {
+        return ((CategoryDao) getDao()).isUniqueName(c);
     }
 }

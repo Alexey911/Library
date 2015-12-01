@@ -55,7 +55,7 @@ public abstract class Service<T extends DomainObject> {
         }
     }
 
-    public abstract boolean isUnique(T object);
+    protected abstract boolean isUnique(T object);
 
     protected void prepare(T object) {
 

@@ -13,8 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static java.util.Objects.isNull;
-
 
 public abstract class AbstractHibernateDao<T extends DomainObject> implements GenericDao<T> {
     @Autowired
@@ -43,7 +41,7 @@ public abstract class AbstractHibernateDao<T extends DomainObject> implements Ge
     @Transactional
     @Override
     public T persist(T object) throws DaoException {
-        if (!isNull(object.getId())) {
+        if (object.isStored()) {
             throw new DaoException();
         }
         getCurrentSession().save(object);
@@ -62,7 +60,7 @@ public abstract class AbstractHibernateDao<T extends DomainObject> implements Ge
     @Transactional
     @Override
     public void update(T object) throws DaoException {
-        if (isNull(object.getId())) {
+        if (!object.isStored()) {
             throw new DaoException();
         }
         getCurrentSession().update(object);
