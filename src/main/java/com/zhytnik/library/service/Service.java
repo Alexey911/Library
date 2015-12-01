@@ -24,14 +24,14 @@ public abstract class Service<T extends DomainObject> {
         return item;
     }
 
-    public void add(T object) {
+    public void add(T object) throws NotUniqueException {
         prepare(object);
         validateUnique(object);
         T daoItem = dao.persist(object);
         object.setId(daoItem.getId());
     }
 
-    public void update(T object) {
+    public void update(T object) throws NotUniqueException {
         prepare(object);
         validateUnique(object);
         dao.update(object);
