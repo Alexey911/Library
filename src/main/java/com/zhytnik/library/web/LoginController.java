@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController {
     @RequestMapping(value = "/admin**", method = RequestMethod.GET)
     public ModelAndView showAdminPage(ModelAndView model) {
-        model.addObject("title", "Spring Security Custom Login Form");
+        model.addObject("title", "Spring SecurityMetadataAnalyzer Custom Login Form");
         model.addObject("message", "This is protected page!");
         model.setViewName("admin");
         return model;

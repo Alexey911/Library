@@ -1,35 +1,36 @@
 import com.zhytnik.library.dao.CategoryDao;
-import com.zhytnik.library.dao.hibernate.CategoryDaoImpl;
 import com.zhytnik.library.domain.Category;
 import com.zhytnik.library.service.CategoryService;
 import com.zhytnik.library.service.exception.NotFoundItemException;
 import org.apache.commons.collections.CollectionUtils;
-import org.junit.Before;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Collections;
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+
+@RunWith(MockitoJUnitRunner.class)
 public class CategoryServiceTest {
-    private CategoryService service;
+    @InjectMocks
+    private CategoryService service = new CategoryService();
+    @Mock
     private CategoryDao dao;
 
-    @Before
-    public void initial() {
-        service = new CategoryService();
-        dao = Mockito.mock(CategoryDaoImpl.class);
-        service.setDao(dao);
-    }
 
     @Test
     public void create() {
         Category category = service.create();
-        assertNotNull(category);
+        Assertions.assertThat(category).isNotNull();
     }
 
     @Test
@@ -58,7 +59,7 @@ public class CategoryServiceTest {
         assertFalse(service.isUnique(category));
     }
 
-    @Test
+    @Test()
     public void findById() {
         Category category = new Category();
         when(dao.findById(1)).thenReturn(category);
@@ -96,6 +97,7 @@ public class CategoryServiceTest {
     public void delete() {
         Integer id = 1;
         service.delete(id);
+        verify(dao).delete(id);
     }
 
     @Test

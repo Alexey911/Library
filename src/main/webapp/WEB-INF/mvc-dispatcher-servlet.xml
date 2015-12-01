@@ -13,7 +13,9 @@
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <security:global-method-security secured-annotations="enabled"/>
+    <bean id="security" class="com.zhytnik.library.security.SecurityMetadataAnalyzer"/>
+
+    <security:global-method-security secured-annotations="enabled" metadata-source-ref="security"/>
 
     <mvc:resources mapping="/resources/**" location="resources/"/>
 
