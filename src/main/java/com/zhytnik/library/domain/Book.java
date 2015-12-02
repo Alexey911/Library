@@ -32,10 +32,10 @@ public class Book extends DomainObject implements Serializable {
     @Column(name = "annotation", nullable = true, length = 255)
     private String annotation;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "book_categories",
-            joinColumns = {@JoinColumn(name = "book_id")},
-            inverseJoinColumns = {@JoinColumn(name = "category_id")})
+            joinColumns = {@JoinColumn(name = "book_id", nullable = true)},
+            inverseJoinColumns = {@JoinColumn(name = "category_id", nullable = true)})
     private Set<Category> categories;
 
     @Column(name = "year", nullable = true)

@@ -65,8 +65,8 @@ public class CategoryController {
 
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/categories/update", method = RequestMethod.POST)
-    public String updateInPostMethod(@ModelAttribute("category") @Valid Category category,
-                                     BindingResult bindingResult, Locale locale) {
+    public String update(@ModelAttribute("category") @Valid Category category,
+                         BindingResult bindingResult, Locale locale) {
         return trySaveAndShowPage(category, bindingResult, locale,
                 () -> service.update(category), "category/edit");
     }

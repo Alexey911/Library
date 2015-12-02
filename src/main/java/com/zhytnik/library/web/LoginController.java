@@ -14,6 +14,10 @@ public class LoginController {
     @Autowired
     private MessageSource messageSource;
 
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET, params = "error")
     public ModelAndView loginError(Locale locale) {
         return new ModelAndView("login", "error",

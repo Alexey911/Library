@@ -65,8 +65,8 @@ public class PublisherController {
 
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/publishers/update", method = RequestMethod.POST)
-    public String updateInPostMethod(@ModelAttribute("publisher") @Valid Publisher publisher,
-                                     BindingResult bindingResult, Locale locale) {
+    public String update(@ModelAttribute("publisher") @Valid Publisher publisher,
+                         BindingResult bindingResult, Locale locale) {
         return trySaveAndShowPage(publisher, bindingResult, locale,
                 () -> service.update(publisher), "publisher/edit");
     }

@@ -30,6 +30,14 @@ public class UserController {
     @Autowired
     private MessageSource messageSource;
 
+    public void setUserService(UserService userService) {
+        this.service = userService;
+    }
+
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
     @Accessed(ADMIN)
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ModelAndView getAll() {

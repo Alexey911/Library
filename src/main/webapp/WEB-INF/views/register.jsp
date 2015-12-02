@@ -1,9 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="springForm" %>
+<%@ taglib prefix="springForm" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <title><spring:message code="registration.page.header"/></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <style>
         .error {
             padding: 15px;
@@ -38,7 +39,7 @@
     <c:if test="${not empty msg}">
         <div class="msg">${msg}</div>
     </c:if>
-    <springForm:form method="POST" modelAttribute="user">
+    <springForm:form method="POST" modelAttribute="user" action="/registration">
         <table>
             <tr>
                 <td><spring:message code="user.field.login"/></td>

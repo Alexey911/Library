@@ -24,4 +24,3 @@ public class UserInfoService implements UserDetailsService {
         return new UserInfo(user);
     }
 }
-

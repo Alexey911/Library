@@ -3,6 +3,7 @@
 <html>
 <head>
     <title><spring:message code="login.page.header"/></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <style>
         .error {
             padding: 15px;
