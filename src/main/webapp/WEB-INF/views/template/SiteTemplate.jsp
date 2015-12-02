@@ -21,6 +21,13 @@
             background-color: #DFDFDF;
         }
     </style>
+    <style type="text/css">
+        .error {
+            color: #ff0000;
+            font-style: italic;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 <div class="container" style="border: #C1C1C1 solid 1px; border-radius:10px;">

@@ -30,7 +30,7 @@
           p:prefix="/WEB-INF/views/" p:suffix=".jsp"/>
 
     <util:list id="definitions">
-        <value>/WEB-INF/layouts/tiles.xml</value>
+        <value>/WEB-INF/tiles/definitions.xml</value>
     </util:list>
 
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"
