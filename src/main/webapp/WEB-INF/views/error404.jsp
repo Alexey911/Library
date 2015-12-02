@@ -1,10 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<html>
-<head>
-    <title><spring:message code="404.page.header"/></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
-<body>
-<h1><spring:message code="404.error"/></h1>
-</body>
-</html>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<tiles:insertDefinition name="defaultTemplate">
+    <tiles:putAttribute name="body">
+        <h1><spring:message code="404.error"/></h1>
+    </tiles:putAttribute>
+</tiles:insertDefinition>

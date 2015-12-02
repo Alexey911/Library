@@ -112,4 +112,13 @@ public class PublisherController {
     public ModelAndView handleException(Exception e) {
         return new ModelAndView("error", "errMsg", e.getMessage());
     }
+
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/publishers/findByName", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    Publisher getCategoryByName(@RequestParam String name) {
+        System.out.println(name);
+        return service.findById(5);
+    }
 }
