@@ -28,13 +28,49 @@
             font-weight: bold;
         }
     </style>
+    <style>
+        .errorInPass {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            color: #a94442;
+            background-color: #f2dede;
+            border: 1px solid #ebccd1;
+        }
+
+        .msg {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            color: #31708f;
+            background-color: #d9edf7;
+            border: 1px solid #bce8f1;
+        }
+
+        #login-box {
+            font-size: small;
+            width: 150px;
+            background: #fff;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+        }
+
+        h2 {
+            font-size: small;
+        }
+
+        input {
+            font-size: small;
+            max-width: 60px;
+        }
+    </style>
 </head>
 <body>
 <div class="container" style="border: #C1C1C1 solid 1px; border-radius:10px;">
     <!-- Header -->
     <tiles:insertAttribute name="header"/>
     <!-- Menu Page -->
-    <div class="span-5  border" style="height:400px;background-color:#FCFCFC;">
+    <div class="span-5" style="height:400px;background-color:#FCFCFC;">
         <tiles:insertAttribute name="menu"/>
     </div>
     <!-- Body Page -->

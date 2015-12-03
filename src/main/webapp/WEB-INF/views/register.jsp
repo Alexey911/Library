@@ -24,8 +24,6 @@
             border: 1px solid #bce8f1;
         }
     </style>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jQuery.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/user_form_checking.js"></script>
 </head>
 <body>
 <div>
@@ -43,12 +41,12 @@
         <table>
             <tr>
                 <td><spring:message code="user.field.login"/></td>
-                <td><springForm:input path="login"/></td>
+                <td><springForm:input path="login" value=""/></td>
                 <td><springForm:errors path="login" cssClass="error"/></td>
             </tr>
             <tr>
                 <td><spring:message code="user.field.password"/></td>
-                <td><springForm:input path="password"/></td>
+                <td><springForm:input path="password" value=""/></td>
                 <td><springForm:errors path="password" cssClass="error"/></td>
             </tr>
             <tr>
