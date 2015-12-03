@@ -4,6 +4,7 @@ import com.zhytnik.library.service.CategoryService;
 import com.zhytnik.library.service.exception.NotFoundItemException;
 import org.apache.commons.collections.CollectionUtils;
 import org.assertj.core.api.Assertions;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -18,14 +19,13 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
+@Ignore
 @RunWith(MockitoJUnitRunner.class)
 public class CategoryServiceTest {
     @InjectMocks
     private CategoryService service = new CategoryService();
     @Mock
     private CategoryDao dao;
-
 
     @Test
     public void create() {
