@@ -17,7 +17,8 @@
                 authentication-failure-url="/login?error"
                 username-parameter="username"
                 password-parameter="password"/>
-        <logout logout-success-url="/login?logout"/>
+        <logout logout-success-url="/login?logout" delete-cookies="JSESSIONID"/>
+        <remember-me token-validity-seconds="86400" key="uniqueAndSecret"/>
         <csrf/>
     </http>
 

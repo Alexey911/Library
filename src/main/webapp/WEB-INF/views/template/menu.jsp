@@ -28,6 +28,12 @@
                         <td><label><input type='password' name='password'/></label></td>
                     </tr>
                     <tr>
+                        <td><spring:message code="remember.me"/></td>
+                        <td>
+                            <label><input type="checkbox" name="_spring_security_remember_me"/></label>
+                        </td>
+                    </tr>
+                    <tr>
                         <spring:message code="library.action.login" var="login"/>
                         <td colspan='2'><input name="submit" type="submit" value="${login}"/></td>
                     </tr>
