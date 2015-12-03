@@ -40,7 +40,7 @@
           p:order="#{internalViewResolver.order + 1}"/>
 
     <util:list id="definitions">
-        <value>/WEB-INF/tiles/definitions.xml</value>
+        <value>/WEB-INF/tiles/*.xml</value>
     </util:list>
 
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"

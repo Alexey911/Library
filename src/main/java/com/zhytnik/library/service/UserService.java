@@ -10,6 +10,10 @@ public class UserService extends Service<User> {
     @Autowired
     private MessageDigestPasswordEncoder passwordEncoder;
 
+    public void setPasswordEncoder(MessageDigestPasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
     public User create() {
         return new User();
     }
@@ -27,10 +31,6 @@ public class UserService extends Service<User> {
         return getUserDao().hasUniqueLogin(user);
     }
 
-    private UserDao getUserDao() {
-        return (UserDao) getDao();
-    }
-
     public void add(User user) {
         UserDao dao = getUserDao();
         if (dao.hasUniqueLogin(user)) {
@@ -42,12 +42,16 @@ public class UserService extends Service<User> {
         }
     }
 
+    private UserDao getUserDao() {
+        return (UserDao) getDao();
+    }
+
     private void encodePassword(User user) {
         String hashed = passwordEncoder.encodePassword(user.getPassword(), null);
         user.setPassword(hashed);
     }
 
-    public void setPasswordEncoder(MessageDigestPasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+    public User findByName(String username) {
+        return getUserDao().findByUserName(username);
     }
 }

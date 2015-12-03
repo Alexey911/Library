@@ -113,12 +113,12 @@ public class CategoryController {
         return new ModelAndView("error", "errMsg", e);
     }
 
+    //TODO
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/categories/findByName", method = RequestMethod.GET)
     public
     @ResponseBody
     Category getCategoryByName(@RequestParam String name) {
-        System.out.println(name);
         return service.findById(5);
     }
 }

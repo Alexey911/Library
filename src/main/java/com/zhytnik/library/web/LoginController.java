@@ -29,12 +29,12 @@ public class LoginController {
         return new ModelAndView("login", "msg", getString("logged.out", locale));
     }
 
+    private String getString(String name, Locale locale) {
+        return messageSource.getMessage(name, new Object[]{}, locale);
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
         return "login";
-    }
-
-    private String getString(String name, Locale locale) {
-        return messageSource.getMessage(name, new Object[]{}, locale);
     }
 }

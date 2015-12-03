@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Locale;
 
 import static com.zhytnik.library.security.UserRole.*;
@@ -112,5 +113,11 @@ public class UserController {
             bindingResult.addError(fieldError);
         }
         return !isUnique;
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/users", method = RequestMethod.GET, params = "action=showMe")
+    public ModelAndView showUserPage(Principal principal) {
+        return new ModelAndView("user/show", "user", service.findByName(principal.getName()));
     }
 }

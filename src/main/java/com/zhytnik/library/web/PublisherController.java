@@ -113,12 +113,12 @@ public class PublisherController {
         return new ModelAndView("error", "errMsg", e.getMessage());
     }
 
+    //TODO
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/publishers/findByName", method = RequestMethod.GET)
     public
     @ResponseBody
     Publisher getCategoryByName(@RequestParam String name) {
-        System.out.println(name);
         return service.findById(5);
     }
 }

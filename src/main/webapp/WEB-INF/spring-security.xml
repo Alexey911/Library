@@ -21,6 +21,9 @@
         <csrf/>
     </http>
 
+    <beans:bean name="requestDataValueProcessor"
+                class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/>
+
     <beans:bean id="userDetailsService" class="com.zhytnik.library.security.UserInfoService"/>
 
     <beans:bean id="daoAuthenticationProvider"
@@ -37,4 +40,9 @@
             <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
+
+    <beans:bean id="csrfTokenRepository"
+                class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository">
+        <beans:property name="headerName" value="X-XSRF-TOKEN"/>
+    </beans:bean>
 </beans:beans>
