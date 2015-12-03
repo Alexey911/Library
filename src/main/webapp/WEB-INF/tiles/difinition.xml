@@ -21,15 +21,7 @@
         <put-attribute name="body" value="/WEB-INF/views/error.jsp"/>
     </definition>
 
-    <definition name="error404" extends="defaultTemplate">
-        <put-attribute name="body" value="/WEB-INF/views/error404.jsp"/>
-    </definition>
-
-    <definition name="user/show" extends="defaultTemplate">
-        <put-attribute name="body" value="/WEB-INF/views/user/show.jsp"/>
-    </definition>
-
-    <definition name="user/showAll" extends="defaultTemplate">
-        <put-attribute name="body" value="/WEB-INF/views/user/showAll.jsp"/>
+    <definition name="user/*" extends="defaultTemplate">
+        <put-attribute name="body" value="/WEB-INF/views/user/{1}.jsp"/>
     </definition>
 </tiles-definitions>

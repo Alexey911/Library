@@ -108,11 +108,6 @@ public class CategoryController {
         return new ModelAndView("category/add", "category", service.create());
     }
 
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleException(Exception e) {
-        return new ModelAndView("error", "errMsg", e);
-    }
-
     //TODO
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/categories/findByName", method = RequestMethod.GET)
