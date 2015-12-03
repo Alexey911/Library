@@ -51,6 +51,13 @@ public class BookController {
         return new ModelAndView("book/showAll", "books", bookService.getAll());
     }
 
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/books/{id}/delete", method = RequestMethod.POST)
+    public String delete(@PathVariable Integer id) {
+        bookService.delete(id);
+        return "redirect:/books/";
+    }
+
     @MinAccessed(USER)
     @RequestMapping(value = "/books/{id}", method = RequestMethod.GET)
     public ModelAndView get(@PathVariable Integer id) {

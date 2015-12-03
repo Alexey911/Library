@@ -1,31 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="springForm" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<html>
-<head>
-    <title><spring:message code="registration.page.header"/></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <style>
-        .error {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            color: #a94442;
-            background-color: #f2dede;
-            border: 1px solid #ebccd1;
-        }
-
-        .msg {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            color: #31708f;
-            background-color: #d9edf7;
-            border: 1px solid #bce8f1;
-        }
-    </style>
-</head>
-<body>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<tiles:
 <div>
     <h2><spring:message code="library.action.registration"/></h2>
 
@@ -60,6 +37,3 @@
         </table>
     </springForm:form>
 </div>
-
-</body>
-</html>

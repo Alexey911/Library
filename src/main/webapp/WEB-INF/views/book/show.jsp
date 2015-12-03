@@ -71,3 +71,9 @@
         </c:choose>
     </tr>
 </table>
+<sec:authorize access="hasAnyRole('ROLE_LIBRARIAN','ROLE_ADMIN')">
+    <sf:form method="DELETE" action="/books/${book.id}/delete">
+        <input type="submit" value="Delete">
+    </sf:form>
+    <a href="/books/${book.id}?action=edit">Edit</a>
+</sec:authorize>
