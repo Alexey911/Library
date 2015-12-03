@@ -2,12 +2,6 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<html>
-<head>
-    <title><spring:message code="publisher.page.show.header"/></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
-<body>
 <h1><spring:message code="publisher.name"/></h1>
 <%--@elvariable id="publisher" type="com.zhytnik.library.domain.Publisher"--%>
 <table>
@@ -28,6 +22,3 @@
     <br>
 </sec:authorize>
 <br>
-<a href="${pageContext.request.contextPath}/publishers"><spring:message code="publishers.action.show"/></a>
-</body>
-</html>
