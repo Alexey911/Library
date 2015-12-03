@@ -49,7 +49,7 @@ public class PublisherController {
     }
 
     @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/publishers/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/publishers/{id}/delete", method = RequestMethod.POST)
     public String delete(@PathVariable Integer id) {
         service.delete(id);
         return "redirect:/publishers/";

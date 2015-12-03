@@ -49,7 +49,7 @@ public class CategoryController {
     }
 
     @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/categories/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/categories/{id}/delete", method = RequestMethod.POST)
     public String delete(@PathVariable Integer id) {
         service.delete(id);
         return "redirect:/categories/";

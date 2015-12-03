@@ -15,7 +15,7 @@
     </tr>
 </table>
 <sec:authorize access="hasAnyRole('ROLE_LIBRARIAN', 'ROLE_ADMIN')">
-    <sf:form method="DELETE" action="/publishers/${publisher.id}">
+    <sf:form method="post" action="/publishers/${publisher.id}/delete">
         <input type="submit" value="Delete">
     </sf:form>
     <a href="/publishers/${publisher.id}?action=edit"><spring:message code="publisher.action.edit"/></a>
