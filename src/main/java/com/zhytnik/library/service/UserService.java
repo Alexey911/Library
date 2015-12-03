@@ -3,14 +3,12 @@ package com.zhytnik.library.service;
 import com.zhytnik.library.dao.UserDao;
 import com.zhytnik.library.domain.User;
 import com.zhytnik.library.service.exception.NotUniqueException;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 
 public class UserService extends Service<User> {
-    private ShaPasswordEncoder passwordEncoder;
-
-    public UserService() {
-        passwordEncoder = new ShaPasswordEncoder(256);
-    }
+    @Autowired
+    private MessageDigestPasswordEncoder passwordEncoder;
 
     public User create() {
         return new User();
@@ -47,5 +45,9 @@ public class UserService extends Service<User> {
     private void encodePassword(User user) {
         String hashed = passwordEncoder.encodePassword(user.getPassword(), null);
         user.setPassword(hashed);
+    }
+
+    public void setPasswordEncoder(MessageDigestPasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 }

@@ -27,9 +27,14 @@
                 class="org.springframework.security.authentication.dao.DaoAuthenticationProvider"
                 p:userDetailsService-ref="userDetailsService"/>
 
+    <beans:bean id="passwordEncoder"
+                class="org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder">
+        <beans:constructor-arg name="algorithm" value="SHA-256"/>
+    </beans:bean>
+
     <authentication-manager>
         <authentication-provider user-service-ref="userDetailsService">
-            <password-encoder hash="sha-256"/>
+            <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
 </beans:beans>
