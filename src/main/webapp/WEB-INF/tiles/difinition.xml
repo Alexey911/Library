@@ -3,12 +3,13 @@
         "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
-    <definition name="defaultTemplate" template="/WEB-INF/views/template/siteTemplate.jsp">
+    <definition name="defaultTemplate" template="/WEB-INF/views/template/SiteTemplate.jsp">
         <put-attribute name="header" value="/WEB-INF/views/template/header.jsp"/>
         <put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"/>
     </definition>
 
     <definition name="register" extends="defaultTemplate">
+        <put-attribute name="title" value="title.register" type="string"/>
         <put-attribute name="menu" value="/WEB-INF/views/template/shortMenu.jsp"/>
         <put-attribute name="body" value="/WEB-INF/views/register.jsp"/>
     </definition>
@@ -18,10 +19,12 @@
     </definition>
 
     <definition name="*" extends="basicTemplate">
+        <put-attribute name="title" value="title.{1}" type="string"/>
         <put-attribute name="body" value="/WEB-INF/views/{1}.jsp"/>
     </definition>
 
     <definition name="*/*" extends="basicTemplate">
+        <put-attribute name="title" value="title.{1}.{2}" type="string"/>
         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp"/>
     </definition>
 </tiles-definitions>

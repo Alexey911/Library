@@ -21,11 +21,6 @@
         <location>/WEB-INF/views/error404.jsp</location>
     </error-page>
 
-    <error-page>
-        <error-code>403</error-code>
-        <location>/WEB-INF/views/error403.jsp</location>
-    </error-page>
-
     <servlet>
         <servlet-name>mvc-dispatcher</servlet-name>
         <servlet-class>
