@@ -14,10 +14,10 @@
             <td><sf:input path="address"/></td>
             <td><sf:errors path="address" cssClass="error"/></td>
         </tr>
+        <springForm:hidden path="id"/>
         <tr>
             <spring:message code="publisher.action.change" var="change"/>
             <td colspan="3"><input type="submit" value="${change}"></td>
         </tr>
     </table>
-    <input type="hidden" name="id" value="${publisher.id}">
 </sf:form>

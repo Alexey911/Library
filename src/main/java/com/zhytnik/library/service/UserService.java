@@ -31,12 +31,22 @@ public class UserService extends Service<User> {
         return getUserDao().hasUniqueLogin(user);
     }
 
-    public void add(User user) {
+    @Override
+    public void add(User user) throws NotUniqueException {
+        execute(user, () -> getDao().persist(user));
+    }
+
+    @Override
+    public void update(User user) throws NotUniqueException {
+        execute(user, () -> getDao().update(user));
+    }
+
+    private void execute(User user, Runnable action) throws NotUniqueException {
         UserDao dao = getUserDao();
         if (dao.hasUniqueLogin(user)) {
             encodePassword(user);
             user.setEnabled(true);
-            dao.persist(user);
+            action.run();
         } else {
             throw new NotUniqueException();
         }

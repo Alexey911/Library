@@ -83,40 +83,63 @@ public class UserController {
                            BindingResult bindingResult,
                            @RequestParam(value = "librarian", required = false) boolean librarian,
                            Locale locale) {
-        UserRole role = (librarian) ? LIBRARIAN : USER;
-        user.setRole(role.toString());
-        if (bindingResult.hasErrors() || trySaveAndCheckErrors(user, bindingResult,
-                locale, () -> service.add(user))) {
-            return "register";
-        }
-        return "redirect:home";
+        prepare(user, librarian);
+        return trySaveAndShowPage(user, bindingResult, locale,
+                () -> service.add(user), "register");
     }
 
-    private boolean trySaveAndCheckErrors(User user, BindingResult bindingResult,
-                                          Locale locale, Runnable verifyAndSave) {
+    @MinAccessed(USER)
+    @RequestMapping(value = "/users/update", method = RequestMethod.POST)
+    public String update(@ModelAttribute("user") @Valid User user,
+                         BindingResult bindingResult,
+                         @RequestParam(value = "librarian", required = false) boolean librarian,
+                         Locale locale) {
+        prepare(user, librarian);
+        return trySaveAndShowPage(user, bindingResult, locale,
+                () -> service.update(user), "user/edit");
+    }
+
+    private void prepare(User user, boolean librarian) {
+        UserRole role = (librarian) ? LIBRARIAN : USER;
+        user.setRole(role.toString());
+    }
+
+    private String trySaveAndShowPage(User user, BindingResult bindingResult,
+                                      Locale locale, Runnable verifyAndSave, String errorPage) {
+        if (bindingResult.hasErrors()) {
+            return errorPage;
+        }
         if (user.getLogin().trim().isEmpty()) {
             FieldError fieldError = new FieldError("user", "login",
                     messageSource.getMessage("user.exception.not.set.login",
                             new String[]{user.getLogin()}, locale));
             bindingResult.addError(fieldError);
-            return true;
+            return errorPage;
         }
-        boolean isUnique = true;
         try {
             verifyAndSave.run();
+            return "redirect:/home/";
         } catch (NotUniqueException e) {
-            isUnique = false;
             FieldError fieldError = new FieldError("user", "login",
                     messageSource.getMessage("user.exception.non.unique.login",
                             new String[]{user.getLogin()}, locale));
             bindingResult.addError(fieldError);
+            return errorPage;
         }
-        return !isUnique;
     }
 
     @MinAccessed(USER)
     @RequestMapping(value = "/users", method = RequestMethod.GET, params = "action=showMe")
     public ModelAndView showUserPage(Principal principal) {
         return new ModelAndView("user/show", "user", service.findByName(principal.getName()));
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET,
+            params = "action=edit")
+    public ModelAndView showEditPage(@PathVariable Integer id) {
+        User user = service.findById(id);
+        user.resetPassword();
+        return new ModelAndView("user/edit", "user", user);
     }
 }

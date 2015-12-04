@@ -15,10 +15,10 @@
             <td><sf:input path="description"/></td>
             <td><sf:errors path="description" cssClass="error"/></td>
         </tr>
+        <springForm:hidden path="id"/>
         <tr>
             <spring:message code="category.action.change" var="change"/>
             <td colspan="3"><input type="submit" value="${change}"></td>
         </tr>
     </table>
-    <input type="hidden" name="id" value="${category.id}">
 </sf:form>

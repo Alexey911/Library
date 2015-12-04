@@ -13,10 +13,11 @@
         <td>${user.role}</td>
     </tr>
 </table>
+<a href="/users/${user.id}?action=edit">Edit</a>
+<sf:form method="DELETE" action="/users/${user.id}">
+    <input type="submit" value="Delete">
+</sf:form>
 <sec:authorize access="hasRole('ROLE_ADMIN')">
-    <sf:form method="DELETE" action="/users/${user.id}">
-        <input type="submit" value="Delete">
-    </sf:form>
     <br>
     <sf:form method="POST" action="/users/${user.id}?action=disable">
         <input type="submit" value="Disable">

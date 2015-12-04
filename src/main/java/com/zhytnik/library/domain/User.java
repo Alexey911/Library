@@ -62,6 +62,10 @@ public class User extends DomainObject implements Serializable {
         this.role = role;
     }
 
+    public void resetPassword() {
+        password = null;
+    }
+
     @Override
     public String toString() {
         //noinspection StringBufferReplaceableByString
