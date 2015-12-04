@@ -5,15 +5,23 @@
 <tiles-definitions>
     <definition name="defaultTemplate" template="/WEB-INF/views/template/siteTemplate.jsp">
         <put-attribute name="header" value="/WEB-INF/views/template/header.jsp"/>
-        <put-attribute name="menu" value="/WEB-INF/views/template/menu.jsp"/>
         <put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"/>
     </definition>
 
-    <definition name="*" extends="defaultTemplate">
+    <definition name="register" extends="defaultTemplate">
+        <put-attribute name="menu" value="/WEB-INF/views/template/shortMenu.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/views/register.jsp"/>
+    </definition>
+
+    <definition name="baseTemplate" extends="defaultTemplate">
+        <put-attribute name="menu" value="/WEB-INF/views/template/menu.jsp"/>
+    </definition>
+
+    <definition name="*" extends="baseTemplate">
         <put-attribute name="body" value="/WEB-INF/views/{1}.jsp"/>
     </definition>
 
-    <definition name="*/*" extends="defaultTemplate">
+    <definition name="*/*" extends="baseTemplate">
         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp"/>
     </definition>
 </tiles-definitions>
