@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -75,15 +74,15 @@ public class UserController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String showRegistrationPage(Model model) {
-        model.addAttribute("user", service.create());
-        return "register";
+    public ModelAndView showRegistrationPage() {
+        return new ModelAndView("register", "user", service.create());
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String register(@ModelAttribute("user") @Valid User user,
+                           BindingResult bindingResult,
                            @RequestParam(value = "librarian", required = false) boolean librarian,
-                           BindingResult bindingResult, Locale locale) {
+                           Locale locale) {
         UserRole role = (librarian) ? LIBRARIAN : USER;
         user.setRole(role.toString());
         if (bindingResult.hasErrors() || trySaveAndCheckErrors(user, bindingResult,

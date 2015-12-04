@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <h1><spring:message code="publisher.name"/></h1>
 <table border="1">
@@ -16,3 +17,6 @@
         </tr>
     </c:forEach>
 </table>
+<sec:authorize access="hasAnyRole('ROLE_LIBRARIAN', 'ROLE_ADMIN')">
+    <a href="${pageContext.request.contextPath}/publishers/add"><spring:message code="publisher.action.add"/></a>
+</sec:authorize>
