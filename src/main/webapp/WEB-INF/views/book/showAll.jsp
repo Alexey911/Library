@@ -22,3 +22,6 @@
         </tr>
     </c:forEach>
 </table>
+<sec:authorize access="hasAnyRole('ROLE_LIBRARIAN', 'ROLE_ADMIN')">
+    <a href="${pageContext.request.contextPath}/books/add"><spring:message code="book.action.add"/></a>
+</sec:authorize>

@@ -123,4 +123,27 @@ public class BookController {
                 .addObject("newCategories", new ArrayList<>(categoryService.getAll()));
         return modelAndView;
     }
+
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/books/add", method = RequestMethod.GET)
+    public ModelAndView showAddPage() {
+        ModelAndView modelAndView = new ModelAndView("book/add");
+        modelAndView.addObject("book", bookService.create()).
+                addObject("publishers", publisherService.getAll())
+                .addObject("newCategories", new ArrayList<>(categoryService.getAll()));
+        return modelAndView;
+    }
+
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/books", method = RequestMethod.POST)
+    public String add(@ModelAttribute("book") @Valid Book book,
+                      BindingResult bindingResult,
+                      @RequestParam(value = "newCategories", required = false) List<Integer> categories,
+                      Locale locale) {
+        book.setPublisher(publisherService.findById(book.getPublisher().getId()));
+        Set<Category> newCategories = categories.stream().filter(x -> x != null).map(categoryService::findById).collect(Collectors.toSet());
+        book.setCategories(newCategories);
+        return trySaveAndShowPage(book, bindingResult, locale,
+                () -> bookService.add(book), "book/add");
+    }
 }
