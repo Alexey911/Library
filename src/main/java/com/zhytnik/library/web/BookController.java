@@ -1,6 +1,7 @@
 package com.zhytnik.library.web;
 
 import com.zhytnik.library.domain.Book;
+import com.zhytnik.library.domain.Category;
 import com.zhytnik.library.security.MinAccessed;
 import com.zhytnik.library.service.BookService;
 import com.zhytnik.library.service.CategoryService;
@@ -8,17 +9,19 @@ import com.zhytnik.library.service.PublisherService;
 import com.zhytnik.library.service.exception.NotUniqueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.zhytnik.library.security.UserRole.LIBRARIAN;
 import static com.zhytnik.library.security.UserRole.USER;
@@ -37,12 +40,20 @@ public class BookController {
     @Autowired
     private MessageSource messageSource;
 
-    public void setBookService(BookService bookService) {
-        this.bookService = bookService;
-    }
-
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    public void setPublisherService(PublisherService publisherService) {
+        this.publisherService = publisherService;
+    }
+
+    public void setBookService(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @MinAccessed(USER)
@@ -67,7 +78,12 @@ public class BookController {
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/books/update", method = RequestMethod.POST)
     public String update(@ModelAttribute("book") @Valid Book book,
-                         BindingResult bindingResult, Locale locale) {
+                         BindingResult bindingResult,
+                         @RequestParam(value = "newCategories", required = false) List<Integer> categories,
+                         Locale locale) {
+        book.setPublisher(publisherService.findById(book.getPublisher().getId()));
+        Set<Category> newCategories = categories.stream().filter(x -> x != null).map(categoryService::findById).collect(Collectors.toSet());
+        book.setCategories(newCategories);
         return trySaveAndShowPage(book, bindingResult, locale,
                 () -> bookService.update(book), "book/edit");
     }
@@ -86,7 +102,7 @@ public class BookController {
         }
         try {
             verifyAndSave.run();
-            return "redirect:/categories/";
+            return "redirect:/books/";
         } catch (NotUniqueException e) {
             FieldError fieldError = new FieldError("book", "name",
                     messageSource.getMessage("book.exception.non.unique.name",
@@ -96,10 +112,15 @@ public class BookController {
         }
     }
 
+    @Secured("ROLE_LIBRARIAN")
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/books/{id}", method = RequestMethod.GET,
             params = "action=edit")
     public ModelAndView showEditPage(@PathVariable Integer id) {
-        return new ModelAndView("book/edit", "book", bookService.findById(id));
+        ModelAndView modelAndView = new ModelAndView("book/edit");
+        modelAndView.addObject("book", bookService.findById(id)).
+                addObject("publishers", publisherService.getAll())
+                .addObject("newCategories", new ArrayList<>(categoryService.getAll()));
+        return modelAndView;
     }
 }

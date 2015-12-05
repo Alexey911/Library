@@ -4,19 +4,15 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="springForm" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <h1><spring:message code="book.name"/></h1>
-<%--@elvariable id="book" type="com.zhytnik.library.domain.Book"--%>
-<springForm:form method="POST" modelAttribute="book" action="/">
+<springForm:form method="POST" modelAttribute="book" action="/books/update">
+    <springForm:hidden path="id"/>
     <table>
         <tr>
             <td><spring:message code="book.field.name"/></td>
             <td><springForm:input path="name"/></td>
             <td><springForm:errors path="name" cssClass="error"/></td>
-        </tr>
-        <tr>
-            <td><spring:message code="book.field.authors"/></td>
-            <td><springForm:input path="authors"/></td>
-            <td><springForm:errors path="authors" cssClass="error"/></td>
         </tr>
         <tr>
             <td><spring:message code="book.field.authors"/></td>
@@ -36,7 +32,7 @@
         <tr>
             <td><spring:message code="book.field.year"/></td>
             <td><springForm:input path="publishingYear"/></td>
-            <td><springForm:errors path="pageCount" cssClass="error"/></td>
+            <td><springForm:errors path="publishingYear" cssClass="error"/></td>
         </tr>
         <tr>
             <td><spring:message code="book.field.weight"/></td>
@@ -44,30 +40,29 @@
             <td><springForm:errors path="weight" cssClass="error"/></td>
         </tr>
         <tr>
+            <td><label>
+                <springForm:select path="publisher.id" multiple="false">
+                    <c:forEach var="publisher" items="${publishers}">
+                        <option value="${publisher.id}" label="${publisher.name}"></option>
+                    </c:forEach>
+                </springForm:select>
+            </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    <select name="newCategories" multiple="true">
+                        <c:forEach var="category" items="${newCategories}">
+                            <option value="${category.id}" label="${category.name}"></option>
+                        </c:forEach>
+                    </select>
+                </label>
+            </td>
+        </tr>
+        <tr>
             <spring:message code="category.action.save" var="save"/>
             <td colspan="3"><input type="submit" value="${save}"></td>
         </tr>
     </table>
 </springForm:form>
-
-<table>
-    <tr>
-        <td><spring:message code="book.field.publisher"/></td>
-        <td><a href="/publishers/${book.publisher.id}">${book.publisher.name}</a></td>
-    </tr>
-    <tr>
-        <td><spring:message code="book.field.categories"/></td>
-        <c:choose>
-            <c:when test="${not empty book.categories}">
-                <td>
-                    <c:forEach items="${book.categories}" var="category">
-                        <a href="/categories/${category.id}"><c:out value="${category.name} "/></a>
-                    </c:forEach>
-                </td>
-            </c:when>
-            <c:otherwise>
-                <td></td>
-            </c:otherwise>
-        </c:choose>
-    </tr>
-</table>
