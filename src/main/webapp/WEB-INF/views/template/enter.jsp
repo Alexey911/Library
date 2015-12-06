@@ -1,8 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<h1><spring:message code="library.action.login"/></h1>
-
 <div id="login-box">
     <h2><spring:message code="login.page.title"/></h2>
     <%--@elvariable id="error" type="java.lang.String"--%>
@@ -25,18 +23,18 @@
                 <td><label><input type='password' name='password'/></label></td>
             </tr>
             <tr>
-                <td><spring:message code="remember.me"/></td>
+                <td><spring:message code="action.remember"/></td>
                 <td>
                     <label><input type="checkbox" name="_spring_security_remember_me"/></label>
                 </td>
             </tr>
             <tr>
-                <spring:message code="library.action.login" var="login"/>
+                <spring:message code="action.login" var="login"/>
                 <td colspan='2'><input name="submit" type="submit" value="${login}"/></td>
             </tr>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </table>
     </form:form>
-    <a href="${pageContext.request.contextPath}/registration"><spring:message
-            code="library.action.registration"/></a>
+    <a href="${pageContext.request.contextPath}/register"><spring:message
+            code="action.register"/></a>
 </div>

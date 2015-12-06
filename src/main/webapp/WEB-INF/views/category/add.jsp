@@ -14,7 +14,7 @@
             <td><springForm:errors path="description" cssClass="error"/></td>
         </tr>
         <tr>
-            <spring:message code="category.action.save" var="save"/>
+            <spring:message code="category.action.add" var="save"/>
             <td colspan="3"><input type="submit" value="${save}"></td>
         </tr>
     </table>

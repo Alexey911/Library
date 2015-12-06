@@ -19,12 +19,12 @@
     </definition>
 
     <definition name="*" extends="basicTemplate">
-        <put-attribute name="title" value="title.{1}" type="string"/>
+        <put-attribute name="title" value="header.{1}" type="string"/>
         <put-attribute name="body" value="/WEB-INF/views/{1}.jsp"/>
     </definition>
 
     <definition name="*/*" extends="basicTemplate">
-        <put-attribute name="title" value="title.{1}.{2}" type="string"/>
+        <put-attribute name="title" value="header.{1}.{2}" type="string"/>
         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp"/>
     </definition>
 </tiles-definitions>

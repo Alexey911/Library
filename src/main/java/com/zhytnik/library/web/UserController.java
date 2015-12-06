@@ -73,13 +73,13 @@ public class UserController {
         return "redirect:/users/";
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView showRegistrationPage() {
         return new ModelAndView("register", "user", service.create());
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String register(@ModelAttribute("user") @Valid User user,
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String registeёr(@ModelAttribute("user") @Valid User user,
                            BindingResult bindingResult,
                            @RequestParam(value = "librarian", required = false) boolean librarian,
                            Locale locale) {

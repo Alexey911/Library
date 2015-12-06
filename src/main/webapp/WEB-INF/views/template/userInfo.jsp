@@ -10,4 +10,4 @@
         document.getElementById("logoutForm").submit();
     }
 </script>
-<a href="javascript:formSubmit()">Logout</a>
+<a href="javascript:formSubmit()"><spring:message code="action.logout"/></a>

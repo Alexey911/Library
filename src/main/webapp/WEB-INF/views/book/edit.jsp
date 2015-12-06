@@ -52,7 +52,7 @@
         <tr>
             <td>
                 <label>
-                    <select name="newCategories" multiple="true">
+                    <select name="newCategories" multiple>
                         <c:forEach var="category" items="${newCategories}">
                             <option value="${category.id}" label="${category.name}"></option>
                         </c:forEach>
@@ -61,7 +61,7 @@
             </td>
         </tr>
         <tr>
-            <spring:message code="category.action.save" var="save"/>
+            <spring:message code="book.action.save" var="save"/>
             <td colspan="3"><input type="submit" value="${save}"></td>
         </tr>
     </table>

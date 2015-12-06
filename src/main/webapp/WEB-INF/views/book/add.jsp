@@ -61,7 +61,7 @@
             </td>
         </tr>
         <tr>
-            <spring:message code="category.action.save" var="save"/>
+            <spring:message code="book.action.add" var="save"/>
             <td colspan="3"><input type="submit" value="${save}"></td>
         </tr>
     </table>

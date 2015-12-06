@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<h1><spring:message code="publisher.name"/></h1>
+<h1><spring:message code="publishers.name"/></h1>
 <table border="1">
     <tr>
         <th><spring:message code="publisher.field.name"/></th>

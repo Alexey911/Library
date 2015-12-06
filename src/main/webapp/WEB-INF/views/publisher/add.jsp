@@ -14,7 +14,7 @@
             <td><springForm:errors path="address" cssClass="error"/></td>
         </tr>
         <tr>
-            <spring:message code="publisher.action.save" var="save"/>
+            <spring:message code="publisher.action.add" var="save"/>
             <td colspan="3"><input type="submit" value="${save}"></td>
         </tr>
     </table>
