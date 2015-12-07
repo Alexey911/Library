@@ -94,7 +94,7 @@ public class PublisherController {
             success = true;
         } catch (NotUniqueException e) {
             FieldError fieldError = new FieldError("publisher", "name",
-                    messageSource.getMessage("publisher.exception.non.unique.name",
+                    messageSource.getMessage("publisher.exception.not.unique.name",
                             new String[]{publisher.getName()}, locale));
             bindingResult.addError(fieldError);
         }

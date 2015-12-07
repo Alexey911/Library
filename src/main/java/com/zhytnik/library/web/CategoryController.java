@@ -3,6 +3,7 @@ package com.zhytnik.library.web;
 import com.zhytnik.library.domain.Category;
 import com.zhytnik.library.security.MinAccessed;
 import com.zhytnik.library.service.CategoryService;
+import com.zhytnik.library.service.exception.DeleteAssociatedObjectException;
 import com.zhytnik.library.service.exception.NotUniqueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -72,27 +73,44 @@ public class CategoryController {
     }
 
     private String trySaveAndShowPage(Category category, BindingResult bindingResult,
-                                      Locale locale, Runnable verifyAndSave, String errorPage) {
+                                      Locale locale, Runnable saver, String errorPage) {
         if (bindingResult.hasErrors()) {
             return errorPage;
         }
+        if (!isNameFilled(category, bindingResult, locale)) {
+            return errorPage;
+        }
+        if (!trySaveCategory(category, bindingResult, saver, locale)) {
+            return errorPage;
+        }
+        return "redirect:/categories/";
+    }
+
+    private boolean trySaveCategory(Category category, BindingResult bindingResult,
+                                    Runnable saver, Locale locale) {
+        boolean success = false;
+        try {
+            saver.run();
+            success = true;
+        } catch (NotUniqueException e) {
+            FieldError fieldError = new FieldError("category", "name",
+                    messageSource.getMessage("category.exception.not.unique.name",
+                            new String[]{category.getName()}, locale));
+            bindingResult.addError(fieldError);
+        }
+        return success;
+    }
+
+    private boolean isNameFilled(Category category, BindingResult bindingResult, Locale locale) {
+        boolean filled = true;
         if (category.getName().trim().isEmpty()) {
             FieldError fieldError = new FieldError("category", "name",
                     messageSource.getMessage("category.exception.not.set.name",
                             new String[]{category.getName()}, locale));
             bindingResult.addError(fieldError);
-            return errorPage;
+            filled = false;
         }
-        try {
-            verifyAndSave.run();
-            return "redirect:/categories/";
-        } catch (NotUniqueException e) {
-            FieldError fieldError = new FieldError("category", "name",
-                    messageSource.getMessage("category.exception.non.unique.name",
-                            new String[]{category.getName()}, locale));
-            bindingResult.addError(fieldError);
-            return errorPage;
-        }
+        return filled;
     }
 
     @MinAccessed(LIBRARIAN)
@@ -115,5 +133,12 @@ public class CategoryController {
     @ResponseBody
     Category getCategoryByName(@RequestParam String name) {
         return service.findById(5);
+    }
+
+    @ExceptionHandler(DeleteAssociatedObjectException.class)
+    public ModelAndView handleDeleteFail(Locale locale) {
+        String message = messageSource.getMessage("exception.delete.associated.category",
+                new String[]{}, locale);
+        return new ModelAndView("error", "errMsg", message);
     }
 }

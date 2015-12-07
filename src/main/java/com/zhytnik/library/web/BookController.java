@@ -105,7 +105,7 @@ public class BookController {
             return "redirect:/books/";
         } catch (NotUniqueException e) {
             FieldError fieldError = new FieldError("book", "name",
-                    messageSource.getMessage("book.exception.non.unique.name",
+                    messageSource.getMessage("book.exception.not.unique.name",
                             new String[]{book.getName()}, locale));
             bindingResult.addError(fieldError);
             return errorPage;
