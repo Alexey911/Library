@@ -18,7 +18,6 @@ import java.util.Set;
 
 import static java.util.Objects.isNull;
 
-
 public abstract class AbstractHibernateDao<T extends DomainObject> implements GenericDao<T> {
     @Autowired
     private SessionFactory sessionFactory;

@@ -3,6 +3,7 @@ package com.zhytnik.library.web;
 import com.zhytnik.library.domain.Publisher;
 import com.zhytnik.library.security.MinAccessed;
 import com.zhytnik.library.service.PublisherService;
+import com.zhytnik.library.service.exception.DeleteAssociatedObjectException;
 import com.zhytnik.library.service.exception.NotUniqueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -72,27 +73,44 @@ public class PublisherController {
     }
 
     private String trySaveAndShowPage(Publisher publisher, BindingResult bindingResult,
-                                      Locale locale, Runnable verifyAndSave, String errorPage) {
+                                      Locale locale, Runnable saver, String errorPage) {
         if (bindingResult.hasErrors()) {
             return errorPage;
         }
-        if (publisher.getName().trim().isEmpty()) {
-            FieldError fieldError = new FieldError("publisher", "name",
-                    messageSource.getMessage("publisher.exception.not.set.name",
-                            new String[]{publisher.getName()}, locale));
-            bindingResult.addError(fieldError);
+        if (!isNameFilled(publisher, bindingResult, locale)) {
             return errorPage;
         }
+        if (!trySavePublisher(publisher, bindingResult, saver, locale)) {
+            return errorPage;
+        }
+        return "redirect:/publishers/";
+    }
+
+    private boolean trySavePublisher(Publisher publisher, BindingResult bindingResult,
+                                     Runnable saver, Locale locale) {
+        boolean success = false;
         try {
-            verifyAndSave.run();
-            return "redirect:/publishers/";
+            saver.run();
+            success = true;
         } catch (NotUniqueException e) {
             FieldError fieldError = new FieldError("publisher", "name",
                     messageSource.getMessage("publisher.exception.non.unique.name",
                             new String[]{publisher.getName()}, locale));
             bindingResult.addError(fieldError);
-            return errorPage;
         }
+        return success;
+    }
+
+    private boolean isNameFilled(Publisher publisher, BindingResult bindingResult, Locale locale) {
+        boolean filled = true;
+        if (publisher.getName().trim().isEmpty()) {
+            FieldError fieldError = new FieldError("publisher", "name",
+                    messageSource.getMessage("publisher.exception.not.set.name",
+                            new String[]{publisher.getName()}, locale));
+            bindingResult.addError(fieldError);
+            filled = false;
+        }
+        return filled;
     }
 
     @MinAccessed(LIBRARIAN)
@@ -120,5 +138,12 @@ public class PublisherController {
     @ResponseBody
     Publisher getCategoryByName(@RequestParam String name) {
         return service.findById(5);
+    }
+
+    @ExceptionHandler(DeleteAssociatedObjectException.class)
+    public ModelAndView handleDeleteFail(Locale locale) {
+        String message = messageSource.getMessage("exception.delete.associated.publisher",
+                new String[]{}, locale);
+        return new ModelAndView("error", "errMsg", message);
     }
 }

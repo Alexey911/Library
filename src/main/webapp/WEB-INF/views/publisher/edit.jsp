@@ -3,6 +3,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <sf:form method="POST" modelAttribute="publisher" action="/publishers/update">
+    <springForm:hidden path="id"/>
     <table>
         <tr>
             <td><spring:message code="publisher.field.name"/></td>
@@ -14,7 +15,6 @@
             <td><sf:input path="address"/></td>
             <td><sf:errors path="address" cssClass="error"/></td>
         </tr>
-        <springForm:hidden path="id"/>
         <tr>
             <spring:message code="publisher.action.save" var="change"/>
             <td colspan="3"><input type="submit" value="${change}"></td>

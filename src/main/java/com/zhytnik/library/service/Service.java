@@ -1,6 +1,5 @@
 package com.zhytnik.library.service;
 
-import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.GenericDao;
 import com.zhytnik.library.domain.DomainObject;
 import com.zhytnik.library.service.exception.DeleteAssociatedObjectException;
@@ -39,7 +38,7 @@ public abstract class Service<T extends DomainObject> {
     public void delete(Integer id) {
         try {
             dao.delete(id);
-        } catch (DaoException e) {
+        } catch (RuntimeException e) {
             throw new DeleteAssociatedObjectException(e.getMessage());
         }
     }
