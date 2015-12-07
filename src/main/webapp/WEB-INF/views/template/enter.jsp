@@ -29,8 +29,8 @@
                 </td>
             </tr>
             <tr>
-                <spring:message code="action.login" var="login"/>
-                <td colspan='2'><input name="submit" type="submit" value="${login}"/></td>
+                <spring:message code="action.sign.in" var="signIn"/>
+                <td colspan='2'><input name="submit" type="submit" value="${signIn}"/></td>
             </tr>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </table>

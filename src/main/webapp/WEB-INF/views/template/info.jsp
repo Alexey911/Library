@@ -13,4 +13,7 @@
     <li>
         <a href="${pageContext.request.contextPath}/users"><spring:message code="menu.users"/></a>
     </li>
+    <li>
+        <a href="${pageContext.request.contextPath}/users?action=confirm"><spring:message code="menu.confirm"/></a>
+    </li>
 </sec:authorize>

@@ -7,6 +7,7 @@
         <th><spring:message code="user.field.login"/></th>
         <th><spring:message code="user.field.role"/></th>
         <th><spring:message code="user.field.enabled"/></th>
+        <th><spring:message code="user.field.confirmed"/></th>
     </tr>
     <%--@elvariable id="users" type="java.util.Set"--%>
     <%--@elvariable id="user" type="com.zhytnik.library.domain.User"--%>
@@ -16,6 +17,7 @@
                     value="${user.login}"/></a></td>
             <td><c:out value="${user.role}"/></td>
             <td><c:out value="${user.isEnable()}"/></td>
+            <td><c:out value="${user.isConfirmed()}"/></td>
         </tr>
     </c:forEach>
 </table>

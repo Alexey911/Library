@@ -17,8 +17,8 @@
         </tr>
         <springForm:hidden path="id"/>
         <tr>
-            <spring:message code="category.action.save" var="save"/>
-            <td colspan="3"><input type="submit" value="${save}"></td>
+            <spring:message code="category.action.save" var="change"/>
+            <td colspan="3"><input type="submit" value="${change}"></td>
         </tr>
     </table>
 </sf:form>

@@ -15,7 +15,9 @@
     </tr>
 </table>
 <sec:authorize access="hasAnyRole('ROLE_LIBRARIAN', 'ROLE_ADMIN')">
-    <sf:form method="post" action="/categories/${category.id}/delete"/>
+    <sf:form method="post" action="/categories/${category.id}/delete">
+        <input type="submit" value=<spring:message code="category.action.delete"/>>
+    </sf:form>
     <a href="/categories/${category.id}?action=edit"><spring:message code="category.action.edit"/></a>
     <br>
 </sec:authorize>

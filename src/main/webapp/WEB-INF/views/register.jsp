@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div>
-    <h2><spring:message code="library.action.registration"/></h2>
+    <h2><spring:message code="action.register"/></h2>
 
     <%--@elvariable id="error" type="java.lang.String"--%>
     <c:if test="${not empty error}">
@@ -12,7 +12,7 @@
     <c:if test="${not empty msg}">
         <div class="msg">${msg}</div>
     </c:if>
-    <springForm:form method="POST" modelAttribute="user" action="/registration">
+    <springForm:form method="POST" modelAttribute="user" action="/register">
         <table>
             <tr>
                 <td><spring:message code="user.field.login"/></td>
@@ -26,7 +26,7 @@
             </tr>
             <tr>
                 <td><spring:message code="user.status.librarian"/></td>
-                <td><label><input type="checkbox"></label></td>
+                <td><label><input type="checkbox" name="librarian"></label></td>
             </tr>
             <tr>
                 <spring:message code="user.action.register" var="register"/>

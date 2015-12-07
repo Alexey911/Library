@@ -15,10 +15,6 @@ import java.util.Arrays;
 public class ServiceLogger {
     private static Logger logger = Logger.getLogger("Service");
 
-    public ServiceLogger() {
-
-    }
-
     @AfterReturning(
             pointcut = "execution(public * com.zhytnik.library.service.Service.*(..)))",
             returning = "result")

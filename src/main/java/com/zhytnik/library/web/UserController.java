@@ -6,17 +6,22 @@ import com.zhytnik.library.security.MinAccessed;
 import com.zhytnik.library.security.UserRole;
 import com.zhytnik.library.service.UserService;
 import com.zhytnik.library.service.exception.NotUniqueException;
+import com.zhytnik.library.service.exception.PasswordMismatchException;
+import com.zhytnik.library.tools.PasswordWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 import java.util.Locale;
 
 import static com.zhytnik.library.security.UserRole.*;
@@ -51,10 +56,24 @@ public class UserController {
     }
 
     @Accessed(ADMIN)
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/users", method = RequestMethod.GET,
+            params = "action=confirm")
+    public ModelAndView showNotConfirmedUsers() {
+        return new ModelAndView("user/confirm", "users", service.getNotConfirmedUsers());
+    }
+
+    @Accessed(ADMIN)
+    @RequestMapping(value = "/users/confirm", method = RequestMethod.POST)
+    public String confirm(@RequestParam(value = "users", required = false) List<Integer> users) {
+        service.confirm(users);
+        return "redirect:/users/";
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable Integer id) {
         service.delete(id);
-        return "redirect:/users/";
+        return "redirect:/login";
     }
 
     @Accessed(ADMIN)
@@ -79,53 +98,98 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registeёr(@ModelAttribute("user") @Valid User user,
+    public String register(@ModelAttribute("user") @Valid User user,
                            BindingResult bindingResult,
                            @RequestParam(value = "librarian", required = false) boolean librarian,
                            Locale locale) {
-        prepare(user, librarian);
-        return trySaveAndShowPage(user, bindingResult, locale,
-                () -> service.add(user), "register");
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
+        if (!isLoginFilled(user, bindingResult, locale)) {
+            return "register";
+        }
+
+        UserRole role = (librarian) ? LIBRARIAN : USER;
+        user.setRole(role.toString());
+
+        if (!trySaveUser(user, bindingResult, () -> service.add(user), locale)) {
+            return "register";
+        }
+        return "redirect:/home";
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/users/updatePassword", method = RequestMethod.POST)
+    public String updatePassword(@ModelAttribute("wrapper") @Valid PasswordWrapper wrapper,
+                                 BindingResult bindingResult,
+                                 Locale locale, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return "user/changePassword";
+        }
+        try {
+            service.updatePassword(wrapper.getOwnerId(),
+                    wrapper.getLastPassword(), wrapper.getNewPassword());
+        } catch (PasswordMismatchException e) {
+            FieldError fieldError = new FieldError("wrapper", "lastPassword",
+                    messageSource.getMessage("password.exception.password.mismatch",
+                            new String[]{}, locale));
+            bindingResult.addError(fieldError);
+            return "user/changePassword";
+        }
+        logout(request);
+        return "redirect:/login?logout";
     }
 
     @MinAccessed(USER)
     @RequestMapping(value = "/users/update", method = RequestMethod.POST)
-    public String update(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult,
-                         @RequestParam(value = "librarian", required = false) boolean librarian,
-                         Locale locale) {
-        prepare(user, librarian);
-        return trySaveAndShowPage(user, bindingResult, locale,
-                () -> service.update(user), "user/edit");
-    }
-
-    private void prepare(User user, boolean librarian) {
-        UserRole role = (librarian) ? LIBRARIAN : USER;
-        user.setRole(role.toString());
-    }
-
-    private String trySaveAndShowPage(User user, BindingResult bindingResult,
-                                      Locale locale, Runnable verifyAndSave, String errorPage) {
-        if (bindingResult.hasErrors()) {
-            return errorPage;
+    public String updateInfo(@ModelAttribute("user") @Valid User user,
+                             BindingResult bindingResult,
+                             @RequestParam(value = "librarian", required = false) boolean librarian,
+                             Locale locale, HttpServletRequest request) {
+        //checking password, it's missing
+        if (bindingResult.getErrorCount() > 1) {
+            return "user/edit";
         }
+        if (!isLoginFilled(user, bindingResult, locale)) {
+            return "user/edit";
+        }
+        if (!trySaveUser(user, bindingResult, () -> service.updateLoginRole(user.getId(),
+                user.getLogin(), librarian), locale)) {
+            return "user/edit";
+        }
+        logout(request);
+        return "redirect:/login?logout";
+    }
+
+    private void logout(HttpServletRequest request) {
+        new SecurityContextLogoutHandler().logout(request, null, null);
+    }
+
+    private boolean isLoginFilled(User user, BindingResult bindingResult, Locale locale) {
+        boolean filled = true;
         if (user.getLogin().trim().isEmpty()) {
             FieldError fieldError = new FieldError("user", "login",
                     messageSource.getMessage("user.exception.not.set.login",
                             new String[]{user.getLogin()}, locale));
             bindingResult.addError(fieldError);
-            return errorPage;
+            filled = false;
         }
+        return filled;
+    }
+
+    private boolean trySaveUser(User user, BindingResult bindingResult,
+                                Runnable saver, Locale locale) {
+        boolean success = false;
         try {
-            verifyAndSave.run();
-            return "redirect:/home/";
+            saver.run();
+            success = true;
         } catch (NotUniqueException e) {
             FieldError fieldError = new FieldError("user", "login",
-                    messageSource.getMessage("user.exception.non.unique.login",
+                    messageSource.getMessage("user.exception.not.unique.login",
                             new String[]{user.getLogin()}, locale));
             bindingResult.addError(fieldError);
-            return errorPage;
         }
+        return success;
     }
 
     @MinAccessed(USER)
@@ -139,7 +203,16 @@ public class UserController {
             params = "action=edit")
     public ModelAndView showEditPage(@PathVariable Integer id) {
         User user = service.findById(id);
-        user.resetPassword();
+        user.setPassword("");
         return new ModelAndView("user/edit", "user", user);
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET,
+            params = "action=changePassword")
+    public ModelAndView showPasswordChangePage(@PathVariable Integer id) {
+        PasswordWrapper wrapper = new PasswordWrapper();
+        wrapper.setOwnerId(id);
+        return new ModelAndView("user/changePassword", "wrapper", wrapper);
     }
 }

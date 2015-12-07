@@ -9,14 +9,19 @@ import java.util.Collections;
 
 public class UserInfo implements UserDetails {
     private User user;
+    private Collection<? extends GrantedAuthority> authorities;
 
     public UserInfo(User user) {
         this.user = user;
+        if (!user.isConfirmed()) {
+            this.user.setRole("USER");
+        }
+        authorities = Collections.singleton(() -> "ROLE_" + user.getRole());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(() -> "ROLE_" + user.getRole());
+        return authorities;
     }
 
     @Override

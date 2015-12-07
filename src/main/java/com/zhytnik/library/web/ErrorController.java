@@ -1,6 +1,7 @@
 package com.zhytnik.library.web;
 
 import com.zhytnik.library.service.exception.DeleteAssociatedObjectException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,6 +15,11 @@ public class ErrorController {
 
     @ExceptionHandler(DeleteAssociatedObjectException.class)
     public ModelAndView handleDeleteFail(DeleteAssociatedObjectException e) {
+        return new ModelAndView("error", "errMsg", e);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ModelAndView handleAccessDenied(AccessDeniedException e) {
         return new ModelAndView("error", "errMsg", e);
     }
 }

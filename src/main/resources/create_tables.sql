@@ -52,11 +52,12 @@ CREATE TABLE IF NOT EXISTS `book_categories` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `id`       INT(11)            NOT NULL AUTO_INCREMENT,
-  `login`    VARCHAR(50) UNIQUE NOT NULL,
-  `password` VARCHAR(65)        NOT NULL,
-  `enabled`  TINYINT(1)         NOT NULL,
-  `role`     VARCHAR(20)        NOT NULL,
+  `id`        INT(11)            NOT NULL AUTO_INCREMENT,
+  `login`     VARCHAR(50) UNIQUE NOT NULL,
+  `password`  VARCHAR(65)        NOT NULL,
+  `enabled`   TINYINT(1)         NOT NULL,
+  `confirmed` TINYINT(1)         NOT NULL,
+  `role`      VARCHAR(20)        NOT NULL,
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB

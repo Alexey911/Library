@@ -1,5 +1,6 @@
 package com.zhytnik.library.security;
 
+import com.zhytnik.library.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum UserRole implements GrantedAuthority {
@@ -17,6 +18,10 @@ public enum UserRole implements GrantedAuthority {
         this.securityLevel = securityLevel;
     }
 
+    public static boolean hasRole(UserRole role, User user) {
+        return role.role.substring(5).equals(user.getRole());
+    }
+
     @Override
     public String getAuthority() {
         return role;
@@ -28,5 +33,9 @@ public enum UserRole implements GrantedAuthority {
 
     public int getSecurityLevel() {
         return securityLevel;
+    }
+
+    public String getRole() {
+        return role.substring(5);
     }
 }

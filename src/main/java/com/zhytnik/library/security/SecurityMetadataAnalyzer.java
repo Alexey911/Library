@@ -42,24 +42,33 @@ public class SecurityMetadataAnalyzer extends AbstractFallbackMethodSecurityMeta
             if (isNull(annotation)) {
                 continue;
             }
-            Collection<ConfigAttribute> attributes = new HashSet<>();
             if (annotation instanceof Accessed) {
-                UserRole[] roles = ((Accessed) annotation).value();
-                for (UserRole role : roles) {
-                    attributes.add(role::getAuthority);
-                }
-                return attributes;
+                return extractConfigAttributes((Accessed) annotation);
             }
             if (annotation instanceof MinAccessed) {
-                int minLevel = ((MinAccessed) annotation).value().getSecurityLevel();
-                for (UserRole role : UserRole.values()) {
-                    if (role.getSecurityLevel() >= minLevel) {
-                        attributes.add(role::getAuthority);
-                    }
-                }
-                return attributes;
+                return extractConfigAttributes((MinAccessed) annotation);
             }
         }
         return null;
+    }
+
+    private Collection<ConfigAttribute> extractConfigAttributes(Accessed annotation) {
+        Collection<ConfigAttribute> attributes = new HashSet<>();
+        UserRole[] roles = annotation.value();
+        for (UserRole role : roles) {
+            attributes.add(role::getAuthority);
+        }
+        return attributes;
+    }
+
+    private Collection<ConfigAttribute> extractConfigAttributes(MinAccessed annotation) {
+        Collection<ConfigAttribute> attributes = new HashSet<>();
+        int minLevel = annotation.value().getSecurityLevel();
+        for (UserRole role : UserRole.values()) {
+            if (role.getSecurityLevel() >= minLevel) {
+                attributes.add(role::getAuthority);
+            }
+        }
+        return attributes;
     }
 }

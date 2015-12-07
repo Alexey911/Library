@@ -5,23 +5,21 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<sf:form method="POST" modelAttribute="user" action="/users/update">
-    <springForm:hidden path="id"/>
-    <input type="hidden" name="lastRole" value="${user.role}">
+<sf:form method="POST" modelAttribute="wrapper" action="/users/updatePassword">
+    <springForm:hidden path="ownerId"/>
     <table>
         <tr>
-            <td><spring:message code="user.field.login"/></td>
-            <td><sf:input path="login"/></td>
-            <td><sf:errors path="login" cssClass="error"/></td>
+            <td><spring:message code="user.last.password"/></td>
+            <td><sf:password path="lastPassword"/></td>
+            <td><sf:errors path="lastPassword" cssClass="error"/></td>
         </tr>
-        <sec:authorize access="hasRole('ROLE_USER')">
-            <tr>
-                <td><spring:message code="user.status.librarian"/></td>
-                <td><label><input type="checkbox" name="librarian"></label></td>
-            </tr>
-        </sec:authorize>
         <tr>
-            <spring:message code="action.save" var="change"/>
+            <td><spring:message code="user.new.password"/></td>
+            <td><sf:password path="newPassword"/></td>
+            <td><sf:errors path="newPassword" cssClass="error"/></td>
+        </tr>
+        <tr>
+            <spring:message code="action.change" var="change"/>
             <td colspan="3"><input type="submit" value="${change}"></td>
         </tr>
     </table>

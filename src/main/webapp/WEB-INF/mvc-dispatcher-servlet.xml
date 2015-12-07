@@ -46,6 +46,9 @@
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"
           p:definitions-ref="definitions"/>
 
+    <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+          p:paramName="locale"/>
+
     <bean id="messageSource"
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
           p:basenames="classpath:messages,classpath:errors,classpath:titles" p:defaultEncoding="UTF-8"/>

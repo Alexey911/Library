@@ -8,8 +8,13 @@
         <td><spring:message code="user.field.role"/></td>
         <td>${user.role}</td>
     </tr>
+    <tr>
+        <td><spring:message code="user.field.confirmed"/></td>
+        <td>${user.isConfirmed()}</td>
+    </tr>
 </table>
 <a href="/users/${user.id}?action=edit"><spring:message code="user.action.edit"/></a>
+<a href="/users/${user.id}?action=changePassword"><spring:message code="user.action.change.password"/> </a>
 <sf:form method="DELETE" action="/users/${user.id}">
     <input type="submit" value=<spring:message code="user.action.delete"/>>
 </sf:form>

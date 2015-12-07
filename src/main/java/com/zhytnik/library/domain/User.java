@@ -26,6 +26,9 @@ public class User extends DomainObject implements Serializable {
     @Column(name = "role", nullable = false)
     private String role;
 
+    @Column(name = "confirmed", nullable = false)
+    private Boolean confirmed;
+
     public User() {
 
     }
@@ -62,8 +65,12 @@ public class User extends DomainObject implements Serializable {
         this.role = role;
     }
 
-    public void resetPassword() {
-        password = null;
+    public void setConfirmed(Boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+
+    public Boolean isConfirmed() {
+        return confirmed;
     }
 
     @Override
@@ -71,6 +78,7 @@ public class User extends DomainObject implements Serializable {
         //noinspection StringBufferReplaceableByString
         return new StringBuilder().append("User [login = ").append(login).
                 append(", enables = ").append(enabled).
+                append(", confirmed = ").append(confirmed).
                 append(", role = ").append(role).append("]").toString();
     }
 }

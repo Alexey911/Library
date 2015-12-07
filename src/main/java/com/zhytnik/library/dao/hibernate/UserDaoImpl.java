@@ -1,5 +1,6 @@
 package com.zhytnik.library.dao.hibernate;
 
+import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.UserDao;
 import com.zhytnik.library.domain.User;
 import org.hibernate.Criteria;
@@ -7,6 +8,13 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
     public UserDaoImpl() {
@@ -21,13 +29,13 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
         return (User) criteria.uniqueResult();
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     @Override
     public void activate(Integer id) {
         setEnable(id, true);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     @Override
     public void disable(Integer id) {
         setEnable(id, false);
@@ -35,9 +43,9 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
 
     private void setEnable(Integer id, boolean isEnable) {
         Session session = getCurrentSession();
-        User user = findById(id);
+        User user = (User) session.load(User.class, id);
         user.setEnabled(isEnable);
-        session.save(user);
+        session.merge(user);
     }
 
     @Transactional(readOnly = true)
@@ -48,5 +56,35 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
                 add(Projections.property("login"), "login"));
         criteria.add(Restrictions.eq("login", user.getLogin()));
         return isUnique(criteria, user);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<User> getNotConfirmedUsers() {
+        Criteria criteria = getCurrentSession().createCriteria(User.class).
+                add(Restrictions.eq("confirmed", FALSE));
+        return new HashSet<>(criteria.list());
+    }
+
+    @Transactional
+    public void confirm(List<Integer> users) {
+        Session session = getCurrentSession();
+        for (Integer id : users) {
+            User user = (User) session.load(User.class, id);
+            user.setConfirmed(TRUE);
+            session.merge(user);
+        }
+        session.flush();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<User> getAll() throws DaoException {
+        Criteria criteria = getLazyCriteria(Projections.projectionList().
+                add(Projections.property("id"), "id").
+                add(Projections.property("login"), "login").
+                add(Projections.property("enabled"), "enabled").
+                add(Projections.property("role"), "role"));
+        return new HashSet<>(criteria.list());
     }
 }

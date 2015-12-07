@@ -61,8 +61,8 @@
             </td>
         </tr>
         <tr>
-            <spring:message code="book.action.save" var="save"/>
-            <td colspan="3"><input type="submit" value="${save}"></td>
+            <spring:message code="book.action.save" var="change"/>
+            <td colspan="3"><input type="submit" value="${change}"></td>
         </tr>
     </table>
 </springForm:form>
