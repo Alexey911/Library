@@ -11,4 +11,6 @@ public interface BookDao extends GenericDao<Book> {
     Set<Book> findBooksByCategories(Set<Integer> categories) throws DaoException;
 
     boolean hasUniqueName(Book book) throws DaoException;
+
+    Set<Book> getBooksInfo() throws DaoException;
 }

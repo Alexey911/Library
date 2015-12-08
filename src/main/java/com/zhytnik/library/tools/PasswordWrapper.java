@@ -1,14 +1,11 @@
 package com.zhytnik.library.tools;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class PasswordWrapper {
-    @NotNull
     @Size(min = 1, max = 65)
     private String lastPassword;
 
-    @NotNull
     @Size(min = 1, max = 65)
     private String newPassword;
 

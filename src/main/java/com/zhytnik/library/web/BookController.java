@@ -15,16 +15,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.zhytnik.library.security.UserRole.LIBRARIAN;
 import static com.zhytnik.library.security.UserRole.USER;
+import static java.util.Objects.isNull;
 
 @Controller
 public class BookController {
@@ -59,7 +60,7 @@ public class BookController {
     @MinAccessed(USER)
     @RequestMapping(value = "/books", method = RequestMethod.GET)
     public ModelAndView getAll() {
-        return new ModelAndView("book/showAll", "books", bookService.getAll());
+        return new ModelAndView("book/showAll", "books", bookService.getBooksInfo());
     }
 
     @MinAccessed(LIBRARIAN)
@@ -77,39 +78,15 @@ public class BookController {
 
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/books/update", method = RequestMethod.POST)
-    public String update(@ModelAttribute("book") @Valid Book book,
-                         BindingResult bindingResult,
-                         @RequestParam(value = "newCategories", required = false) List<Integer> categories,
-                         Locale locale) {
-        book.setPublisher(publisherService.findById(book.getPublisher().getId()));
-        Set<Category> newCategories = categories.stream().filter(x -> x != null).map(categoryService::findById).collect(Collectors.toSet());
-        book.setCategories(newCategories);
-        return trySaveAndShowPage(book, bindingResult, locale,
-                () -> bookService.update(book), "book/edit");
-    }
-
-    private String trySaveAndShowPage(Book book, BindingResult bindingResult,
-                                      Locale locale, Runnable verifyAndSave, String errorPage) {
-        if (bindingResult.hasErrors()) {
-            return errorPage;
+    public ModelAndView update(@ModelAttribute("book") @Valid Book book,
+                               BindingResult bindingResult,
+                               @RequestParam(value = "newCategories", required = false)
+                               List<Integer> categories, Locale locale) {
+        if (!trySaveAndShowPage(book, bindingResult, locale,
+                () -> bookService.update(book), categories)) {
+            return getModelAndView("book/edit", null);
         }
-        if (book.getName().trim().isEmpty()) {
-            FieldError fieldError = new FieldError("book", "name",
-                    messageSource.getMessage("book.exception.not.set.name",
-                            new String[]{book.getName()}, locale));
-            bindingResult.addError(fieldError);
-            return errorPage;
-        }
-        try {
-            verifyAndSave.run();
-            return "redirect:/books/";
-        } catch (NotUniqueException e) {
-            FieldError fieldError = new FieldError("book", "name",
-                    messageSource.getMessage("book.exception.not.unique.name",
-                            new String[]{book.getName()}, locale));
-            bindingResult.addError(fieldError);
-            return errorPage;
-        }
+        return new ModelAndView(new RedirectView("/books"));
     }
 
     @Secured("ROLE_LIBRARIAN")
@@ -117,33 +94,92 @@ public class BookController {
     @RequestMapping(value = "/books/{id}", method = RequestMethod.GET,
             params = "action=edit")
     public ModelAndView showEditPage(@PathVariable Integer id) {
-        ModelAndView modelAndView = new ModelAndView("book/edit");
-        modelAndView.addObject("book", bookService.findById(id)).
-                addObject("publishers", publisherService.getAll())
-                .addObject("newCategories", new ArrayList<>(categoryService.getAll()));
-        return modelAndView;
+        return getModelAndView("book/edit", bookService.findById(id));
     }
 
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/books/add", method = RequestMethod.GET)
     public ModelAndView showAddPage() {
-        ModelAndView modelAndView = new ModelAndView("book/add");
-        modelAndView.addObject("book", bookService.create()).
-                addObject("publishers", publisherService.getAll())
-                .addObject("newCategories", new ArrayList<>(categoryService.getAll()));
-        return modelAndView;
+        return getModelAndView("book/add", bookService.create());
     }
 
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/books", method = RequestMethod.POST)
-    public String add(@ModelAttribute("book") @Valid Book book,
-                      BindingResult bindingResult,
-                      @RequestParam(value = "newCategories", required = false) List<Integer> categories,
-                      Locale locale) {
-        book.setPublisher(publisherService.findById(book.getPublisher().getId()));
-        Set<Category> newCategories = categories.stream().filter(x -> x != null).map(categoryService::findById).collect(Collectors.toSet());
-        book.setCategories(newCategories);
-        return trySaveAndShowPage(book, bindingResult, locale,
-                () -> bookService.add(book), "book/add");
+    public ModelAndView add(@ModelAttribute("book") @Valid Book book,
+                            BindingResult bindingResult,
+                            @RequestParam(value = "newCategories", required = false)
+                            List<Integer> categories, Locale locale) {
+        if (!trySaveAndShowPage(book, bindingResult, locale,
+                () -> bookService.add(book), categories)) {
+            return getModelAndView("book/add", null);
+        }
+        return new ModelAndView(new RedirectView("/books"));
+    }
+
+    private boolean trySaveAndShowPage(Book book, BindingResult bindingResult,
+                                       Locale locale, Runnable saver, List<Integer> categories) {
+        boolean valid = !bindingResult.hasErrors() &&
+                isDataFilled(book, bindingResult, locale);
+        if (!valid) {
+            return false;
+        }
+        book.setCategories(convertCategoryIdList(categories));
+        return trySaveBook(book, bindingResult, saver, locale);
+    }
+
+    private boolean trySaveBook(Book book, BindingResult bindingResult,
+                                Runnable saver, Locale locale) {
+        boolean success = false;
+        try {
+            saver.run();
+            success = true;
+        } catch (NotUniqueException e) {
+            FieldError fieldError = new FieldError("book", "name",
+                    messageSource.getMessage("book.exception.not.unique.name",
+                            new String[]{book.getName()}, locale));
+            bindingResult.addError(fieldError);
+        }
+        return success;
+    }
+
+    private boolean isDataFilled(Book book, BindingResult bindingResult, Locale locale) {
+        boolean filled = true;
+        if (book.getName().trim().isEmpty()) {
+            FieldError fieldError = new FieldError("book", "name",
+                    messageSource.getMessage("book.exception.not.set.name",
+                            new String[]{book.getName()}, locale));
+            bindingResult.addError(fieldError);
+            filled = false;
+        }
+        if (isNull(book.getPublisher()) || isNull(book.getPublisher().getId())) {
+            FieldError fieldError = new FieldError("book", "publisher",
+                    messageSource.getMessage("book.exception.not.set.publisher",
+                            new String[]{book.getName()}, locale));
+            bindingResult.addError(fieldError);
+            filled = false;
+        }
+        return filled;
+    }
+
+    private Set<Category> convertCategoryIdList(List<Integer> categories) {
+        Set<Category> result = new HashSet<>();
+        if (!isNull(categories)) {
+            for (Integer id : categories) {
+                Category category = new Category();
+                category.setId(id);
+                result.add(category);
+            }
+        }
+        return result;
+    }
+
+    private ModelAndView getModelAndView(String view, Book book) {
+        ModelAndView modelAndView = new ModelAndView(view);
+        modelAndView.addObject("publishers", publisherService.getAll()).
+                addObject("categories", categoryService.getAll());
+        if (!isNull(book)) {
+            modelAndView.addObject("book", book);
+        }
+        return modelAndView;
     }
 }

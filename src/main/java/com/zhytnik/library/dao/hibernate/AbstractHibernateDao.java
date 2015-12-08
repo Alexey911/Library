@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projection;
+import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,8 +86,12 @@ public abstract class AbstractHibernateDao<T extends DomainObject> implements Ge
     }
 
     protected Criteria getLazyCriteria(Projection projection) {
+        return getLazyCriteria(projection, Transformers.aliasToBean(clazz));
+    }
+
+    protected Criteria getLazyCriteria(Projection projection, ResultTransformer transformer) {
         Criteria criteria = getCurrentSession().createCriteria(clazz).setProjection(projection);
-        criteria.setResultTransformer(Transformers.aliasToBean(clazz));
+        criteria.setResultTransformer(transformer);
         return criteria;
     }
 

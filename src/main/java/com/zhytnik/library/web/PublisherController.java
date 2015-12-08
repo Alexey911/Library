@@ -60,30 +60,29 @@ public class PublisherController {
     @RequestMapping(value = "/publishers", method = RequestMethod.POST)
     public String add(@ModelAttribute("publisher") @Valid Publisher publisher,
                       BindingResult bindingResult, Locale locale) {
-        return trySaveAndShowPage(publisher, bindingResult, locale,
-                () -> service.add(publisher), "publisher/add");
+        if (!trySaveAndShowPage(publisher, bindingResult,
+                locale, () -> service.add(publisher))) {
+            return "publisher/add";
+        }
+        return "redirect:/publishers";
     }
 
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/publishers/update", method = RequestMethod.POST)
     public String update(@ModelAttribute("publisher") @Valid Publisher publisher,
                          BindingResult bindingResult, Locale locale) {
-        return trySaveAndShowPage(publisher, bindingResult, locale,
-                () -> service.update(publisher), "publisher/edit");
+        if (!trySaveAndShowPage(publisher, bindingResult,
+                locale, () -> service.update(publisher))) {
+            return "publisher/edit";
+        }
+        return "redirect:/publishers";
     }
 
-    private String trySaveAndShowPage(Publisher publisher, BindingResult bindingResult,
-                                      Locale locale, Runnable saver, String errorPage) {
-        if (bindingResult.hasErrors()) {
-            return errorPage;
-        }
-        if (!isNameFilled(publisher, bindingResult, locale)) {
-            return errorPage;
-        }
-        if (!trySavePublisher(publisher, bindingResult, saver, locale)) {
-            return errorPage;
-        }
-        return "redirect:/publishers/";
+    private boolean trySaveAndShowPage(Publisher publisher, BindingResult bindingResult,
+                                       Locale locale, Runnable saver) {
+        return !bindingResult.hasErrors() &&
+                isNameFilled(publisher, bindingResult, locale) &&
+                trySavePublisher(publisher, bindingResult, saver, locale);
     }
 
     private boolean trySavePublisher(Publisher publisher, BindingResult bindingResult,
@@ -137,7 +136,7 @@ public class PublisherController {
     public
     @ResponseBody
     Publisher getCategoryByName(@RequestParam String name) {
-        return service.findById(5);
+        throw new UnsupportedOperationException();
     }
 
     @ExceptionHandler(DeleteAssociatedObjectException.class)

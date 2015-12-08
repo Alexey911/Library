@@ -60,30 +60,29 @@ public class CategoryController {
     @RequestMapping(value = "/categories", method = RequestMethod.POST)
     public String add(@ModelAttribute("category") @Valid Category category,
                       BindingResult bindingResult, Locale locale) {
-        return trySaveAndShowPage(category, bindingResult, locale,
-                () -> service.add(category), "category/add");
+        if (!trySaveAndShowPage(category, bindingResult,
+                locale, () -> service.add(category))) {
+            return "category/add";
+        }
+        return "redirect:/categories";
     }
 
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/categories/update", method = RequestMethod.POST)
     public String update(@ModelAttribute("category") @Valid Category category,
                          BindingResult bindingResult, Locale locale) {
-        return trySaveAndShowPage(category, bindingResult, locale,
-                () -> service.update(category), "category/edit");
+        if (!trySaveAndShowPage(category, bindingResult,
+                locale, () -> service.update(category))) {
+            return "category/edit";
+        }
+        return "redirect:/categories";
     }
 
-    private String trySaveAndShowPage(Category category, BindingResult bindingResult,
-                                      Locale locale, Runnable saver, String errorPage) {
-        if (bindingResult.hasErrors()) {
-            return errorPage;
-        }
-        if (!isNameFilled(category, bindingResult, locale)) {
-            return errorPage;
-        }
-        if (!trySaveCategory(category, bindingResult, saver, locale)) {
-            return errorPage;
-        }
-        return "redirect:/categories/";
+    private boolean trySaveAndShowPage(Category category, BindingResult bindingResult,
+                                       Locale locale, Runnable saver) {
+        return !bindingResult.hasErrors() &&
+                isNameFilled(category, bindingResult, locale) &&
+                trySaveCategory(category, bindingResult, saver, locale);
     }
 
     private boolean trySaveCategory(Category category, BindingResult bindingResult,
@@ -132,7 +131,7 @@ public class CategoryController {
     public
     @ResponseBody
     Category getCategoryByName(@RequestParam String name) {
-        return service.findById(5);
+        throw new UnsupportedOperationException();
     }
 
     @ExceptionHandler(DeleteAssociatedObjectException.class)

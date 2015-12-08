@@ -40,20 +40,25 @@
             <td><springForm:errors path="weight" cssClass="error"/></td>
         </tr>
         <tr>
+            <td><spring:message code="book.field.publisher"/></td>
             <td><label>
                 <springForm:select path="publisher.id" multiple="false">
+                    <%--@elvariable id="publishers" type="java.util.Set"--%>
                     <c:forEach var="publisher" items="${publishers}">
                         <option value="${publisher.id}" label="${publisher.name}"></option>
                     </c:forEach>
                 </springForm:select>
             </label>
             </td>
+            <td><springForm:errors path="publisher" cssClass="error"/></td>
         </tr>
         <tr>
+            <td><spring:message code="book.field.categories"/></td>
             <td>
                 <label>
                     <select name="newCategories" multiple>
-                        <c:forEach var="category" items="${newCategories}">
+                            <%--@elvariable id="categories" type="java.util.Set"--%>
+                        <c:forEach var="category" items="${categories}">
                             <option value="${category.id}" label="${category.name}"></option>
                         </c:forEach>
                     </select>

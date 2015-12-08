@@ -116,4 +116,9 @@ public class BookDaoImpl extends AbstractJDBCDao<Book> implements BookDao {
     public boolean hasUniqueName(Book book) {
         return false;
     }
+
+    @Override
+    public Set<Book> getBooksInfo() throws DaoException {
+        return null;
+    }
 }

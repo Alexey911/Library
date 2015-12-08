@@ -23,16 +23,15 @@ public class Book extends DomainObject implements Serializable {
     @Column(name = "authors", nullable = false, length = 100)
     private String authors;
 
-    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
-    @Size(min = 1, max = 255)
+    @Size(min = 0, max = 255)
     @Column(name = "annotation", nullable = true, length = 255)
     private String annotation;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "book_categories",
             joinColumns = {@JoinColumn(name = "book_id", nullable = true)},
             inverseJoinColumns = {@JoinColumn(name = "category_id", nullable = true)})

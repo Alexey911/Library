@@ -17,8 +17,8 @@ public class PublisherDaoImpl extends AbstractHibernateDao<Publisher> implements
     @Override
     public boolean hasUniqueName(Publisher publisher) throws DaoException {
         Criteria criteria = getLazyCriteria(Projections.projectionList().
-                add(Projections.property("id"), "id").
-                add(Projections.property("name"), "name"));
+                add(Projections.property("id").as("id")).
+                add(Projections.property("name").as("name")));
         criteria.add(Restrictions.eq("name", publisher.getName()));
         return isUnique(criteria, publisher);
     }

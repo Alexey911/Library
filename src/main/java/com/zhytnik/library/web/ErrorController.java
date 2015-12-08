@@ -20,9 +20,12 @@ public class ErrorController {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ModelAndView handleException(Locale locale) {
-        String message = messageSource.getMessage("exception.access.denied",
-                new String[]{}, locale);
+    public ModelAndView handleAccessDeniedException(Locale locale) {
+        return getExceptionModelAndView("exception.access.denied", locale);
+    }
+
+    private ModelAndView getExceptionModelAndView(String code, Locale locale) {
+        String message = messageSource.getMessage(code, new String[]{}, locale);
         return new ModelAndView("error", "errMsg", message);
     }
 

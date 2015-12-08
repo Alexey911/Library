@@ -3,6 +3,8 @@ package com.zhytnik.library.service;
 import com.zhytnik.library.dao.BookDao;
 import com.zhytnik.library.domain.Book;
 
+import java.util.Set;
+
 import static java.util.Objects.isNull;
 
 public class BookService extends Service<Book> {
@@ -15,7 +17,7 @@ public class BookService extends Service<Book> {
     protected void prepare(Book b) {
         b.setName(b.getName().trim());
         b.setAuthors(b.getAuthors().trim());
-        if(!isNull(b.getAnnotation())) {
+        if (!isNull(b.getAnnotation())) {
             b.setAnnotation(b.getAnnotation().trim());
         }
         super.prepare(b);
@@ -24,5 +26,13 @@ public class BookService extends Service<Book> {
     @Override
     public boolean isUnique(Book book) {
         return ((BookDao) getDao()).hasUniqueName(book);
+    }
+
+    public Set<Book> getBooksInfo() {
+        return getBookDao().getBooksInfo();
+    }
+
+    private BookDao getBookDao() {
+        return (BookDao) getDao();
     }
 }
