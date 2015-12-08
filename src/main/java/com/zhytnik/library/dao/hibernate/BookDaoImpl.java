@@ -59,6 +59,7 @@ public class BookDaoImpl extends AbstractHibernateDao<Book> implements BookDao {
                         add(Projections.property("id").as("id")).
                         add(Projections.property("name").as("name")).
                         add(Projections.property("pageCount").as("pageCount")).
+                        add(Projections.property("authors").as("authors")).
                         add(Projections.property("p.id").as("publisher.id")).
                         add(Projections.property("p.name").as("publisher.name")),
                 new AliasToBeanNestedResultTransformer(Book.class));

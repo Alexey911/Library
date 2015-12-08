@@ -3,13 +3,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<h1><spring:message code="book.name"/></h1>
+<h1>${book.name}</h1>
 <%--@elvariable id="book" type="com.zhytnik.library.domain.Book"--%>
 <table>
-    <tr>
-        <td><spring:message code="book.field.name"/></td>
-        <td>${book.name}</td>
-    </tr>
     <tr>
         <td><spring:message code="book.field.authors"/></td>
         <td>${book.authors}</td>
