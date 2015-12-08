@@ -8,6 +8,7 @@
         <%@ include file="userInfo.jsp" %>
         <%@ include file="info.jsp" %>
     </sec:authorize>
-    <a href="${pageContext.request.contextPath}?locale=en"><spring:message code="language.en"/></a> |
-    <a href="${pageContext.request.contextPath}?locale=ru"><spring:message code="language.ru"/></a>
+    <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+    <a href="${contextPath}?locale=en"><spring:message code="language.en"/></a> |
+    <a href="${contextPath}?locale=ru"><spring:message code="language.ru"/></a>
 </ul>

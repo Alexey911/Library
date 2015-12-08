@@ -3,6 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <h1>${book.name}</h1>
 <%--@elvariable id="book" type="com.zhytnik.library.domain.Book"--%>
 <table>
@@ -16,7 +17,7 @@
     </tr>
     <tr>
         <td><spring:message code="book.field.publisher"/></td>
-        <td><a href="/publishers/${book.publisher.id}">${book.publisher.name}</a></td>
+        <td><a href="${contextPath}/publishers/${book.publisher.id}">${book.publisher.name}</a></td>
     </tr>
     <tr>
         <td><spring:message code="book.field.annotation"/></td>
@@ -46,7 +47,7 @@
             <c:when test="${not empty book.categories}">
                 <td>
                     <c:forEach items="${book.categories}" var="category">
-                        <a href="/categories/${category.id}"><c:out value="${category.name} "/></a>
+                        <a href="${contextPath}/categories/${category.id}"><c:out value="${category.name} "/></a>
                     </c:forEach>
                 </td>
             </c:when>
@@ -68,8 +69,8 @@
     </tr>
 </table>
 <sec:authorize access="hasAnyRole('ROLE_LIBRARIAN','ROLE_ADMIN')">
-    <sf:form method="post" action="/books/${book.id}/delete">
+    <sf:form method="post" action="${contextPath}/books/${book.id}/delete">
         <input type="submit" value=<spring:message code="book.action.delete"/>>
     </sf:form>
-    <a href="/books/${book.id}?action=edit"><spring:message code="book.action.edit"/></a>
+    <a href="${contextPath}/books/${book.id}?action=edit"><spring:message code="book.action.edit"/></a>
 </sec:authorize>

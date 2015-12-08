@@ -6,8 +6,7 @@
 <%@ taglib prefix="springForm" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <h1><spring:message code="book.name"/></h1>
-<springForm:form method="POST" modelAttribute="book" action="/books">
-    <springForm:hidden path="id"/>
+<springForm:form method="POST" modelAttribute="book" action="${pageContext.request.contextPath}/books">
     <table>
         <tr>
             <td><spring:message code="book.field.name"/></td>

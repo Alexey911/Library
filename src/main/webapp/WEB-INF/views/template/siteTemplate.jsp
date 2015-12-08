@@ -10,12 +10,13 @@
         <tiles:insertAttribute name="title"/>
     </c:set>
     <title><spring:message code="${title}"/></title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/screen.css" type="text/css"
+    <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+    <link rel="stylesheet" href="${contextPath}/resources/css/screen.css" type="text/css"
           media="screen, projection"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/print.css" type="text/css"
+    <link rel="stylesheet" href="${contextPath}/resources/css/print.css" type="text/css"
           media="print"/>
     <!--[if IE]>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ie.css" type="text/css"
+    <link rel="stylesheet" href="${contextPath}/resources/css/ie.css" type="text/css"
           media="screen, projection"/>
     <![endif]-->
     <style>

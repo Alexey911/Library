@@ -3,6 +3,7 @@
 <%@taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <h1><spring:message code="categories.name"/></h1>
 <table border="1">
     <tr>
@@ -12,12 +13,12 @@
     <%--@elvariable id="categories" type="java.util.Set"--%>
     <c:forEach items="${categories}" var="category">
         <tr class="field">
-            <td><a href="${pageContext.request.contextPath}/categories/${category.id}"><c:out
+            <td><a href="${contextPath}/categories/${category.id}"><c:out
                     value="${category.name}"/></a></td>
             <td><c:out value="${category.description}"/></td>
         </tr>
     </c:forEach>
 </table>
 <sec:authorize access="hasAnyRole('ROLE_LIBRARIAN', 'ROLE_ADMIN')">
-    <a href="${pageContext.request.contextPath}/categories/add"><spring:message code="category.action.add"/></a>
+    <a href="${contextPath}/categories/add"><spring:message code="category.action.add"/></a>
 </sec:authorize>

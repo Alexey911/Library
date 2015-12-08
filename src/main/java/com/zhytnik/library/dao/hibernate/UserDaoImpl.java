@@ -81,9 +81,10 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
     @Override
     public Set<User> getAll() throws DaoException {
         Criteria criteria = getLazyCriteria(Projections.projectionList().
-                add(Projections.property("id"), "id").
-                add(Projections.property("login"), "login").
-                add(Projections.property("enabled"), "enabled").
+                add(Projections.property("id").as("id")).
+                add(Projections.property("login").as("login")).
+                add(Projections.property("enabled").as("enabled")).
+                add(Projections.property("confirmed").as("confirmed")).
                 add(Projections.property("role"), "role"));
         return new HashSet<>(criteria.list());
     }

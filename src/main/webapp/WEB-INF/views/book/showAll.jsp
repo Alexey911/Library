@@ -3,6 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <h1><spring:message code="books.name"/></h1>
 <%--@elvariable id="books" type="java.util.Set"--%>
 <%--@elvariable id="book" type="com.zhytnik.library.domain.Book"--%>
@@ -15,13 +16,13 @@
     </tr>
     <c:forEach items="${books}" var="book">
         <tr>
-            <td><a href="/books/${book.id}">${book.name}</a></td>
+            <td><a href="${contextPath}/books/${book.id}">${book.name}</a></td>
             <td>${book.authors}</td>
             <td>${book.pageCount}</td>
-            <td><a href="/publishers/${book.publisher.id}">${book.publisher.name}</a></td>
+            <td><a href="${contextPath}/publishers/${book.publisher.id}">${book.publisher.name}</a></td>
         </tr>
     </c:forEach>
 </table>
 <sec:authorize access="hasAnyRole('ROLE_LIBRARIAN', 'ROLE_ADMIN')">
-    <a href="${pageContext.request.contextPath}/books/add"><spring:message code="book.action.add"/></a>
+    <a href="${contextPath}/books/add"><spring:message code="book.action.add"/></a>
 </sec:authorize>

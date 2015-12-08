@@ -2,7 +2,8 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="springForm" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
-<sf:form method="POST" modelAttribute="publisher" action="/publishers/update">
+<sf:form method="POST" modelAttribute="publisher"
+         action="${pageContext.request.contextPath}/publishers/update">
     <springForm:hidden path="id"/>
     <table>
         <tr>

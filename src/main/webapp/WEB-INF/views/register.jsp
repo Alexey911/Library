@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div>
     <h2><spring:message code="action.register"/></h2>
-
     <%--@elvariable id="error" type="java.lang.String"--%>
     <c:if test="${not empty error}">
         <div class="error">${error}</div>
@@ -12,7 +11,7 @@
     <c:if test="${not empty msg}">
         <div class="msg">${msg}</div>
     </c:if>
-    <springForm:form method="POST" modelAttribute="user" action="/register">
+    <springForm:form method="POST" modelAttribute="user" action="${pageContext.request.contextPath}/register">
         <table>
             <tr>
                 <td><spring:message code="user.field.login"/></td>

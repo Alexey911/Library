@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <div id="login-box">
+    <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
     <h2><spring:message code="login.page.title"/></h2>
     <%--@elvariable id="error" type="java.lang.String"--%>
     <c:if test="${not empty error}">
@@ -11,7 +12,7 @@
     <c:if test="${not empty msg}">
         <div class="msg">${msg}</div>
     </c:if>
-    <c:url value="/j_spring_security_check" var="checkUrl"/>
+    <c:url value="${contextPath}/j_spring_security_check" var="checkUrl"/>
     <form:form name='loginForm' action="${checkUrl}" method='POST'>
         <table>
             <tr>
@@ -35,6 +36,5 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </table>
     </form:form>
-    <a href="${pageContext.request.contextPath}/register"><spring:message
-            code="action.register"/></a>
+    <a href="${contextPath}/register"><spring:message code="action.register"/></a>
 </div>

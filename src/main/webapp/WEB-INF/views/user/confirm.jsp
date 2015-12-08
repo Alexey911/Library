@@ -3,7 +3,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <h1><spring:message code="users.name"/></h1>
-<sf:form method="POST" action="users/confirm">
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<sf:form method="POST" action="${contextPath}/users/confirm">
     <table border="1">
         <tr>
             <th><spring:message code="user.field.login"/></th>
@@ -15,7 +16,7 @@
             <%--@elvariable id="user" type="com.zhytnik.library.domain.User"--%>
         <c:forEach items="${users}" var="user">
             <tr class="field">
-                <td><a href="${pageContext.request.contextPath}/users/${user.id}"><c:out
+                <td><a href="${contextPath}/users/${user.id}"><c:out
                         value="${user.login}"/></a></td>
                 <td><c:out value="${user.role}"/></td>
                 <td><c:out value="${user.isEnable()}"/></td>
@@ -26,7 +27,6 @@
                 </td>
             </tr>
         </c:forEach>
-
     </table>
     <spring:message code="action.confirm" var="change"/>
     <input type="submit" value="${change}">

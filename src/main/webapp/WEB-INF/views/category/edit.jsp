@@ -3,7 +3,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
-<sf:form method="POST" modelAttribute="category" action="/categories/update">
+<sf:form method="POST" modelAttribute="category" action="${pageContext.request.contextPath}/categories/update">
     <table>
         <tr>
             <td><spring:message code="category.field.name"/></td>

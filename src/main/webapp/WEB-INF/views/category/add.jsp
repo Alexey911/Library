@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="springForm" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<springForm:form method="POST" modelAttribute="category" action="/categories">
+<springForm:form method="POST" modelAttribute="category" action="${pageContext.request.contextPath}/categories">
     <table>
         <tr>
             <td><spring:message code="category.field.name"/></td>
