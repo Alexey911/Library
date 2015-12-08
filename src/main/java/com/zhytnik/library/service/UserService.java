@@ -43,12 +43,21 @@ public class UserService extends Service<User> {
 
     @Override
     public void add(User user) throws NotUniqueException {
-        execute(user, () -> getDao().persist(user));
+        UserDao dao = getUserDao();
+        if (dao.hasUniqueLogin(user)) {
+            encodeUserPassword(user);
+            boolean confirmed = USER.getRole().equals(user.getRole());
+            user.setConfirmed(confirmed);
+            user.setEnabled(TRUE);
+            getDao().persist(user);
+        } else {
+            throw new NotUniqueException();
+        }
     }
 
     @Override
-    public void update(User user) throws NotUniqueException {
-        execute(user, () -> getDao().update(user));
+    public void update(User user) {
+        throw new UnsupportedOperationException();
     }
 
     public void updatePassword(Integer id, String lastPass,
@@ -63,21 +72,23 @@ public class UserService extends Service<User> {
 
     public void updateLoginRole(Integer id, String login,
                                 boolean wantsBeLibrarian) throws NotUniqueException {
-        User user = new User();
-        user.setId(id);
-        user.setLogin(login);
-        if (!getUserDao().hasUniqueLogin(user)) {
+        if (!hasUniqueLogin(id, login)) {
             throw new NotUniqueException();
         }
-        user = getDao().findById(id);
+        User user = getDao().findById(id);
         if (!UserRole.hasRole(LIBRARIAN, user) && wantsBeLibrarian) {
             user.setRole(LIBRARIAN.getRole());
             user.setConfirmed(FALSE);
-        } else if (UserRole.hasRole(USER, user)) {
-            user.setConfirmed(TRUE);
         }
         user.setLogin(login);
         getUserDao().update(user);
+    }
+
+    private boolean hasUniqueLogin(Integer id, String login) {
+        User user = new User();
+        user.setId(id);
+        user.setLogin(login);
+        return getUserDao().hasUniqueLogin(user);
     }
 
     public Set<User> getNotConfirmedUsers() {
@@ -88,24 +99,11 @@ public class UserService extends Service<User> {
         getUserDao().confirm(users);
     }
 
-    private void execute(User user, Runnable action) throws NotUniqueException {
-        UserDao dao = getUserDao();
-        if (dao.hasUniqueLogin(user)) {
-            encodePassword(user);
-            boolean confirmed = USER.getRole().equals(user.getRole());
-            user.setConfirmed(confirmed);
-            user.setEnabled(TRUE);
-            action.run();
-        } else {
-            throw new NotUniqueException();
-        }
-    }
-
     private UserDao getUserDao() {
         return (UserDao) getDao();
     }
 
-    private void encodePassword(User user) {
+    private void encodeUserPassword(User user) {
         user.setPassword(encodePassword(user.getPassword()));
     }
 

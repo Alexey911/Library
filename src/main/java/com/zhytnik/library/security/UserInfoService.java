@@ -19,7 +19,7 @@ public class UserInfoService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = dao.findByUserName(username);
         if (isNull(user)) {
-            throw new UsernameNotFoundException("Not found");
+            throw new UsernameNotFoundException(String.format("User with name %s not found", username));
         }
         return new UserInfo(user);
     }

@@ -4,17 +4,15 @@ import com.zhytnik.library.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum UserRole implements GrantedAuthority {
-    USER("ROLE_USER", 0, 0),
-    LIBRARIAN("ROLE_LIBRARIAN", 1, 1),
-    ADMIN("ROLE_ADMIN", 2, 2);
+    USER("ROLE_USER", 0),
+    LIBRARIAN("ROLE_LIBRARIAN", 1),
+    ADMIN("ROLE_ADMIN", 2);
 
     private final String role;
-    private final int id;
     private final int securityLevel;
 
-    UserRole(String role, int id, int securityLevel) {
+    UserRole(String role, int securityLevel) {
         this.role = role;
-        this.id = id;
         this.securityLevel = securityLevel;
     }
 
@@ -25,10 +23,6 @@ public enum UserRole implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return role;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public int getSecurityLevel() {
