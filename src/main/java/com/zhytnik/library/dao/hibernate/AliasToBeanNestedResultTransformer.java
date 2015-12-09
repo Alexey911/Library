@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author samiandoni
+ */
 public class AliasToBeanNestedResultTransformer extends AliasedTupleSubsetResultTransformer {
     private static final long serialVersionUID = -8047276133980128266L;
 

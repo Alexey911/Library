@@ -15,6 +15,7 @@ import static com.zhytnik.library.security.UserRole.LIBRARIAN;
 import static com.zhytnik.library.security.UserRole.USER;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static java.util.Objects.isNull;
 
 public class UserService extends Service<User> {
     @Autowired
@@ -96,7 +97,9 @@ public class UserService extends Service<User> {
     }
 
     public void confirm(List<Integer> users) {
-        getUserDao().confirm(users);
+        if (!isNull(users) && !users.isEmpty()) {
+            getUserDao().confirm(users);
+        }
     }
 
     private UserDao getUserDao() {

@@ -70,7 +70,7 @@ public class BookDaoImpl extends AbstractHibernateDao<Book> implements BookDao {
     @Override
     public Book findById(Integer id) throws DaoException {
         Book book = super.findById(id);
-        book.getCategories().forEach(Hibernate::initialize);
+        Hibernate.initialize(book.getCategories());
         return book;
     }
 
@@ -78,7 +78,7 @@ public class BookDaoImpl extends AbstractHibernateDao<Book> implements BookDao {
     @Override
     public Set<Book> getAll() throws DaoException {
         Set<Book> books = super.getAll();
-        books.forEach(book -> book.getCategories().forEach(Hibernate::initialize));
+        books.forEach(book -> Hibernate.initialize(book.getCategories()));
         return books;
     }
 
@@ -90,7 +90,6 @@ public class BookDaoImpl extends AbstractHibernateDao<Book> implements BookDao {
         super.persist(book);
     }
 
-    //TODO: explicit delete constraint
     @Transactional
     @Override
     public void delete(Integer id) throws DaoException {

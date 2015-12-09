@@ -115,7 +115,7 @@ public class UserController {
         if (!trySaveUser(user, bindingResult, () -> service.add(user), locale)) {
             return "register";
         }
-        return "redirect:/home";
+        return "redirect:/login";
     }
 
     @MinAccessed(USER)

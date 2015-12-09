@@ -4,7 +4,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <a href="${contextPath}/users?action=showMe"><c:out value="${principal.username}"/></a>
 <!-- csrt for log out-->
-<c:url value="${contextPath}/j_spring_security_logout" var="logoutUrl"/>
+<c:url value="/j_spring_security_logout" var="logoutUrl"/>
 <form:form action="${logoutUrl}" method="post" id="logoutForm"/>
 <script>
     function formSubmit() {
