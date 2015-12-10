@@ -14,14 +14,14 @@
             <td><spring:message code="publisher.name"/></td>
             <td><label>
                 <select name="publisher">
-                        <%--@elvariable id="publishers" type="java.util.List"--%>
-                    <c:forEach var="category" items="${publishers}">
+                    <c:forEach var="publisher" items="${publishers}">
                         <c:choose>
-                            <c:when test="${category.id eq selectedId}">
-                                <option value="${category.id}" label="${category.name}" selected></option>
+                            <%--@elvariable id="selectedId" type="java.lang.Integer"--%>
+                            <c:when test="${publisher.id eq selectedId}">
+                                <option value="${publisher.id}" label="${publisher.name}" selected></option>
                             </c:when>
                             <c:otherwise>
-                                <option value="${category.id}" label="${category.name}"></option>
+                                <option value="${publisher.id}" label="${publisher.name}"></option>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
@@ -38,7 +38,7 @@
 <h1><spring:message code="books.name"/></h1>
 <c:choose>
     <c:when test="${not empty books}">
-        <%@ include file="print.jsp" %>
+        <%@ include file="common/printBooks.jsp" %>
     </c:when>
     <c:otherwise>
         <c:if test="${not empty selectedId}">

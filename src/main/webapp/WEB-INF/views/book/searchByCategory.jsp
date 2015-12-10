@@ -38,7 +38,7 @@
 <h1><spring:message code="books.name"/></h1>
 <c:choose>
     <c:when test="${not empty books}">
-        <%@ include file="print.jsp" %>
+        <%@ include file="common/printBooks.jsp" %>
     </c:when>
     <c:otherwise>
         <c:if test="${not empty selectedId}">

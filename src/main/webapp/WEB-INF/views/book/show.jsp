@@ -46,8 +46,8 @@
         <c:choose>
             <c:when test="${not empty book.categories}">
                 <td>
-                    <c:forEach items="${book.categories}" var="category">
-                        <a href="${contextPath}/categories/${category.id}"><c:out value="${category.name} "/></a>
+                    <c:forEach items="${book.categories}" var="publisher">
+                        <a href="${contextPath}/categories/${publisher.id}"><c:out value="${publisher.name} "/></a>
                     </c:forEach>
                 </td>
             </c:when>

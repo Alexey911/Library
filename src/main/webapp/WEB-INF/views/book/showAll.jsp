@@ -7,7 +7,7 @@
 <h1><spring:message code="books.name"/></h1>
 <%--@elvariable id="books" type="java.util.List"--%>
 <%--@elvariable id="book" type="com.zhytnik.library.domain.Book"--%>
-<%@ include file="print.jsp" %>
+<%@ include file="common/printBooks.jsp" %>
 <a href="${contextPath}/books?action=showSearchPage&filter=publisher"><spring:message
         code="book.search.by.publisher"/></a>
 <br>

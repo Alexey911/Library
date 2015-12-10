@@ -43,10 +43,7 @@
             <td><spring:message code="book.field.publisher"/></td>
             <td><label>
                 <springForm:select path="publisher.id" multiple="false">
-                    <%--@elvariable id="publishers" type="java.util.Set"--%>
-                    <c:forEach var="category" items="${publishers}">
-                        <option value="${category.id}" label="${category.name}"></option>
-                    </c:forEach>
+                    <%@ include file="common/printPublishers.jsp" %>
                 </springForm:select>
             </label>
             </td>
@@ -56,11 +53,8 @@
             <td><spring:message code="book.field.categories"/></td>
             <td>
                 <label>
-                    <select name="newCategories" multiple>
-                            <%--@elvariable id="categories" type="java.util.Set"--%>
-                        <c:forEach var="category" items="${categories}">
-                            <option value="${category.id}" label="${category.name}"></option>
-                        </c:forEach>
+                    <select name="selected" multiple>
+                        <%@ include file="common/printCategories.jsp" %>
                     </select>
                 </label>
             </td>
