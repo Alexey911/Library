@@ -10,11 +10,11 @@
         <th><spring:message code="publisher.field.address"/></th>
     </tr>
     <%--@elvariable id="publishers" type="java.util.Set"--%>
-    <c:forEach items="${publishers}" var="publisher">
+    <c:forEach items="${publishers}" var="category">
         <tr class="field">
-            <td><a href="${contextPath}/publishers/${publisher.id}"><c:out
-                    value="${publisher.name}"/></a></td>
-            <td><c:out value="${publisher.address}"/></td>
+            <td><a href="${contextPath}/publishers/${category.id}"><c:out
+                    value="${category.name}"/></a></td>
+            <td><c:out value="${category.address}"/></td>
         </tr>
     </c:forEach>
 </table>

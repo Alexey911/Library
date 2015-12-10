@@ -19,8 +19,8 @@
             <td><sf:errors path="newPassword" cssClass="error"/></td>
         </tr>
         <tr>
-            <spring:message code="action.change" var="change"/>
-            <td colspan="3"><input type="submit" value="${change}"></td>
+            <spring:message code="action.change" var="search"/>
+            <td colspan="3"><input type="submit" value="${search}"></td>
         </tr>
     </table>
 </sf:form>

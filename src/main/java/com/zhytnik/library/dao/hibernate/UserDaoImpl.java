@@ -1,6 +1,5 @@
 package com.zhytnik.library.dao.hibernate;
 
-import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.dao.UserDao;
 import com.zhytnik.library.domain.User;
 import org.hibernate.Criteria;
@@ -75,17 +74,5 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
             session.merge(user);
         }
         session.flush();
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Set<User> getAll() throws DaoException {
-        Criteria criteria = getLazyCriteria(Projections.projectionList().
-                add(Projections.property("id").as("id")).
-                add(Projections.property("login").as("login")).
-                add(Projections.property("enabled").as("enabled")).
-                add(Projections.property("confirmed").as("confirmed")).
-                add(Projections.property("role"), "role"));
-        return new HashSet<>(criteria.list());
     }
 }

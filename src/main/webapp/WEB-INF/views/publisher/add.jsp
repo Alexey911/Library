@@ -15,8 +15,8 @@
             <td><springForm:errors path="address" cssClass="error"/></td>
         </tr>
         <tr>
-            <spring:message code="publisher.action.add" var="change"/>
-            <td colspan="3"><input type="submit" value="${change}"></td>
+            <spring:message code="publisher.action.add" var="search"/>
+            <td colspan="3"><input type="submit" value="${search}"></td>
         </tr>
     </table>
 </springForm:form>

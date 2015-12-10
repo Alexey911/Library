@@ -11,7 +11,8 @@
     <c:if test="${not empty msg}">
         <div class="msg">${msg}</div>
     </c:if>
-    <springForm:form method="POST" modelAttribute="user" action="${pageContext.request.contextPath}/register">
+    <springForm:form method="POST" modelAttribute="user"
+                     action="${pageContext.request.contextPath}/register">
         <table>
             <tr>
                 <td><spring:message code="user.field.login"/></td>
@@ -20,7 +21,7 @@
             </tr>
             <tr>
                 <td><spring:message code="user.field.password"/></td>
-                <td><springForm:input path="password" value=""/></td>
+                <td><springForm:password path="password" value=""/></td>
                 <td><springForm:errors path="password" cssClass="error"/></td>
             </tr>
             <tr>

@@ -84,7 +84,7 @@ public class BookController {
                                List<Integer> categories, Locale locale) {
         if (!trySaveAndShowPage(book, bindingResult, locale,
                 () -> bookService.update(book), categories)) {
-            return getModelAndView("book/edit", null);
+            return getBasicModelAndView("book/edit");
         }
         return new ModelAndView(new RedirectView("/books"));
     }
@@ -94,13 +94,49 @@ public class BookController {
     @RequestMapping(value = "/books/{id}", method = RequestMethod.GET,
             params = "action=edit")
     public ModelAndView showEditPage(@PathVariable Integer id) {
-        return getModelAndView("book/edit", bookService.findById(id));
+        return getBookModelAndView("book/edit", bookService.findById(id));
     }
 
     @MinAccessed(LIBRARIAN)
     @RequestMapping(value = "/books/add", method = RequestMethod.GET)
     public ModelAndView showAddPage() {
-        return getModelAndView("book/add", bookService.create());
+        return getBookModelAndView("book/add", bookService.create());
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/books", method = RequestMethod.GET,
+            params = {"action=search", "filter=publisher"})
+    public ModelAndView searchByPublisher(@RequestParam(value = "publisher",
+            required = false) Integer publisher) {
+        return new ModelAndView("book/searchByPublisher", "selectedId", publisher).
+                addObject("publishers", publisherService.getAll()).
+                addObject("books", bookService.findByPublisher(publisher));
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/books", method = RequestMethod.GET,
+            params = {"action=showSearchPage", "filter=publisher"})
+    public ModelAndView showSearchByPublisherPage() {
+        return new ModelAndView("book/searchByPublisher",
+                "publishers", publisherService.getAll());
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/books", method = RequestMethod.GET,
+            params = {"action=search", "filter=category"})
+    public ModelAndView searchByCategory(@RequestParam(value = "category",
+            required = false) Integer category) {
+        return new ModelAndView("book/searchByCategory", "selectedId", category).
+                addObject("categories", categoryService.getAll()).
+                addObject("books", bookService.findByCategory(category));
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/books", method = RequestMethod.GET,
+            params = {"action=showSearchPage", "filter=category"})
+    public ModelAndView showSearchByCategoryPage() {
+        return new ModelAndView("book/searchByCategory",
+                "categories", categoryService.getAll());
     }
 
     @MinAccessed(LIBRARIAN)
@@ -111,7 +147,7 @@ public class BookController {
                             List<Integer> categories, Locale locale) {
         if (!trySaveAndShowPage(book, bindingResult, locale,
                 () -> bookService.add(book), categories)) {
-            return getModelAndView("book/add", null);
+            return getBasicModelAndView("book/add");
         }
         return new ModelAndView(new RedirectView("/books"));
     }
@@ -173,13 +209,12 @@ public class BookController {
         return result;
     }
 
-    private ModelAndView getModelAndView(String view, Book book) {
-        ModelAndView modelAndView = new ModelAndView(view);
-        modelAndView.addObject("publishers", publisherService.getAll()).
+    private ModelAndView getBookModelAndView(String view, Book book) {
+        return getBasicModelAndView(view).addObject("book", book);
+    }
+
+    private ModelAndView getBasicModelAndView(String view) {
+        return new ModelAndView(view, "publishers", publisherService.getAll()).
                 addObject("categories", categoryService.getAll());
-        if (!isNull(book)) {
-            modelAndView.addObject("book", book);
-        }
-        return modelAndView;
     }
 }

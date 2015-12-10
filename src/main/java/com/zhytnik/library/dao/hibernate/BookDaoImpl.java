@@ -3,8 +3,6 @@ package com.zhytnik.library.dao.hibernate;
 import com.zhytnik.library.dao.BookDao;
 import com.zhytnik.library.dao.DaoException;
 import com.zhytnik.library.domain.Book;
-import com.zhytnik.library.domain.Category;
-import com.zhytnik.library.domain.Publisher;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -13,29 +11,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 public class BookDaoImpl extends AbstractHibernateDao<Book> implements BookDao {
     public BookDaoImpl() {
         super(Book.class);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Set<Book> findBooksInPublisherCategories(Integer publisher, Set<Integer> categories) {
-        Criteria criteria = getCurrentSession().createCriteria(Book.class);
-        criteria.add(Restrictions.eq("publisher.id", publisher)).
-                createCriteria("categories").add(Restrictions.in("id", categories));
-        return new HashSet<>(criteria.list());
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Set<Book> findBooksByCategories(Set<Integer> categories) {
-        Criteria criteria = getCurrentSession().createCriteria(Book.class);
-        criteria.createCriteria("categories").add(Restrictions.in("id", categories));
-        return new HashSet<>(criteria.list());
     }
 
     @Transactional(readOnly = true)
@@ -50,20 +30,25 @@ public class BookDaoImpl extends AbstractHibernateDao<Book> implements BookDao {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<Book> getBooksInfo() throws DaoException {
-        return new HashSet<>(getSearchCriteria().list());
+    public List<Book> getBooksInfo() throws DaoException {
+        return getAll();
     }
 
-    private Criteria getSearchCriteria() {
-        Criteria criteria = getLazyCriteria(Projections.projectionList().
-                        add(Projections.property("id").as("id")).
-                        add(Projections.property("name").as("name")).
-                        add(Projections.property("pageCount").as("pageCount")).
-                        add(Projections.property("authors").as("authors")).
-                        add(Projections.property("p.id").as("publisher.id")).
-                        add(Projections.property("p.name").as("publisher.name")),
-                new AliasToBeanNestedResultTransformer(Book.class));
-        return criteria.createAlias("publisher", "p");
+    @Transactional(readOnly = true)
+    @Override
+    public List<Book> findByPublisher(Integer publisher) throws DaoException {
+        Criteria criteria = getCurrentSession().createCriteria(Book.class);
+        criteria.add(Restrictions.eq("p.id", publisher));
+        return criteria.list();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Book> findByCategory(Integer category) {
+        Criteria criteria = getCurrentSession().createCriteria(Book.class);
+        criteria.createAlias("categories", "c").
+                add(Restrictions.eq("c.id", category));
+        return criteria.list();
     }
 
     @Transactional(readOnly = true)
@@ -76,18 +61,10 @@ public class BookDaoImpl extends AbstractHibernateDao<Book> implements BookDao {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<Book> getAll() throws DaoException {
-        Set<Book> books = super.getAll();
+    public List<Book> getAll() throws DaoException {
+        List<Book> books = super.getAll();
         books.forEach(book -> Hibernate.initialize(book.getCategories()));
         return books;
-    }
-
-    //TODO: persist only by IDs in Publisher and Categories
-    @Transactional
-    @Override
-    public void persist(Book book) throws DaoException {
-        initialize(getCurrentSession(), book);
-        super.persist(book);
     }
 
     @Transactional
@@ -98,23 +75,5 @@ public class BookDaoImpl extends AbstractHibernateDao<Book> implements BookDao {
         book.setCategories(new HashSet<>());
         book.setPublisher(null);
         session.delete(book);
-    }
-
-    //TODO: update only by IDs in Publisher and Categories
-    @Transactional
-    @Override
-    public void update(Book book) throws DaoException {
-        initialize(getCurrentSession(), book);
-        super.update(book);
-    }
-
-    private void initialize(Session session, Book book) {
-        Publisher daoPublisher = (Publisher) session.get(Publisher.class, book.getPublisher().getId());
-        book.setPublisher(daoPublisher);
-        Set<Category> daoCategories = new HashSet<>(book.getCategories().size());
-        daoCategories.addAll(book.getCategories().stream().
-                map(c -> (Category) session.get(Category.class, c.getId())).
-                collect(Collectors.toList()));
-        book.setCategories(daoCategories);
     }
 }

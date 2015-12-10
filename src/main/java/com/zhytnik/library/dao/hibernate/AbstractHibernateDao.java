@@ -8,14 +8,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projection;
-import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static java.util.Objects.isNull;
 
@@ -80,18 +77,13 @@ public abstract class AbstractHibernateDao<T extends DomainObject> implements Ge
 
     @Transactional(readOnly = true)
     @Override
-    public Set<T> getAll() throws DaoException {
-        List<T> items = getCurrentSession().createCriteria(clazz).list();
-        return new HashSet<>(items);
+    public List<T> getAll() throws DaoException {
+        return getCurrentSession().createCriteria(clazz).list();
     }
 
     protected Criteria getLazyCriteria(Projection projection) {
-        return getLazyCriteria(projection, Transformers.aliasToBean(clazz));
-    }
-
-    protected Criteria getLazyCriteria(Projection projection, ResultTransformer transformer) {
         Criteria criteria = getCurrentSession().createCriteria(clazz).setProjection(projection);
-        criteria.setResultTransformer(transformer);
+        criteria.setResultTransformer(Transformers.aliasToBean(clazz));
         return criteria;
     }
 

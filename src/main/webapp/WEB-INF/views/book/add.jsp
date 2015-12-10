@@ -43,8 +43,8 @@
             <td><label>
                 <springForm:select path="publisher.id" multiple="false">
                     <%--@elvariable id="publishers" type="java.util.Set"--%>
-                    <c:forEach var="publisher" items="${publishers}">
-                        <option value="${publisher.id}" label="${publisher.name}"></option>
+                    <c:forEach var="category" items="${publishers}">
+                        <option value="${category.id}" label="${category.name}"></option>
                     </c:forEach>
                 </springForm:select>
             </label>
@@ -65,8 +65,8 @@
             </td>
         </tr>
         <tr>
-            <spring:message code="book.action.add" var="change"/>
-            <td colspan="3"><input type="submit" value="${change}"></td>
+            <spring:message code="book.action.add" var="search"/>
+            <td colspan="3"><input type="submit" value="${search}"></td>
         </tr>
     </table>
 </springForm:form>

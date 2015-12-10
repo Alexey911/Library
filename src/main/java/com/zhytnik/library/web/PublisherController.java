@@ -130,15 +130,6 @@ public class PublisherController {
         return new ModelAndView("error", "errMsg", e.getMessage());
     }
 
-    //TODO
-    @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/publishers/findByName", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    Publisher getCategoryByName(@RequestParam String name) {
-        throw new UnsupportedOperationException();
-    }
-
     @ExceptionHandler(DeleteAssociatedObjectException.class)
     public ModelAndView handleDeleteFail(Locale locale) {
         String message = messageSource.getMessage("exception.delete.associated.publisher",

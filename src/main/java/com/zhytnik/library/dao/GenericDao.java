@@ -2,7 +2,7 @@ package com.zhytnik.library.dao;
 
 import com.zhytnik.library.domain.DomainObject;
 
-import java.util.Set;
+import java.util.List;
 
 public interface GenericDao<T extends DomainObject> {
     void persist(T object) throws DaoException;
@@ -13,5 +13,5 @@ public interface GenericDao<T extends DomainObject> {
 
     void update(T object) throws DaoException;
 
-    Set<T> getAll() throws DaoException;
+    List<T> getAll() throws DaoException;
 }

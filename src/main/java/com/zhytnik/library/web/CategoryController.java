@@ -125,15 +125,6 @@ public class CategoryController {
         return new ModelAndView("category/add", "category", service.create());
     }
 
-    //TODO
-    @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/categories/findByName", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    Category getCategoryByName(@RequestParam String name) {
-        throw new UnsupportedOperationException();
-    }
-
     @ExceptionHandler(DeleteAssociatedObjectException.class)
     public ModelAndView handleDeleteFail(Locale locale) {
         String message = messageSource.getMessage("exception.delete.associated.category",

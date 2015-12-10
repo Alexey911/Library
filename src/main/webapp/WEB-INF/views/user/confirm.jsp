@@ -28,6 +28,6 @@
             </tr>
         </c:forEach>
     </table>
-    <spring:message code="action.confirm" var="change"/>
-    <input type="submit" value="${change}">
+    <spring:message code="action.confirm" var="search"/>
+    <input type="submit" value="${search}">
 </sf:form>

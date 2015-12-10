@@ -6,7 +6,7 @@ import com.zhytnik.library.service.exception.DeleteAssociatedObjectException;
 import com.zhytnik.library.service.exception.NotFoundItemException;
 import com.zhytnik.library.service.exception.NotUniqueException;
 
-import java.util.Set;
+import java.util.List;
 
 import static java.util.Objects.isNull;
 
@@ -43,7 +43,7 @@ public abstract class Service<T extends DomainObject> {
         }
     }
 
-    public Set<T> getAll() {
+    public List<T> getAll() {
         return dao.getAll();
     }
 

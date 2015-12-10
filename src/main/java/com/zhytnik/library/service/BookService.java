@@ -3,7 +3,7 @@ package com.zhytnik.library.service;
 import com.zhytnik.library.dao.BookDao;
 import com.zhytnik.library.domain.Book;
 
-import java.util.Set;
+import java.util.List;
 
 import static java.util.Objects.isNull;
 
@@ -25,14 +25,28 @@ public class BookService extends Service<Book> {
 
     @Override
     public boolean isUnique(Book book) {
-        return ((BookDao) getDao()).hasUniqueName(book);
+        return getBookDao().hasUniqueName(book);
     }
 
-    public Set<Book> getBooksInfo() {
+    public List<Book> getBooksInfo() {
         return getBookDao().getBooksInfo();
     }
 
     private BookDao getBookDao() {
         return (BookDao) getDao();
+    }
+
+    public List<Book> findByPublisher(Integer publisher) {
+        if (isNull(publisher)) {
+            return getBooksInfo();
+        }
+        return getBookDao().findByPublisher(publisher);
+    }
+
+    public List<Book> findByCategory(Integer category) {
+        if (isNull(category)) {
+            return getBooksInfo();
+        }
+        return getBookDao().findByCategory(category);
     }
 }

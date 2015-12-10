@@ -46,7 +46,8 @@ CREATE TABLE IF NOT EXISTS `book_categories` (
   KEY `fk_category` (`category_id`),
   KEY `fk_book` (`book_id`),
   CONSTRAINT `fk_book` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`),
-  CONSTRAINT `fk_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
+  CONSTRAINT `fk_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
+  PRIMARY KEY (`book_id`, `category_id`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;

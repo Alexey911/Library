@@ -17,8 +17,8 @@
             <td><sf:errors path="address" cssClass="error"/></td>
         </tr>
         <tr>
-            <spring:message code="publisher.action.save" var="change"/>
-            <td colspan="3"><input type="submit" value="${change}"></td>
+            <spring:message code="publisher.action.save" var="search"/>
+            <td colspan="3"><input type="submit" value="${search}"></td>
         </tr>
     </table>
 </sf:form>
