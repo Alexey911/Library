@@ -73,16 +73,6 @@ public class BookDaoImpl extends AbstractHibernateDao<Book> implements BookDao {
 
     @Transactional
     @Override
-    public void delete(Integer id) throws DaoException {
-        Session session = getCurrentSession();
-        Book book = (Book) session.load(Book.class, id);
-        book.setCategories(new HashSet<>());
-        book.setPublisher(null);
-        session.delete(book);
-    }
-
-    @Transactional
-    @Override
     public void update(Book book) throws DaoException {
         super.update(initialize(book));
     }
