@@ -29,11 +29,15 @@ public class UserService extends Service<User> {
     }
 
     public void activate(Integer id) {
-        getUserDao().setEnabled(id, true);
+        User user = getUserDao().findById(id);
+        user.setEnabled(true);
+        getUserDao().update(user);
     }
 
     public void disable(Integer id) {
-        getUserDao().setEnabled(id, false);
+        User user = getUserDao().findById(id);
+        user.setEnabled(false);
+        getUserDao().update(user);
     }
 
     @Override
@@ -100,7 +104,11 @@ public class UserService extends Service<User> {
             return;
         }
         UserDao dao = getUserDao();
-        users.forEach((user) -> dao.setConfirmed(user, true));
+        for (Integer id : users) {
+            User user = dao.findById(id);
+            user.setConfirmed(true);
+            dao.update(user);
+        }
     }
 
     private UserDao getUserDao() {

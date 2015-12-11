@@ -3,7 +3,6 @@ package com.zhytnik.library.dao.hibernate;
 import com.zhytnik.library.dao.UserDao;
 import com.zhytnik.library.domain.User;
 import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,15 +24,6 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
         return (User) criteria.uniqueResult();
     }
 
-    @Transactional
-    @Override
-    public void setEnabled(Integer id, boolean isEnabled) {
-        Session session = getCurrentSession();
-        User user = (User) session.get(User.class, id);
-        user.setEnabled(isEnabled);
-        session.saveOrUpdate(user);
-    }
-
     @Transactional(readOnly = true)
     @Override
     public boolean hasUniqueLogin(User user) {
@@ -50,13 +40,5 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
         Criteria criteria = getCurrentSession().createCriteria(User.class).
                 add(Restrictions.eq("confirmed", FALSE));
         return criteria.list();
-    }
-
-    @Transactional
-    public void setConfirmed(Integer id, boolean isConfirmed) {
-        Session session = getCurrentSession();
-        User user = (User) session.get(User.class, id);
-        user.setConfirmed(isConfirmed);
-        session.saveOrUpdate(user);
     }
 }
