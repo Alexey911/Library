@@ -8,12 +8,9 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 
 public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
     public UserDaoImpl() {
@@ -30,21 +27,11 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
 
     @Transactional
     @Override
-    public void activate(Integer id) {
-        setEnable(id, true);
-    }
-
-    @Transactional
-    @Override
-    public void disable(Integer id) {
-        setEnable(id, false);
-    }
-
-    private void setEnable(Integer id, boolean isEnable) {
+    public void setEnabled(Integer id, boolean isEnabled) {
         Session session = getCurrentSession();
-        User user = (User) session.load(User.class, id);
-        user.setEnabled(isEnable);
-        session.merge(user);
+        User user = (User) session.get(User.class, id);
+        user.setEnabled(isEnabled);
+        session.saveOrUpdate(user);
     }
 
     @Transactional(readOnly = true)
@@ -59,20 +46,17 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<User> getNotConfirmedUsers() {
+    public List<User> getUnconfirmedUsers() {
         Criteria criteria = getCurrentSession().createCriteria(User.class).
                 add(Restrictions.eq("confirmed", FALSE));
-        return new HashSet<>(criteria.list());
+        return criteria.list();
     }
 
     @Transactional
-    public void confirm(List<Integer> users) {
+    public void setConfirmed(Integer id, boolean isConfirmed) {
         Session session = getCurrentSession();
-        for (Integer id : users) {
-            User user = (User) session.load(User.class, id);
-            user.setConfirmed(TRUE);
-            session.merge(user);
-        }
-        session.flush();
+        User user = (User) session.get(User.class, id);
+        user.setConfirmed(isConfirmed);
+        session.saveOrUpdate(user);
     }
 }

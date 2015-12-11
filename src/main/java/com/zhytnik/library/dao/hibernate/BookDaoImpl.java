@@ -35,7 +35,7 @@ public class BookDaoImpl extends AbstractHibernateDao<Book> implements BookDao {
     @Transactional(readOnly = true)
     @Override
     public List<Book> getBooksInfo() throws DaoException {
-        return getAll();
+        return super.getAll();
     }
 
     @Transactional(readOnly = true)

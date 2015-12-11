@@ -41,11 +41,12 @@
         </tr>
         <tr>
             <td><spring:message code="book.field.publisher"/></td>
-            <td><label>
-                <springForm:select path="publisher.id" multiple="false">
-                    <%@ include file="common/printPublishers.jsp" %>
-                </springForm:select>
-            </label>
+            <td>
+                <label>
+                    <springForm:select path="publisher.id" multiple="false">
+                        <%@ include file="common/printPublishers.jsp" %>
+                    </springForm:select>
+                </label>
             </td>
             <td><springForm:errors path="publisher" cssClass="error"/></td>
         </tr>

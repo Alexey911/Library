@@ -12,21 +12,22 @@
     <table>
         <tr>
             <td><spring:message code="category.name"/></td>
-            <td><label>
-                <select name="category">
-                        <%--@elvariable id="categories" type="java.util.List"--%>
-                    <c:forEach var="category" items="${categories}">
-                        <c:choose>
-                            <c:when test="${category.id eq selectedId}">
-                                <option value="${category.id}" label="${category.name}" selected></option>
-                            </c:when>
-                            <c:otherwise>
-                                <option value="${category.id}" label="${category.name}"></option>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </select>
-            </label>
+            <td>
+                <label>
+                    <select name="category">
+                            <%--@elvariable id="categories" type="java.util.List"--%>
+                        <c:forEach var="category" items="${categories}">
+                            <c:choose>
+                                <c:when test="${category.id eq selectedId}">
+                                    <option value="${category.id}" selected>${category.name}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${category.id}">${category.name}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                </label>
             </td>
         </tr>
         <tr>

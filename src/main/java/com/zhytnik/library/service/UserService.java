@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 
 import java.util.List;
-import java.util.Set;
 
 import static com.zhytnik.library.security.UserRole.LIBRARIAN;
 import static com.zhytnik.library.security.UserRole.USER;
@@ -30,11 +29,11 @@ public class UserService extends Service<User> {
     }
 
     public void activate(Integer id) {
-        getUserDao().activate(id);
+        getUserDao().setEnabled(id, true);
     }
 
     public void disable(Integer id) {
-        getUserDao().disable(id);
+        getUserDao().setEnabled(id, false);
     }
 
     @Override
@@ -92,14 +91,16 @@ public class UserService extends Service<User> {
         return getUserDao().hasUniqueLogin(user);
     }
 
-    public Set<User> getNotConfirmedUsers() {
-        return getUserDao().getNotConfirmedUsers();
+    public List<User> getUnconfirmedUsers() {
+        return getUserDao().getUnconfirmedUsers();
     }
 
     public void confirm(List<Integer> users) {
-        if (!isNull(users) && !users.isEmpty()) {
-            getUserDao().confirm(users);
+        if (isNull(users) || users.isEmpty()) {
+            return;
         }
+        UserDao dao = getUserDao();
+        users.forEach((user) -> dao.setConfirmed(user, true));
     }
 
     private UserDao getUserDao() {

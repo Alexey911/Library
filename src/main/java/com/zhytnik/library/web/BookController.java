@@ -244,5 +244,4 @@ public class BookController {
     private void addSelected(ModelAndView model, List<Integer> selected) {
         model.addObject("selected", selected);
     }
-
 }

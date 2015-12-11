@@ -59,7 +59,7 @@ public class UserController {
     @RequestMapping(value = "/users", method = RequestMethod.GET,
             params = "action=confirm")
     public ModelAndView showNotConfirmedUsers() {
-        return new ModelAndView("user/confirm", "users", service.getNotConfirmedUsers());
+        return new ModelAndView("user/confirm", "users", service.getUnconfirmedUsers());
     }
 
     @Accessed(ADMIN)

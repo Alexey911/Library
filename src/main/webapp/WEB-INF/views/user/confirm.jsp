@@ -12,7 +12,7 @@
             <th><spring:message code="user.field.enabled"/></th>
             <th><spring:message code="user.action.confirm"/></th>
         </tr>
-            <%--@elvariable id="users" type="java.util.Set"--%>
+            <%--@elvariable id="users" type="java.util.List"--%>
             <%--@elvariable id="user" type="com.zhytnik.library.domain.User"--%>
         <c:forEach items="${users}" var="user">
             <tr class="field">
