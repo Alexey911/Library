@@ -7,6 +7,7 @@ import com.zhytnik.library.service.exception.NotUniqueException;
 import com.zhytnik.library.service.exception.PasswordMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 
 import java.util.List;
 
@@ -18,7 +19,8 @@ import static java.util.Objects.isNull;
 
 public class UserService extends Service<User> {
     @Autowired
-    private MessageDigestPasswordEncoder passwordEncoder;
+    @SuppressWarnings("deprecation")
+    private PasswordEncoder passwordEncoder;
 
     public void setPasswordEncoder(MessageDigestPasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
