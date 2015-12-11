@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+import static com.zhytnik.library.security.UserRole.USER;
+
 public class UserInfo implements UserDetails {
     private User user;
     private Collection<? extends GrantedAuthority> authorities;
@@ -14,9 +16,9 @@ public class UserInfo implements UserDetails {
     public UserInfo(User user) {
         this.user = user;
         if (!user.isConfirmed()) {
-            this.user.setRole("USER");
+            this.user.setRole(USER);
         }
-        authorities = Collections.singleton(() -> "ROLE_" + user.getRole());
+        authorities = Collections.singleton(USER::getAuthority);
     }
 
     @Override

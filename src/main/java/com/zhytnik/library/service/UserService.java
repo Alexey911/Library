@@ -2,7 +2,6 @@ package com.zhytnik.library.service;
 
 import com.zhytnik.library.dao.UserDao;
 import com.zhytnik.library.domain.User;
-import com.zhytnik.library.security.UserRole;
 import com.zhytnik.library.service.exception.NotUniqueException;
 import com.zhytnik.library.service.exception.PasswordMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +51,7 @@ public class UserService extends Service<User> {
         UserDao dao = getUserDao();
         if (dao.hasUniqueLogin(user)) {
             encodeUserPassword(user);
-            boolean confirmed = USER.getRole().equals(user.getRole());
+            boolean confirmed = (user.getRole() == USER);
             user.setConfirmed(confirmed);
             user.setEnabled(TRUE);
             getDao().persist(user);
@@ -82,8 +81,8 @@ public class UserService extends Service<User> {
             throw new NotUniqueException();
         }
         User user = getDao().findById(id);
-        if (!UserRole.hasRole(LIBRARIAN, user) && wantsBeLibrarian) {
-            user.setRole(LIBRARIAN.getRole());
+        if (user.getRole() != LIBRARIAN && wantsBeLibrarian) {
+            user.setRole(LIBRARIAN);
             user.setConfirmed(FALSE);
         }
         user.setLogin(login);

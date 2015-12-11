@@ -1,8 +1,8 @@
 package com.zhytnik.library.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.zhytnik.library.security.UserRole;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -23,8 +23,9 @@ public class User extends DomainObject implements Serializable {
     @Column(name = "enabled", nullable = false)
     private Boolean enabled;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "role", nullable = false)
-    private String role;
+    private UserRole role;
 
     @Column(name = "confirmed", nullable = false)
     private Boolean confirmed;
@@ -57,11 +58,11 @@ public class User extends DomainObject implements Serializable {
         this.enabled = enabled;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

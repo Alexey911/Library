@@ -110,7 +110,7 @@ public class UserController {
         }
 
         UserRole role = (librarian) ? LIBRARIAN : USER;
-        user.setRole(role.toString());
+        user.setRole(role);
 
         if (!trySaveUser(user, bindingResult, () -> service.add(user), locale)) {
             return "register";

@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password`  VARCHAR(65)        NOT NULL,
   `enabled`   TINYINT(1)         NOT NULL,
   `confirmed` TINYINT(1)         NOT NULL,
-  `role`      VARCHAR(20)        NOT NULL,
+  `role` INT(4) NOT NULL,
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
