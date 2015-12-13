@@ -5,45 +5,45 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="springForm" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<h1><spring:message code="book.search.by.category"/></h1>
-<springForm:form method="GET" action="${pageContext.request.contextPath}/books">
+<h1 class="h1 text-center"><spring:message code="book.search.by.category"/></h1>
+<springForm:form method="GET" action="${pageContext.request.contextPath}/books" cssClass="form-horizontal">
     <input type="hidden" name="action" value="search"/>
     <input type="hidden" name="filter" value="category"/>
-    <table>
-        <tr>
-            <td><spring:message code="category.name"/></td>
-            <td>
-                <label>
-                    <select name="category">
-                            <%--@elvariable id="categories" type="java.util.List"--%>
-                        <c:forEach var="category" items="${categories}">
-                            <c:choose>
-                                <c:when test="${category.id eq selectedId}">
-                                    <option value="${category.id}" selected>${category.name}</option>
-                                </c:when>
-                                <c:otherwise>
-                                    <option value="${category.id}">${category.name}</option>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                    </select>
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <spring:message code="book.action.find.by.category" var="search"/>
-            <td colspan="3"><input type="submit" value="${search}"></td>
-        </tr>
-    </table>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="category"><spring:message code="category.name"/>:</label>
+
+        <div class="col-sm-3">
+            <select id="category" class="form-control" name="category">
+                    <%--@elvariable id="categories" type="java.util.List"--%>
+                <c:forEach var="publisher" items="${categories}">
+                    <c:choose>
+                        <c:when test="${publisher.id eq selectedId}">
+                            <option value="${publisher.id}" selected>${publisher.name}</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="${publisher.id}">${publisher.name}</option>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </select>
+        </div>
+    </div>
+    <spring:message code="book.action.find.by.category" var="search"/>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">${search}</button>
+        </div>
+    </div>
 </springForm:form>
-<h1><spring:message code="books.name"/></h1>
 <c:choose>
     <c:when test="${not empty books}">
+        <h2 class="h2 text-center"><spring:message code="books.name"/></h2>
         <%@ include file="common/printBooks.jsp" %>
     </c:when>
     <c:otherwise>
         <c:if test="${not empty selectedId}">
-            <h2><spring:message code="search.result.not.found"/></h2>
+            <h3 class="h3 text-center"><spring:message code="search.result.not.found"/></h3>
         </c:if>
     </c:otherwise>
 </c:choose>

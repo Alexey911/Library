@@ -3,13 +3,16 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <%--@elvariable id="books" type="java.util.List"--%>
 <%--@elvariable id="book" type="com.zhytnik.library.domain.Book"--%>
-<table border="1">
-    <tr>
-        <th><spring:message code="book.field.name"/></th>
-        <td><spring:message code="book.field.authors"/></td>
-        <td><spring:message code="book.field.page.count"/></td>
-        <td><spring:message code="book.field.publisher"/></td>
-    </tr>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th><spring:message code="book.field.name"/></th>
+            <th><spring:message code="book.field.authors"/></th>
+            <th><spring:message code="book.field.page.count"/></th>
+            <th><spring:message code="book.field.publisher"/></th>
+        </tr>
+    </thead>
+    <tbody>
     <c:forEach items="${books}" var="book">
         <tr>
             <td><a href="${contextPath}/books/${book.id}">${book.name}</a></td>
@@ -18,4 +21,5 @@
             <td><a href="${contextPath}/publishers/${book.publisher.id}">${book.publisher.name}</a></td>
         </tr>
     </c:forEach>
+    </tbody>
 </table>

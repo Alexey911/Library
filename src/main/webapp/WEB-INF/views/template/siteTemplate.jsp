@@ -1,89 +1,60 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <c:set var="title">
-        <tiles:insertAttribute name="title"/>
-    </c:set>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <c:set var="title"><tiles:insertAttribute name="title"/></c:set>
     <title><spring:message code="${title}"/></title>
-    <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-    <link rel="stylesheet" href="${contextPath}/resources/css/screen.css" type="text/css"
-          media="screen, projection"/>
-    <link rel="stylesheet" href="${contextPath}/resources/css/print.css" type="text/css"
-          media="print"/>
-    <!--[if IE]>
-    <link rel="stylesheet" href="${contextPath}/resources/css/ie.css" type="text/css"
-          media="screen, projection"/>
-    <![endif]-->
-    <style>
-        body {
-            margin-top: 20px;
-            margin-bottom: 20px;
-            background-color: #DFDFDF;
-        }
-    </style>
-    <style type="text/css">
-        .error {
-            color: #ff0000;
-            font-style: italic;
-            font-weight: bold;
-        }
-    </style>
-    <style>
-        .errorInPass {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            color: #a94442;
-            background-color: #f2dede;
-            border: 1px solid #ebccd1;
-        }
-
-        .msg {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            color: #31708f;
-            background-color: #d9edf7;
-            border: 1px solid #bce8f1;
-        }
-
-        #login-box {
-            font-size: small;
-            width: 150px;
-            background: #fff;
-            -webkit-border-radius: 2px;
-            -moz-border-radius: 2px;
-        }
-
-        h2 {
-            font-size: small;
-        }
-
-        input {
-            font-size: small;
-            max-width: 60px;
-        }
-    </style>
+    <meta name="generator" content="Bootply"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/styles.css" rel="stylesheet">
+    <script src="${contextPath}/resources/js/bootstrap.min.js" type="javascript"></script>
+    <script src="${contextPath}/resources/js/scripts.js" type="javascript"></script>
 </head>
 <body>
-<div class="container" style="border: #C1C1C1 solid 1px; border-radius:10px;">
-    <!-- Header -->
-    <tiles:insertAttribute name="header"/>
-    <!-- Menu Page -->
-    <div class="span-5" style="height:400px;background-color:#FCFCFC;">
-        <tiles:insertAttribute name="menu"/>
+<%-- Begin Header --%>
+<header class="navbar navbar-default navbar-static-top" role="banner">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button"
+                    data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <%@ include file="userInfo.jsp" %>
+        </div>
+        <tiles:insertAttribute name="header"/>
     </div>
-    <!-- Body Page -->
-    <div class="span-19 last">
-        <tiles:insertAttribute name="body"/>
+</header>
+
+<!-- Begin Body -->
+<div class="container">
+    <div class="r   ow">
+        <div class="col-md-3" id="leftCol">
+            <div class="well">
+                <ul class="nav nav-stacked" id="sidebar">
+                    <sec:authorize access="isAnonymous()">
+                        <%@ include file="enter.jsp" %>
+                    </sec:authorize>
+                    <sec:authorize access="isAuthenticated()">
+                        <tiles:insertAttribute name="menu"/>
+                    </sec:authorize>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <tiles:insertAttribute name="body"/>
+        </div>
     </div>
-    <!-- Footer Page -->
-    <tiles:insertAttribute name="footer"/>
 </div>
+<hr>
+<tiles:insertAttribute name="footer"/>
+<hr>
 </body>
 </html>

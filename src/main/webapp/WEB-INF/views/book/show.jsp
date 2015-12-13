@@ -3,10 +3,30 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<h1>${book.name}</h1>
+<h1 class="h1 text-center">${book.name}</h1>
+<sec:authorize access="hasAnyRole('ROLE_LIBRARIAN','ROLE_ADMIN')">
+    <sf:form method="DELETE" action="${contextPath}/books/${book.id}" id="form"/>
+    <script>
+        function formSubmit() {
+            document.getElementById("form").submit();
+        }
+    </script>
+
+    <div align="center">
+        <ul class="list-inline">
+            <li>
+                <a href="${contextPath}/books/${book.id}?page=edit"><spring:message code="book.action.edit"/></a>
+            </li>
+            <li>
+                <a href="javascript:formSubmit()"><spring:message code="book.action.delete"/></a>
+            </li>
+        </ul>
+    </div>
+</sec:authorize>
 <%--@elvariable id="book" type="com.zhytnik.library.domain.Book"--%>
-<table>
+<table class="table table-hover">
     <tr>
         <td><spring:message code="book.field.authors"/></td>
         <td>${book.authors}</td>
@@ -46,8 +66,8 @@
         <c:choose>
             <c:when test="${not empty book.categories}">
                 <td>
-                    <c:forEach items="${book.categories}" var="category">
-                        <a href="${contextPath}/categories/${category.id}"><c:out value="${category.name} "/></a>
+                    <c:forEach items="${book.categories}" var="publisher">
+                        <a href="${contextPath}/categories/${publisher.id}"><c:out value="${publisher.name} "/></a>
                     </c:forEach>
                 </td>
             </c:when>
@@ -68,9 +88,3 @@
         </c:choose>
     </tr>
 </table>
-<sec:authorize access="hasAnyRole('ROLE_LIBRARIAN','ROLE_ADMIN')">
-    <sf:form method="DELETE" action="${contextPath}/books/${book.id}">
-        <input type="submit" value=<spring:message code="book.action.delete"/>>
-    </sf:form>
-    <a href="${contextPath}/books/${book.id}?page=edit"><spring:message code="book.action.edit"/></a>
-</sec:authorize>

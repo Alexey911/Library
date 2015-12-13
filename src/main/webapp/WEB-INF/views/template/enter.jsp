@@ -1,7 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<div id="login-box">
+<div>
     <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
     <h2><spring:message code="login.page.title"/></h2>
     <%--@elvariable id="error" type="java.lang.String"--%>
@@ -17,11 +17,11 @@
         <table>
             <tr>
                 <td><spring:message code="user.field.login"/></td>
-                <td><label><input type='text' name='username' value=''></label></td>
+                <td><label><input type='text' name='username' value='' size="15"></label></td>
             </tr>
             <tr>
                 <td><spring:message code="user.field.password"/></td>
-                <td><label><input type='password' name='password'/></label></td>
+                <td><label><input type='password' name='password' size="15"/></label></td>
             </tr>
             <tr>
                 <td><spring:message code="action.remember"/></td>
