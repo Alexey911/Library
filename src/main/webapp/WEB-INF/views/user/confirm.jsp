@@ -4,7 +4,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <h1><spring:message code="users.name"/></h1>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<sf:form method="POST" action="${contextPath}/users/confirm">
+<sf:form method="PUT" action="${contextPath}/users">
+    <input type="hidden" name="action" value="confirm">
     <table border="1">
         <tr>
             <th><spring:message code="user.field.login"/></th>

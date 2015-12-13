@@ -14,20 +14,21 @@
             <td><spring:message code="publisher.name"/></td>
             <td>
                 <label>
+                    <select name="publisher">
+                            <%--@elvariable id="publishers" type="java.util.List"--%>
+                        <c:forEach var="publisher" items="${publishers}">
+                            <c:choose>
+                                <%--@elvariable id="selectedId" type="java.lang.Integer"--%>
+                                <c:when test="${publisher.id eq selectedId}">
+                                    <option value="${publisher.id}" selected>${publisher.name}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${publisher.id}">${publisher.name}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
                 </label>
-                <select name="publisher">
-                    <c:forEach var="publisher" items="${publishers}">
-                        <c:choose>
-                            <%--@elvariable id="selectedId" type="java.lang.Integer"--%>
-                            <c:when test="${publisher.id eq selectedId}">
-                                <option value="${publisher.id}" selected>${publisher.name}</option>
-                            </c:when>
-                            <c:otherwise>
-                                <option value="${publisher.id}">${publisher.name}</option>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </select>
             </td>
         </tr>
         <tr>

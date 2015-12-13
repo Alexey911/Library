@@ -46,8 +46,8 @@
         <c:choose>
             <c:when test="${not empty book.categories}">
                 <td>
-                    <c:forEach items="${book.categories}" var="publisher">
-                        <a href="${contextPath}/categories/${publisher.id}"><c:out value="${publisher.name} "/></a>
+                    <c:forEach items="${book.categories}" var="category">
+                        <a href="${contextPath}/categories/${category.id}"><c:out value="${category.name} "/></a>
                     </c:forEach>
                 </td>
             </c:when>
@@ -69,8 +69,8 @@
     </tr>
 </table>
 <sec:authorize access="hasAnyRole('ROLE_LIBRARIAN','ROLE_ADMIN')">
-    <sf:form method="post" action="${contextPath}/books/${book.id}/delete">
+    <sf:form method="DELETE" action="${contextPath}/books/${book.id}">
         <input type="submit" value=<spring:message code="book.action.delete"/>>
     </sf:form>
-    <a href="${contextPath}/books/${book.id}?action=edit"><spring:message code="book.action.edit"/></a>
+    <a href="${contextPath}/books/${book.id}?page=edit"><spring:message code="book.action.edit"/></a>
 </sec:authorize>

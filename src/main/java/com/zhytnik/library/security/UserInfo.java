@@ -18,7 +18,7 @@ public class UserInfo implements UserDetails {
         if (!user.isConfirmed()) {
             this.user.setRole(USER);
         }
-        authorities = Collections.singleton(USER::getAuthority);
+        authorities = Collections.singleton(() -> user.getRole().getAuthority());
     }
 
     @Override

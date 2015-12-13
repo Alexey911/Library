@@ -42,112 +42,26 @@ public class BookController {
     @Autowired
     private MessageSource messageSource;
 
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
-
-    public void setCategoryService(CategoryService categoryService) {
-        this.categoryService = categoryService;
+    public void setBookService(BookService bookService) {
+        this.bookService = bookService;
     }
 
     public void setPublisherService(PublisherService publisherService) {
         this.publisherService = publisherService;
     }
 
-    public void setBookService(BookService bookService) {
-        this.bookService = bookService;
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
-    @MinAccessed(USER)
-    @RequestMapping(value = "/books", method = RequestMethod.GET)
-    public ModelAndView getAll() {
-        return new ModelAndView("book/showAll", "books", bookService.getBooksInfo());
-    }
-
-    @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/books/{id}/delete", method = RequestMethod.POST)
-    public String delete(@PathVariable Integer id) {
-        bookService.delete(id);
-        return "redirect:/books/";
-    }
-
-    @MinAccessed(USER)
-    @RequestMapping(value = "/books/{id}", method = RequestMethod.GET)
-    public ModelAndView get(@PathVariable Integer id) {
-        return new ModelAndView("book/show", "book", bookService.findById(id));
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 
     @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/books/update", method = RequestMethod.POST)
-    public ModelAndView update(@ModelAttribute("book") @Valid Book book,
-                               BindingResult bindingResult,
-                               @RequestParam(value = "selected", required = false)
-                               List<Integer> categories, Locale locale) {
-        if (!trySaveAndShowPage(book, bindingResult, locale,
-                () -> bookService.update(book), categories)) {
-            ModelAndView view = getBasicModelAndView("book/edit");
-            addSelected(view, categories);
-            return view;
-        }
-        return new ModelAndView(new RedirectView("/books"));
-    }
-
-    @Secured("ROLE_LIBRARIAN")
-    @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/books/{id}", method = RequestMethod.GET,
-            params = "action=edit")
-    public ModelAndView showEditPage(@PathVariable Integer id) {
-        Book book = bookService.findById(id);
-        ModelAndView view = getBookModelAndView("book/edit", book);
-        addSelected(view, getCategoryIds(book));
-        return view;
-    }
-
-    private List<Integer> getCategoryIds(Book book) {
-        return book.getCategories().stream().
-                map(Category::getId).collect(Collectors.toList());
-    }
-
-    @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/books/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/books", method = RequestMethod.GET, params = "page=add")
     public ModelAndView showAddPage() {
         return getBookModelAndView("book/add", bookService.create());
-    }
-
-    @MinAccessed(USER)
-    @RequestMapping(value = "/books", method = RequestMethod.GET,
-            params = {"action=search", "filter=publisher"})
-    public ModelAndView searchByPublisher(@RequestParam(value = "publisher",
-            required = false) Integer publisher) {
-        ModelAndView view = new ModelAndView("book/searchByPublisher", "selectedId", publisher);
-        addPublishers(view);
-        return view.addObject("books", bookService.findByPublisher(publisher));
-    }
-
-    @MinAccessed(USER)
-    @RequestMapping(value = "/books", method = RequestMethod.GET,
-            params = {"action=showSearchPage", "filter=publisher"})
-    public ModelAndView showSearchByPublisherPage() {
-        return new ModelAndView("book/searchByPublisher",
-                "publishers", publisherService.getAll());
-    }
-
-    @MinAccessed(USER)
-    @RequestMapping(value = "/books", method = RequestMethod.GET,
-            params = {"action=search", "filter=category"})
-    public ModelAndView searchByCategory(@RequestParam(value = "category",
-            required = false) Integer category) {
-        ModelAndView view = new ModelAndView("book/searchByCategory", "selectedId", category);
-        addCategories(view);
-        return view.addObject("books", bookService.findByCategory(category));
-    }
-
-    @MinAccessed(USER)
-    @RequestMapping(value = "/books", method = RequestMethod.GET,
-            params = {"action=showSearchPage", "filter=category"})
-    public ModelAndView showSearchByCategoryPage() {
-        return new ModelAndView("book/searchByCategory",
-                "categories", categoryService.getAll());
     }
 
     @MinAccessed(LIBRARIAN)
@@ -156,17 +70,105 @@ public class BookController {
                             BindingResult bindingResult,
                             @RequestParam(value = "selected", required = false)
                             List<Integer> categories, Locale locale) {
-        if (!trySaveAndShowPage(book, bindingResult, locale,
+        if (!checkErrorAndTrySave(book, bindingResult, locale,
                 () -> bookService.add(book), categories)) {
-            ModelAndView view = getBasicModelAndView("book/add");
-            addSelected(view, categories);
-            return view;
+            return addSelected(getFilledModelAndView("book/add"), categories);
         }
         return new ModelAndView(new RedirectView("/books"));
     }
 
-    private boolean trySaveAndShowPage(Book book, BindingResult bindingResult,
-                                       Locale locale, Runnable saver, List<Integer> categories) {
+    @MinAccessed(USER)
+    @RequestMapping(value = "/books/{id}", method = RequestMethod.GET)
+    public ModelAndView get(@PathVariable Integer id) {
+        return new ModelAndView("book/show", "book", bookService.findById(id));
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/books", method = RequestMethod.GET)
+    public ModelAndView getAll() {
+        return new ModelAndView("book/showAll", "books", bookService.getBooksInfo());
+    }
+
+    @Secured("ROLE_LIBRARIAN")
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/books/{id}", method = RequestMethod.GET,
+            params = "page=edit")
+    public ModelAndView showEditPage(@PathVariable Integer id) {
+        Book book = bookService.findById(id);
+        List<Integer> categories = getCategoryIds(book);
+        return addSelected(getBookModelAndView("book/edit", book), categories);
+    }
+
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/books/update", method = RequestMethod.POST)
+    public ModelAndView update(@ModelAttribute("book") @Valid Book book,
+                               BindingResult bindingResult,
+                               @RequestParam(value = "selected", required = false)
+                               List<Integer> categories, Locale locale) {
+        if (!checkErrorAndTrySave(book, bindingResult, locale,
+                () -> bookService.update(book), categories)) {
+            return addSelected(getFilledModelAndView("book/edit"), categories);
+        }
+        return new ModelAndView(new RedirectView("/books"));
+    }
+
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/books/{id}", method = RequestMethod.DELETE)
+    public String delete(@PathVariable Integer id) {
+        bookService.delete(id);
+        return "redirect:/books/";
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/books", method = RequestMethod.GET,
+            params = {"page=search", "filter=publisher"})
+    public ModelAndView showSearchByPublisherPage() {
+        return addPublishers(new ModelAndView("book/searchByPublisher"));
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/books", method = RequestMethod.GET,
+            params = {"action=search", "filter=publisher"})
+    public ModelAndView searchByPublisher(@RequestParam(value = "publisher", required = false) Integer publisher) {
+        ModelAndView view = new ModelAndView("book/searchByPublisher", "selectedId", publisher);
+        return addPublishers(view).addObject("books", bookService.findByPublisher(publisher));
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/books", method = RequestMethod.GET,
+            params = {"page=search", "filter=category"})
+    public ModelAndView showSearchByCategoryPage() {
+        return addCategories(new ModelAndView("book/searchByCategory"));
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/books", method = RequestMethod.GET,
+            params = {"action=search", "filter=category"})
+    public ModelAndView searchByCategory(@RequestParam(value = "category",
+            required = false) Integer category) {
+        ModelAndView view = new ModelAndView("book/searchByCategory", "selectedId", category);
+        return addCategories(view).addObject("books", bookService.findByCategory(category));
+    }
+
+    private List<Integer> getCategoryIds(Book book) {
+        Set<Category> categories = book.getCategories();
+        return categories.stream().map(Category::getId).collect(Collectors.toList());
+    }
+
+    private Set<Category> convertCategoryIdList(List<Integer> categories) {
+        Set<Category> result = new HashSet<>();
+        if (!isNull(categories)) {
+            for (Integer id : categories) {
+                Category category = new Category();
+                category.setId(id);
+                result.add(category);
+            }
+        }
+        return result;
+    }
+
+    private boolean checkErrorAndTrySave(Book book, BindingResult bindingResult,
+                                         Locale locale, Runnable saver, List<Integer> categories) {
         boolean valid = !bindingResult.hasErrors() &&
                 isDataFilled(book, bindingResult, locale);
         if (!valid) {
@@ -174,21 +176,6 @@ public class BookController {
         }
         book.setCategories(convertCategoryIdList(categories));
         return trySaveBook(book, bindingResult, saver, locale);
-    }
-
-    private boolean trySaveBook(Book book, BindingResult bindingResult,
-                                Runnable saver, Locale locale) {
-        boolean success = false;
-        try {
-            saver.run();
-            success = true;
-        } catch (NotUniqueException e) {
-            FieldError fieldError = new FieldError("book", "name",
-                    messageSource.getMessage("book.exception.not.unique.name",
-                            new String[]{book.getName()}, locale));
-            bindingResult.addError(fieldError);
-        }
-        return success;
     }
 
     private boolean isDataFilled(Book book, BindingResult bindingResult, Locale locale) {
@@ -210,38 +197,38 @@ public class BookController {
         return filled;
     }
 
-    private Set<Category> convertCategoryIdList(List<Integer> categories) {
-        Set<Category> result = new HashSet<>();
-        if (!isNull(categories)) {
-            for (Integer id : categories) {
-                Category category = new Category();
-                category.setId(id);
-                result.add(category);
-            }
+    private boolean trySaveBook(Book book, BindingResult bindingResult,
+                                Runnable saver, Locale locale) {
+        boolean success = false;
+        try {
+            saver.run();
+            success = true;
+        } catch (NotUniqueException e) {
+            FieldError fieldError = new FieldError("book", "name",
+                    messageSource.getMessage("book.exception.not.unique.name",
+                            new String[]{book.getName()}, locale));
+            bindingResult.addError(fieldError);
         }
-        return result;
+        return success;
     }
 
     private ModelAndView getBookModelAndView(String view, Book book) {
-        return getBasicModelAndView(view).addObject("book", book);
+        return getFilledModelAndView(view).addObject("book", book);
     }
 
-    private ModelAndView getBasicModelAndView(String view) {
-        ModelAndView v = new ModelAndView(view);
-        addCategories(v);
-        addPublishers(v);
-        return v;
+    private ModelAndView getFilledModelAndView(String view) {
+        return addPublishers(addCategories(new ModelAndView(view)));
     }
 
-    private void addPublishers(ModelAndView model) {
-        model.addObject("publishers", publisherService.getAll());
+    private ModelAndView addPublishers(ModelAndView model) {
+        return model.addObject("publishers", publisherService.getAll());
     }
 
-    private void addCategories(ModelAndView model) {
-        model.addObject("categories", categoryService.getAll());
+    private ModelAndView addCategories(ModelAndView model) {
+        return model.addObject("categories", categoryService.getAll());
     }
 
-    private void addSelected(ModelAndView model, List<Integer> selected) {
-        model.addObject("selected", selected);
+    private ModelAndView addSelected(ModelAndView model, List<Integer> selected) {
+        return model.addObject("selected", selected);
     }
 }

@@ -1,10 +1,10 @@
 /*USERS password value = 'pass' */
 INSERT INTO user (login, password, enabled, confirmed, role)
-VALUES ("admin", "d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1", 1, 1, "ADMIN");
+VALUES ("admin", "d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1", 1, 1, 2);
 INSERT INTO user (login, password, enabled, confirmed, role)
-VALUES ("user", "d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1", 1, 1, "USER");
+VALUES ("user", "d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1", 1, 1, 0);
 INSERT INTO user (login, password, enabled, confirmed, role)
-VALUES ("librarian", "d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1", 1, 1, "LIBRARIAN");
+VALUES ("librarian", "d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1", 1, 1, 1);
 
 /*PUBLISHERS*/
 INSERT INTO publisher (id, name, address)

@@ -2,7 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <sec:authentication var="principal" property="principal"/>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<a href="${contextPath}/users?action=showMe"><c:out value="${principal.username}"/></a>
+<a href="${contextPath}/users?filter=me"><c:out value="${principal.username}"/></a>
 <!-- csrt for log out-->
 <c:url value="/j_spring_security_logout" var="logoutUrl"/>
 <form:form action="${logoutUrl}" method="post" id="logoutForm"/>

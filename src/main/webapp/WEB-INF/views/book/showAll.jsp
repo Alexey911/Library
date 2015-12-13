@@ -8,12 +8,12 @@
 <%--@elvariable id="books" type="java.util.List"--%>
 <%--@elvariable id="book" type="com.zhytnik.library.domain.Book"--%>
 <%@ include file="common/printBooks.jsp" %>
-<a href="${contextPath}/books?action=showSearchPage&filter=publisher"><spring:message
+<a href="${contextPath}/books?page=search&filter=publisher"><spring:message
         code="book.search.by.publisher"/></a>
 <br>
-<a href="${contextPath}/books?action=showSearchPage&filter=category"><spring:message
+<a href="${contextPath}/books?page=search&filter=category"><spring:message
         code="book.search.by.category"/></a>
 <br>
 <sec:authorize access="hasAnyRole('ROLE_LIBRARIAN', 'ROLE_ADMIN')">
-    <a href="${contextPath}/books/add"><spring:message code="book.action.add"/></a>
+    <a href="${contextPath}/books?page=add"><spring:message code="book.action.add"/></a>
 </sec:authorize>

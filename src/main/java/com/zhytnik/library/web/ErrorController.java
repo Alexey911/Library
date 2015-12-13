@@ -14,9 +14,8 @@ public class ErrorController {
     @Autowired
     private MessageSource messageSource;
 
-    @ExceptionHandler(RuntimeException.class)
-    public ModelAndView handleException(RuntimeException e) {
-        return new ModelAndView("error", "errMsg", e);
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 
     @ExceptionHandler(AccessDeniedException.class)
@@ -24,12 +23,13 @@ public class ErrorController {
         return getExceptionModelAndView("exception.access.denied", locale);
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ModelAndView handleException(RuntimeException e) {
+        return new ModelAndView("error", "errMsg", e);
+    }
+
     private ModelAndView getExceptionModelAndView(String code, Locale locale) {
         String message = messageSource.getMessage(code, new String[]{}, locale);
         return new ModelAndView("error", "errMsg", message);
-    }
-
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
     }
 }

@@ -15,6 +15,10 @@ public enum UserRole implements GrantedAuthority {
         this.securityLevel = securityLevel;
     }
 
+    public static boolean hasAccess(UserRole current, UserRole goal) {
+        return current.securityLevel >= goal.securityLevel;
+    }
+
     @Override
     public String getAuthority() {
         return role;

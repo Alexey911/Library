@@ -37,16 +37,50 @@ public class CategoryController {
         this.messageSource = messageSource;
     }
 
-    @MinAccessed(USER)
-    @RequestMapping(value = "/categories", method = RequestMethod.GET)
-    public ModelAndView getAll() {
-        return new ModelAndView("category/showAll", "categories", service.getAll());
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/categories", method = RequestMethod.GET, params = "page=add")
+    public ModelAndView showAddPage() {
+        return new ModelAndView("category/add", "category", service.create());
+    }
+
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/categories", method = RequestMethod.POST)
+    public String add(@ModelAttribute("category") @Valid Category category,
+                      BindingResult bindingResult, Locale locale) {
+        if (!checkErrorAndTrySave(category, bindingResult,
+                locale, () -> service.add(category))) {
+            return "category/add";
+        }
+        return "redirect:/categories";
     }
 
     @MinAccessed(USER)
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
     public ModelAndView get(@PathVariable Integer id) {
         return new ModelAndView("category/show", "category", service.findById(id));
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/categories", method = RequestMethod.GET)
+    public ModelAndView getAll() {
+        return new ModelAndView("category/showAll", "categories", service.getAll());
+    }
+
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET, params = "page=edit")
+    public ModelAndView showEditPage(@PathVariable Integer id) {
+        return new ModelAndView("category/edit", "category", service.findById(id));
+    }
+
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/categories/update", method = RequestMethod.POST)
+    public String update(@ModelAttribute("category") @Valid Category category,
+                         BindingResult bindingResult, Locale locale) {
+        if (!checkErrorAndTrySave(category, bindingResult,
+                locale, () -> service.update(category))) {
+            return "category/edit";
+        }
+        return "redirect:/categories";
     }
 
     @MinAccessed(LIBRARIAN)
@@ -56,33 +90,23 @@ public class CategoryController {
         return "redirect:/categories/";
     }
 
-    @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/categories", method = RequestMethod.POST)
-    public String add(@ModelAttribute("category") @Valid Category category,
-                      BindingResult bindingResult, Locale locale) {
-        if (!trySaveAndShowPage(category, bindingResult,
-                locale, () -> service.add(category))) {
-            return "category/add";
-        }
-        return "redirect:/categories";
-    }
-
-    @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/categories/update", method = RequestMethod.POST)
-    public String update(@ModelAttribute("category") @Valid Category category,
-                         BindingResult bindingResult, Locale locale) {
-        if (!trySaveAndShowPage(category, bindingResult,
-                locale, () -> service.update(category))) {
-            return "category/edit";
-        }
-        return "redirect:/categories";
-    }
-
-    private boolean trySaveAndShowPage(Category category, BindingResult bindingResult,
-                                       Locale locale, Runnable saver) {
+    private boolean checkErrorAndTrySave(Category category, BindingResult bindingResult,
+                                         Locale locale, Runnable saver) {
         return !bindingResult.hasErrors() &&
                 isNameFilled(category, bindingResult, locale) &&
                 trySaveCategory(category, bindingResult, saver, locale);
+    }
+
+    private boolean isNameFilled(Category category, BindingResult bindingResult, Locale locale) {
+        boolean filled = true;
+        if (category.getName().trim().isEmpty()) {
+            FieldError fieldError = new FieldError("category", "name",
+                    messageSource.getMessage("category.exception.not.set.name",
+                            new String[]{category.getName()}, locale));
+            bindingResult.addError(fieldError);
+            filled = false;
+        }
+        return filled;
     }
 
     private boolean trySaveCategory(Category category, BindingResult bindingResult,
@@ -98,31 +122,6 @@ public class CategoryController {
             bindingResult.addError(fieldError);
         }
         return success;
-    }
-
-    private boolean isNameFilled(Category category, BindingResult bindingResult, Locale locale) {
-        boolean filled = true;
-        if (category.getName().trim().isEmpty()) {
-            FieldError fieldError = new FieldError("category", "name",
-                    messageSource.getMessage("category.exception.not.set.name",
-                            new String[]{category.getName()}, locale));
-            bindingResult.addError(fieldError);
-            filled = false;
-        }
-        return filled;
-    }
-
-    @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET,
-            params = "action=edit")
-    public ModelAndView showEditPage(@PathVariable Integer id) {
-        return new ModelAndView("category/edit", "category", service.findById(id));
-    }
-
-    @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/categories/add", method = RequestMethod.GET)
-    public ModelAndView showAddPage() {
-        return new ModelAndView("category/add", "category", service.create());
     }
 
     @ExceptionHandler(DeleteAssociatedObjectException.class)

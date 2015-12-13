@@ -10,15 +10,15 @@
         <th><spring:message code="category.field.name"/></th>
         <th><spring:message code="category.field.description"/></th>
     </tr>
-    <%--@elvariable id="categories" type="java.util.Set"--%>
-    <c:forEach items="${categories}" var="publisher">
+    <%--@elvariable id="categories" type="java.util.List"--%>
+    <c:forEach items="${categories}" var="category">
         <tr class="field">
-            <td><a href="${contextPath}/categories/${publisher.id}"><c:out
-                    value="${publisher.name}"/></a></td>
-            <td><c:out value="${publisher.description}"/></td>
+            <td><a href="${contextPath}/categories/${category.id}"><c:out
+                    value="${category.name}"/></a></td>
+            <td><c:out value="${category.description}"/></td>
         </tr>
     </c:forEach>
 </table>
 <sec:authorize access="hasAnyRole('ROLE_LIBRARIAN', 'ROLE_ADMIN')">
-    <a href="${contextPath}/categories/add"><spring:message code="category.action.add"/></a>
+    <a href="${contextPath}/categories?page=add"><spring:message code="category.action.add"/></a>
 </sec:authorize>

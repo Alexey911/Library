@@ -20,6 +20,6 @@
     <sf:form method="post" action="${contextPath}/categories/${category.id}/delete">
         <input type="submit" value=<spring:message code="category.action.delete"/>>
     </sf:form>
-    <a href="${contextPath}/categories/${category.id}?action=edit"><spring:message code="category.action.edit"/></a>
+    <a href="${contextPath}/categories/${category.id}?page=edit"><spring:message code="category.action.edit"/></a>
     <br>
 </sec:authorize>

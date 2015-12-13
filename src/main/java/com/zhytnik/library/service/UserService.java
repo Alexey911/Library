@@ -2,26 +2,25 @@ package com.zhytnik.library.service;
 
 import com.zhytnik.library.dao.UserDao;
 import com.zhytnik.library.domain.User;
+import com.zhytnik.library.security.UserRole;
 import com.zhytnik.library.service.exception.NotUniqueException;
 import com.zhytnik.library.service.exception.PasswordMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 
 import java.util.List;
 
-import static com.zhytnik.library.security.UserRole.LIBRARIAN;
 import static com.zhytnik.library.security.UserRole.USER;
-import static java.lang.Boolean.FALSE;
+import static com.zhytnik.library.security.UserRole.hasAccess;
 import static java.lang.Boolean.TRUE;
 import static java.util.Objects.isNull;
 
+@SuppressWarnings("deprecation")
 public class UserService extends Service<User> {
     @Autowired
-    @SuppressWarnings("deprecation")
     private PasswordEncoder passwordEncoder;
 
-    public void setPasswordEncoder(MessageDigestPasswordEncoder passwordEncoder) {
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -30,15 +29,15 @@ public class UserService extends Service<User> {
     }
 
     public void activate(Integer id) {
-        User user = getUserDao().findById(id);
+        User user = getDao().findById(id);
         user.setEnabled(true);
-        getUserDao().update(user);
+        getDao().update(user);
     }
 
     public void disable(Integer id) {
-        User user = getUserDao().findById(id);
+        User user = getDao().findById(id);
         user.setEnabled(false);
-        getUserDao().update(user);
+        getDao().update(user);
     }
 
     @Override
@@ -48,16 +47,32 @@ public class UserService extends Service<User> {
 
     @Override
     public void add(User user) throws NotUniqueException {
+        tryPersist(user, true);
+    }
+
+    public void addConfirmedUser(User user) throws NotUniqueException {
+        tryPersist(user, false);
+    }
+
+    private void tryPersist(User user, boolean autoConfirm) {
         UserDao dao = getUserDao();
         if (dao.hasUniqueLogin(user)) {
             encodeUserPassword(user);
-            boolean confirmed = (user.getRole() == USER);
-            user.setConfirmed(confirmed);
+            setConfirm(user, autoConfirm);
             user.setEnabled(TRUE);
-            getDao().persist(user);
+            dao.persist(user);
         } else {
             throw new NotUniqueException();
         }
+    }
+
+    private void setConfirm(User user, boolean autoConfirm) {
+        if (!autoConfirm) {
+            user.setConfirmed(TRUE);
+            return;
+        }
+        boolean confirmed = (user.getRole() == USER);
+        user.setConfirmed(confirmed);
     }
 
     @Override
@@ -75,25 +90,24 @@ public class UserService extends Service<User> {
         getDao().update(user);
     }
 
-    public void updateLoginRole(Integer id, String login,
-                                boolean wantsBeLibrarian) throws NotUniqueException {
-        if (!hasUniqueLogin(id, login)) {
+    public void updateLoginRole(User user) throws NotUniqueException {
+        UserDao dao = getUserDao();
+        if (!dao.hasUniqueLogin(user)) {
             throw new NotUniqueException();
         }
-        User user = getDao().findById(id);
-        if (user.getRole() != LIBRARIAN && wantsBeLibrarian) {
-            user.setRole(LIBRARIAN);
-            user.setConfirmed(FALSE);
-        }
-        user.setLogin(login);
-        getUserDao().update(user);
+        fill(user);
+        dao.update(user);
     }
 
-    private boolean hasUniqueLogin(Integer id, String login) {
-        User user = new User();
-        user.setId(id);
-        user.setLogin(login);
-        return getUserDao().hasUniqueLogin(user);
+    private void fill(User user) {
+        User daoUser = getDao().findById(user.getId());
+
+        UserRole newRole = user.getRole();
+        boolean confirmed = daoUser.isConfirmed() && hasAccess(daoUser.getRole(), newRole);
+        user.setConfirmed(confirmed);
+
+        user.setEnabled(true);
+        user.setPassword(daoUser.getPassword());
     }
 
     public List<User> getUnconfirmedUsers() {
@@ -101,15 +115,24 @@ public class UserService extends Service<User> {
     }
 
     public void confirm(List<Integer> users) {
-        if (isNull(users) || users.isEmpty()) {
-            return;
+        if (!isNull(users)) {
+            users.forEach(this::confirm);
         }
+    }
+
+    public void confirm(Integer id) {
+        setConfirm(id, true);
+    }
+
+    public void resetConfirm(Integer id) {
+        setConfirm(id, false);
+    }
+
+    private void setConfirm(Integer id, boolean confirmed) {
         UserDao dao = getUserDao();
-        for (Integer id : users) {
-            User user = dao.findById(id);
-            user.setConfirmed(true);
-            dao.update(user);
-        }
+        User user = dao.findById(id);
+        user.setConfirmed(confirmed);
+        dao.update(user);
     }
 
     private UserDao getUserDao() {

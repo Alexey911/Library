@@ -19,5 +19,5 @@
     </c:forEach>
 </table>
 <sec:authorize access="hasAnyRole('ROLE_LIBRARIAN', 'ROLE_ADMIN')">
-    <a href="${contextPath}/publishers/add"><spring:message code="publisher.action.add"/></a>
+    <a href="${contextPath}/publishers?page=add"><spring:message code="publisher.action.add"/></a>
 </sec:authorize>

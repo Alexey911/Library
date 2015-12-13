@@ -20,7 +20,7 @@
     <sf:form method="post" action="${contextPath}/publishers/${publisher.id}/delete">
         <input type="submit" value=<spring:message code="publisher.action.delete"/>>
     </sf:form>
-    <a href="${contextPath}/publishers/${publisher.id}?action=edit"><spring:message code="publisher.action.edit"/></a>
+    <a href="${contextPath}/publishers/${publisher.id}?page=edit"><spring:message code="publisher.action.edit"/></a>
     <br>
 </sec:authorize>
 <br>

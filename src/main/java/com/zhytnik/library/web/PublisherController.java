@@ -37,16 +37,51 @@ public class PublisherController {
         this.messageSource = messageSource;
     }
 
-    @MinAccessed(USER)
-    @RequestMapping(value = "/publishers", method = RequestMethod.GET)
-    public ModelAndView getAll() {
-        return new ModelAndView("publisher/showAll", "publishers", service.getAll());
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/publishers", method = RequestMethod.GET, params = "page=add")
+    public ModelAndView showAddPage() {
+        return new ModelAndView("publisher/add", "publisher", service.create());
+    }
+
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/publishers", method = RequestMethod.POST)
+    public String add(@ModelAttribute("publisher") @Valid Publisher publisher,
+                      BindingResult bindingResult, Locale locale) {
+        if (!checkErrorAndTrySave(publisher, bindingResult,
+                locale, () -> service.add(publisher))) {
+            return "publisher/add";
+        }
+        return "redirect:/publishers";
     }
 
     @MinAccessed(USER)
     @RequestMapping(value = "/publishers/{id}", method = RequestMethod.GET)
     public ModelAndView get(@PathVariable Integer id) {
         return new ModelAndView("publisher/show", "publisher", service.findById(id));
+    }
+
+    @MinAccessed(USER)
+    @RequestMapping(value = "/publishers", method = RequestMethod.GET)
+    public ModelAndView getAll() {
+        return new ModelAndView("publisher/showAll", "publishers", service.getAll());
+    }
+
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/publishers/{id}", method = RequestMethod.GET,
+            params = "page=edit")
+    public ModelAndView showEditPage(@PathVariable Integer id) {
+        return new ModelAndView("publisher/edit", "publisher", service.findById(id));
+    }
+
+    @MinAccessed(LIBRARIAN)
+    @RequestMapping(value = "/publishers/update", method = RequestMethod.POST)
+    public String update(@ModelAttribute("publisher") @Valid Publisher publisher,
+                         BindingResult bindingResult, Locale locale) {
+        if (!checkErrorAndTrySave(publisher, bindingResult,
+                locale, () -> service.update(publisher))) {
+            return "publisher/edit";
+        }
+        return "redirect:/publishers";
     }
 
     @MinAccessed(LIBRARIAN)
@@ -56,33 +91,23 @@ public class PublisherController {
         return "redirect:/publishers/";
     }
 
-    @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/publishers", method = RequestMethod.POST)
-    public String add(@ModelAttribute("publisher") @Valid Publisher publisher,
-                      BindingResult bindingResult, Locale locale) {
-        if (!trySaveAndShowPage(publisher, bindingResult,
-                locale, () -> service.add(publisher))) {
-            return "publisher/add";
-        }
-        return "redirect:/publishers";
-    }
-
-    @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/publishers/update", method = RequestMethod.POST)
-    public String update(@ModelAttribute("publisher") @Valid Publisher publisher,
-                         BindingResult bindingResult, Locale locale) {
-        if (!trySaveAndShowPage(publisher, bindingResult,
-                locale, () -> service.update(publisher))) {
-            return "publisher/edit";
-        }
-        return "redirect:/publishers";
-    }
-
-    private boolean trySaveAndShowPage(Publisher publisher, BindingResult bindingResult,
-                                       Locale locale, Runnable saver) {
+    private boolean checkErrorAndTrySave(Publisher publisher, BindingResult bindingResult,
+                                         Locale locale, Runnable saver) {
         return !bindingResult.hasErrors() &&
                 isNameFilled(publisher, bindingResult, locale) &&
                 trySavePublisher(publisher, bindingResult, saver, locale);
+    }
+
+    private boolean isNameFilled(Publisher publisher, BindingResult bindingResult, Locale locale) {
+        boolean filled = true;
+        if (publisher.getName().trim().isEmpty()) {
+            FieldError fieldError = new FieldError("publisher", "name",
+                    messageSource.getMessage("publisher.exception.not.set.name",
+                            new String[]{publisher.getName()}, locale));
+            bindingResult.addError(fieldError);
+            filled = false;
+        }
+        return filled;
     }
 
     private boolean trySavePublisher(Publisher publisher, BindingResult bindingResult,
@@ -98,36 +123,6 @@ public class PublisherController {
             bindingResult.addError(fieldError);
         }
         return success;
-    }
-
-    private boolean isNameFilled(Publisher publisher, BindingResult bindingResult, Locale locale) {
-        boolean filled = true;
-        if (publisher.getName().trim().isEmpty()) {
-            FieldError fieldError = new FieldError("publisher", "name",
-                    messageSource.getMessage("publisher.exception.not.set.name",
-                            new String[]{publisher.getName()}, locale));
-            bindingResult.addError(fieldError);
-            filled = false;
-        }
-        return filled;
-    }
-
-    @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/publishers/{id}", method = RequestMethod.GET,
-            params = "action=edit")
-    public ModelAndView showEditPage(@PathVariable Integer id) {
-        return new ModelAndView("publisher/edit", "publisher", service.findById(id));
-    }
-
-    @MinAccessed(LIBRARIAN)
-    @RequestMapping(value = "/publishers/add", method = RequestMethod.GET)
-    public ModelAndView showAddPage() {
-        return new ModelAndView("publisher/add", "publisher", service.create());
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleException(Exception e) {
-        return new ModelAndView("error", "errMsg", e.getMessage());
     }
 
     @ExceptionHandler(DeleteAssociatedObjectException.class)
