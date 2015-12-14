@@ -2,25 +2,9 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<h1>${user.login}</h1>
+<%@ taglib prefix="springForm" uri="http://www.springframework.org/tags/form" %>
 <%--@elvariable id="user" type="com.zhytnik.library.domain.User"--%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<table border="1">
-    <tr>
-        <td><spring:message code="user.field.role"/></td>
-        <td>${user.role}</td>
-    </tr>
-    <tr>
-        <td><spring:message code="user.field.confirmed"/></td>
-        <td>${user.isConfirmed()}</td>
-    </tr>
-</table>
-<a href="${contextPath}/users/${user.id}?page=edit"><spring:message code="user.action.edit"/></a>
-<a href="${contextPath}/users/${user.id}?page=edit&field=password"><spring:message
-        code="user.action.change.password"/> </a>
-<sf:form method="DELETE" action="${contextPath}/users/${user.id}">
-    <input type="submit" value=<spring:message code="user.action.delete"/>>
-</sf:form>
 <sec:authentication var="principal" property="principal"/>
 <c:if test="${not principal.getUsername() eq user.login}">
     <sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -56,3 +40,39 @@
         </c:choose>
     </sec:authorize>
 </c:if>
+
+
+<h1 class="h1 text-center">${user.login}</h1>
+<sec:authorize access="hasAnyRole('ROLE_LIBRARIAN','ROLE_ADMIN')">
+    <sf:form method="DELETE" action="${contextPath}/users/${user.id}" id="form"/>
+    <script>
+        function formSubmit() {
+            document.getElementById("form").submit();
+        }
+    </script>
+
+    <div align="center">
+        <ul class="list-inline">
+            <li>
+                <a href="${contextPath}/users/${user.id}?page=edit"><spring:message code="user.action.edit"/></a>
+            </li>
+            <li>
+                <a href="${contextPath}/users/${user.id}?page=edit&field=password"><spring:message
+                        code="user.action.change.password"/> </a>
+            </li>
+            <li>
+                <a href="javascript:formSubmit()"><spring:message code="user.action.delete"/></a>
+            </li>
+        </ul>
+    </div>
+</sec:authorize>
+<table class="table table-hover">
+    <tr>
+        <td><spring:message code="user.field.role"/></td>
+        <td>${user.role}</td>
+    </tr>
+    <tr>
+        <td><spring:message code="user.field.confirmed"/></td>
+        <td>${user.isConfirmed()}</td>
+    </tr>
+</table>

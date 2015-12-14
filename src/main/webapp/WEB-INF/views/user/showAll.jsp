@@ -2,16 +2,19 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<h1><spring:message code="users.name"/></h1>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<table border="1">
+<h1 class="h1 text-center"><spring:message code="users.name"/></h1>
+<table class="table table-striped">
+    <thead>
     <tr>
         <th><spring:message code="user.field.login"/></th>
         <th><spring:message code="user.field.role"/></th>
         <th><spring:message code="user.field.enabled"/></th>
         <th><spring:message code="user.field.confirmed"/></th>
     </tr>
-    <%--@elvariable id="users" type="java.util.Set"--%>
+    </thead>
+    <tbody>
+    <%--@elvariable id="users" type="java.util.List"--%>
     <%--@elvariable id="user" type="com.zhytnik.library.domain.User"--%>
     <c:forEach items="${users}" var="user">
         <tr class="field">
@@ -22,9 +25,5 @@
             <td><c:out value="${user.isConfirmed()}"/></td>
         </tr>
     </c:forEach>
+    </tbody>
 </table>
-<sec:authorize access="hasRole('ROLE_ADMIN')">
-    <a href="${contextPath}/users?filter=notConfirmed"><spring:message code="menu.confirm"/></a>
-    <br>
-    <a href="${contextPath}/users?page=add"><spring:message code="user.action.add"/></a>
-</sec:authorize>

@@ -9,10 +9,10 @@
          cssClass="form-horizontal" role="form">
     <springForm:hidden path="id"/>
     <%@ include file="common/formBody.jsp" %>
-    <spring:message code="category.action.save" var="add"/>
+    <spring:message code="category.action.save" var="change"/>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default">${add}</button>
+            <button type="submit" class="btn btn-default">${change}</button>
         </div>
     </div>
 </sf:form>

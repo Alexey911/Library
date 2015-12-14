@@ -6,13 +6,16 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <sf:form method="PUT" action="${contextPath}/users">
     <input type="hidden" name="action" value="confirm">
-    <table border="1">
+    <table class="table table-striped">
+        <thead>
         <tr>
             <th><spring:message code="user.field.login"/></th>
             <th><spring:message code="user.field.role"/></th>
             <th><spring:message code="user.field.enabled"/></th>
             <th><spring:message code="user.action.confirm"/></th>
         </tr>
+        </thead>
+        <tbody>
             <%--@elvariable id="users" type="java.util.List"--%>
             <%--@elvariable id="user" type="com.zhytnik.library.domain.User"--%>
         <c:forEach items="${users}" var="user">
@@ -28,7 +31,12 @@
                 </td>
             </tr>
         </c:forEach>
+        </tbody>
     </table>
-    <spring:message code="action.confirm" var="search"/>
-    <input type="submit" value="${search}">
+    <spring:message code="action.confirm" var="confirm"/>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">${confirm}</button>
+        </div>
+    </div>
 </sf:form>
