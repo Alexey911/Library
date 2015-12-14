@@ -9,7 +9,7 @@
 <springForm:form method="POST" modelAttribute="book"
                  action="${pageContext.request.contextPath}/books"
                  class="form-horizontal" role="form">
-    <%@ include file="common/formBody.jsp.jsp" %>
+    <%@ include file="common/formBody.jsp" %>
     <spring:message code="book.action.add" var="add"/>
 
     <div class="form-group">

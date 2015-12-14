@@ -1,15 +1,16 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<h1><spring:message code="categories.name"/></h1>
-<table border="1">
+<h1 class="h1 text-center"><spring:message code="categories.name"/></h1>
+<table class="table table-striped">
+    <thead>
     <tr>
         <th><spring:message code="category.field.name"/></th>
         <th><spring:message code="category.field.description"/></th>
     </tr>
+    </thead>
+    <tbody>
     <%--@elvariable id="categories" type="java.util.List"--%>
     <c:forEach items="${categories}" var="publisher">
         <tr class="field">
@@ -18,7 +19,5 @@
             <td><c:out value="${publisher.description}"/></td>
         </tr>
     </c:forEach>
+    </tbody>
 </table>
-<sec:authorize access="hasAnyRole('ROLE_LIBRARIAN', 'ROLE_ADMIN')">
-    <a href="${contextPath}/categories?page=add"><spring:message code="category.action.add"/></a>
-</sec:authorize>

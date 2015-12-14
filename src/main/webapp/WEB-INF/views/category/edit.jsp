@@ -3,22 +3,16 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
-<sf:form method="POST" modelAttribute="category" action="${pageContext.request.contextPath}/categories/update">
-    <table>
-        <tr>
-            <td><spring:message code="category.field.name"/></td>
-            <td><sf:input path="name"/></td>
-            <td><sf:errors path="name" cssClass="error"/></td>
-        </tr>
-        <tr>
-            <td><spring:message code="category.field.description"/></td>
-            <td><sf:input path="description"/></td>
-            <td><sf:errors path="description" cssClass="error"/></td>
-        </tr>
-        <springForm:hidden path="id"/>
-        <tr>
-            <spring:message code="category.action.save" var="search"/>
-            <td colspan="3"><input type="submit" value="${search}"></td>
-        </tr>
-    </table>
+<h1 class="h1 text-center"><spring:message code="category.action.edit"/></h1>
+<sf:form method="POST" modelAttribute="category"
+         action="${pageContext.request.contextPath}/categories/update"
+         cssClass="form-horizontal" role="form">
+    <springForm:hidden path="id"/>
+    <%@ include file="common/formBody.jsp" %>
+    <spring:message code="category.action.save" var="add"/>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">${add}</button>
+        </div>
+    </div>
 </sf:form>

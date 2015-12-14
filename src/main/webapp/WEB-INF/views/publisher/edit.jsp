@@ -2,23 +2,16 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="springForm" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<h1 class="h1 text-center"><spring:message code="publisher.action.edit"/></h1>
 <sf:form method="POST" modelAttribute="publisher"
-         action="${pageContext.request.contextPath}/publishers/update">
+         action="${pageContext.request.contextPath}/publishers"
+         cssClass="form-horizontal" role="form">
     <springForm:hidden path="id"/>
-    <table>
-        <tr>
-            <td><spring:message code="publisher.field.name"/></td>
-            <td><sf:input path="name"/></td>
-            <td><sf:errors path="name" cssClass="error"/></td>
-        </tr>
-        <tr>
-            <td><spring:message code="publisher.field.address"/></td>
-            <td><sf:input path="address"/></td>
-            <td><sf:errors path="address" cssClass="error"/></td>
-        </tr>
-        <tr>
-            <spring:message code="publisher.action.save" var="search"/>
-            <td colspan="3"><input type="submit" value="${search}"></td>
-        </tr>
-    </table>
+    <%@ include file="common/formBody.jsp" %>
+    <spring:message code="publisher.action.save" var="save"/>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">${save}</button>
+        </div>
+    </div>
 </sf:form>
