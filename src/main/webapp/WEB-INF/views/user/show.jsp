@@ -6,7 +6,7 @@
 <%--@elvariable id="user" type="com.zhytnik.library.domain.User"--%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <sec:authentication var="principal" property="principal"/>
-<c:if test="${not principal.getUsername() eq user.login}">
+<c:if test="${principal.getUsername() ne user.login}">
     <sec:authorize access="hasRole('ROLE_ADMIN')">
         <br>
         <c:choose>

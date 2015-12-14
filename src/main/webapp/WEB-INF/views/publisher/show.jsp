@@ -7,7 +7,7 @@
 <h1 class="h1 text-center">${publisher.name}</h1>
 <%--@elvariable id="publisher" type="com.zhytnik.library.domain.Publisher"--%>
 <sec:authorize access="hasAnyRole('ROLE_LIBRARIAN','ROLE_ADMIN')">
-    <sf:form method="post" action="${contextPath}/publishers/${publisher.id}" id="form"/>
+    <sf:form method="post" action="${contextPath}/publishers/${publisher.id}/delete" id="form"/>
     <script>
         function formSubmit() {
             document.getElementById("form").submit();

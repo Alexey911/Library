@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
@@ -27,7 +28,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <%@ include file="userInfo.jsp" %>
+            <sec:authorize access="isAuthenticated()">
+                <%@ include file="userInfo.jsp" %>
+            </sec:authorize>
         </div>
         <tiles:insertAttribute name="header"/>
     </div>
@@ -35,12 +38,12 @@
 
 <!-- Begin Body -->
 <div class="container">
-    <div class="r   ow">
+    <div class="row">
         <div class="col-md-3" id="leftCol">
             <div class="well">
                 <ul class="nav nav-stacked" id="sidebar">
                     <sec:authorize access="isAnonymous()">
-                        <%@ include file="enter.jsp" %>
+                        <tiles:insertAttribute name="anonymous"/>
                     </sec:authorize>
                     <sec:authorize access="isAuthenticated()">
                         <tiles:insertAttribute name="menu"/>

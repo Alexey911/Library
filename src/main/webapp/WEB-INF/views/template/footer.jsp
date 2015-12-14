@@ -5,6 +5,6 @@
 <p align="center">
     <b> <spring:message code="site.about"/></b>
     <spring:message code="site.rights"/>
-    <a href="${contextPath}?locale=en"><spring:message code="language.en"/></a>
+    <a href="${contextPath}?locale=en"><spring:message code="language.en"/></a> |
     <a href="${contextPath}?locale=ru"><spring:message code="language.ru"/></a>
 </p>

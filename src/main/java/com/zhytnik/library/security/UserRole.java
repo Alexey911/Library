@@ -27,8 +27,4 @@ public enum UserRole implements GrantedAuthority {
     public int getSecurityLevel() {
         return securityLevel;
     }
-
-    public String getRole() {
-        return role.substring(5);
-    }
 }

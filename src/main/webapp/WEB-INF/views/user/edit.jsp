@@ -26,7 +26,7 @@
         <springForm:errors path="login" cssClass="alert alert-danger col-sm-5"/>
     </div>
 
-    <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_LIBRARIAN')">
+    <c:if test="${user.role.authority ne 'ROLE_ADMIN'}">
         <div class="form-group">
             <label class="control-label col-sm-2" for="role"><spring:message code="user.field.role"/>:</label>
 
@@ -34,11 +34,11 @@
                 <select name="role" id="role">
                     <option value="USER"><spring:message code="role.user"/></option>
                     <option value="LIBRARIAN"><spring:message code="role.librarian"/></option>
-                    <option value="ADMIN"><spring:message code="role.admin"/></option
+                    <option value="ADMIN"><spring:message code="role.admin"/></option>
                 </select>
             </div>
         </div>
-    </sec:authorize>
+    </c:if>
 
     <spring:message code="action.save" var="save"/>
     <div class="form-group">

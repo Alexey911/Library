@@ -7,10 +7,10 @@
          action="${pageContext.request.contextPath}/publishers"
          cssClass="form-horizontal" role="form">
     <%@ include file="common/formBody.jsp" %>
-    <spring:message code="publisher.action.add" var="change"/>
+    <spring:message code="publisher.action.add" var="add"/>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default">${change}</button>
+            <button type="submit" class="btn btn-default">${add}</button>
         </div>
     </div>
 </sf:form>

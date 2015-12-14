@@ -102,7 +102,7 @@ public class UserController {
     @MinAccessed(USER)
     @RequestMapping(value = "/users/update", method = RequestMethod.POST)
     public String updateInfo(@ModelAttribute("user") @Valid User user,
-                             BindingResult bindingResult,
+                             BindingResult bindingResult, Principal principal,
                              Locale locale, HttpServletRequest request) {
         if (bindingResult.getErrorCount() > 0) {
             return "user/edit";
@@ -112,6 +112,10 @@ public class UserController {
         }
         if (!trySaveUser(user, bindingResult, () -> service.updateLoginRole(user), locale)) {
             return "user/edit";
+        }
+        //if it's admin
+        if (!principal.getName().equals(user.getLogin())) {
+            return "redirect:/users";
         }
         logout(request);
         return "redirect:/login?logout";

@@ -6,12 +6,13 @@
     <definition name="defaultTemplate" template="/WEB-INF/views/template/siteTemplate.jsp">
         <put-attribute name="header" value="/WEB-INF/views/template/header.jsp"/>
         <put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp"/>
+        <put-attribute name="anonymous" value="/WEB-INF/views/template/enter.jsp"/>
     </definition>
 
     <definition name="register" extends="defaultTemplate">
         <put-attribute name="title" value="header.register" type="string"/>
-        <put-attribute name="menu" value="/WEB-INF/views/template/shortMenu.jsp"/>
         <put-attribute name="body" value="/WEB-INF/views/register.jsp"/>
+        <put-attribute name="anonymous" value="/WEB-INF/views/template/menu.jsp"/>
     </definition>
 
     <definition name="basicTemplate" extends="defaultTemplate">

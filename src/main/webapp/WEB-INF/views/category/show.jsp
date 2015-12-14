@@ -7,7 +7,7 @@
 <h1 class="h1 text-center">${category.name}</h1>
 <%--@elvariable id="category" type="com.zhytnik.library.domain.Category"--%>
 <sec:authorize access="hasAnyRole('ROLE_LIBRARIAN','ROLE_ADMIN')">
-    <sf:form method="post" action="${contextPath}/categories/${category.id}" id="form"/>
+    <sf:form method="post" action="${contextPath}/categories/${category.id}/delete" id="form"/>
     <script>
         function formSubmit() {
             document.getElementById("form").submit();
