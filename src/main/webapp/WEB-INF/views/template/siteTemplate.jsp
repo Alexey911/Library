@@ -56,7 +56,7 @@
         </div>
     </div>
 </div>
-<footer class="footer text-center" style="margin-bottom:0;position: absolute; bottom: 0;width:100%;">
+<footer class="footer text-center">
     <hr>
     <tiles:insertAttribute name="footer"/>
 </footer>

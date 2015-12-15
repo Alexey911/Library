@@ -4,7 +4,7 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <h1 class="h1 text-center"><spring:message code="publisher.action.edit"/></h1>
 <sf:form method="POST" modelAttribute="publisher"
-         action="${pageContext.request.contextPath}/publishers"
+         action="${pageContext.request.contextPath}/publishers/update"
          cssClass="form-horizontal" role="form">
     <springForm:hidden path="id"/>
     <%@ include file="common/formBody.jsp" %>
