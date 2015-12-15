@@ -109,7 +109,7 @@ public class BookController {
                 () -> bookService.update(book), categories)) {
             return addSelected(getFilledModelAndView("book/edit"), categories);
         }
-        return new ModelAndView(new RedirectView("/books"));
+        return new ModelAndView(new RedirectView("/books/" + book.getId()));
     }
 
     @MinAccessed(LIBRARIAN)

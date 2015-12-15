@@ -80,7 +80,7 @@ public class CategoryController {
                 locale, () -> service.update(category))) {
             return "category/edit";
         }
-        return "redirect:/categories";
+        return "redirect:/categories/" + category.getId();
     }
 
     @MinAccessed(LIBRARIAN)

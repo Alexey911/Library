@@ -81,7 +81,7 @@ public class PublisherController {
                 locale, () -> service.update(publisher))) {
             return "publisher/edit";
         }
-        return "redirect:/publishers";
+        return "redirect:/publishers/" + publisher.getId();
     }
 
     @MinAccessed(LIBRARIAN)
