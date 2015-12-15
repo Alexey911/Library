@@ -27,7 +27,7 @@
             <tr>
                 <td><spring:message code="action.remember"/></td>
                 <td>
-                    <label><input type="checkbox" class="checkbox" name="_spring_security_remember_me"/></label>
+                    <label><input type="checkbox" name="_spring_security_remember_me"/></label>
                 </td>
             </tr>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

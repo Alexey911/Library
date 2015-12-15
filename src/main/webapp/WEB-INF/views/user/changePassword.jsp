@@ -9,6 +9,7 @@
 <springForm:form method="POST" modelAttribute="wrapper"
                  action="${pageContext.request.contextPath}/users/updatePassword"
                  class="form-horizontal" role="form">
+    <springForm:hidden path="ownerId"/>
     <div class="form-group">
         <label class="control-label col-sm-2" for="lastPassword"><spring:message
                 code="user.last.password"/>:</label>

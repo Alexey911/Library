@@ -113,12 +113,11 @@ public class UserController {
         if (!trySaveUser(user, bindingResult, () -> service.updateLoginRole(user), locale)) {
             return "user/edit";
         }
-        //if it's admin
-        if (!principal.getName().equals(user.getLogin())) {
-            return "redirect:/users";
+        if (isOwner(user, principal)) {
+            logout(request);
+            return "redirect:/login";
         }
-        logout(request);
-        return "redirect:/login?logout";
+        return "redirect:/users";
     }
 
     @MinAccessed(USER)
@@ -133,14 +132,14 @@ public class UserController {
     @MinAccessed(USER)
     @RequestMapping(value = "/users/updatePassword", method = RequestMethod.POST)
     public String updatePassword(@ModelAttribute("wrapper") @Valid PasswordWrapper wrapper,
-                                 BindingResult bindingResult,
+                                 BindingResult bindingResult, Principal principal,
                                  Locale locale, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "user/changePassword";
         }
+        Integer id = wrapper.getOwnerId();
         try {
-            service.updatePassword(wrapper.getOwnerId(),
-                    wrapper.getLastPassword(), wrapper.getNewPassword());
+            service.updatePassword(id, wrapper.getLastPassword(), wrapper.getNewPassword());
         } catch (PasswordMismatchException e) {
             FieldError fieldError = new FieldError("wrapper", "lastPassword",
                     messageSource.getMessage("password.exception.password.mismatch",
@@ -148,8 +147,11 @@ public class UserController {
             bindingResult.addError(fieldError);
             return "user/changePassword";
         }
-        logout(request);
-        return "redirect:/login?logout";
+        if (isOwner(service.findById(id), principal)) {
+            logout(request);
+            return "redirect:/login";
+        }
+        return "redirect:/users";
     }
 
     @Accessed(ADMIN)
@@ -186,11 +188,15 @@ public class UserController {
                          Principal principal, HttpServletRequest request) {
         User user = service.findById(id);
         service.delete(id);
-        if (user.getLogin().equals(principal.getName())) {
+        if (isOwner(user, principal)) {
             logout(request);
             return "redirect:/login";
         }
         return "redirect:/users";
+    }
+
+    private boolean isOwner(User user, Principal principal) {
+        return user.getLogin().equals(principal.getName());
     }
 
     @Accessed(ADMIN)
