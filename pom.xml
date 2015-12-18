@@ -21,18 +21,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
         <!-- Tiles -->
         <dependency>
             <groupId>org.apache.tiles</groupId>
@@ -82,11 +70,11 @@
             <scope>provided</scope>
         </dependency>
 
+
         <dependency>
-            <groupId>javaee</groupId>
+            <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>5</version>
-            <scope>provided</scope>
+            <version>6.0</version>
         </dependency>
 
         <dependency>

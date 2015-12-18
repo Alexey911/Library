@@ -14,7 +14,7 @@
 
 <div class="form-group">
     <label class="control-label col-sm-2" for="password"><spring:message
-            code="user.new.password"/>:</label>
+            code="user.field.password"/>:</label>
     <spring:message code="user.placeholder.password" var="placeholder"/>
     <div class="col-sm-3">
         <springForm:password path="password" id="password" cssClass="form-control"
