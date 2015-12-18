@@ -16,7 +16,7 @@ public class ServiceLogger {
     private static Logger logger = Logger.getLogger("Service");
 
     @AfterReturning(
-            pointcut = "execution(public * com.zhytnik.library.service.Service.*(..)))",
+            pointcut = "execution(public * com.zhytnik.library.service.AbstractService.*(..)))",
             returning = "result")
     public void methodsWithResult(JoinPoint joinPoint, Object result) {
         //noinspection StringBufferReplaceableByString
@@ -27,13 +27,13 @@ public class ServiceLogger {
     }
 
     @AfterThrowing(
-            pointcut = "execution(* com.zhytnik.library.service.Service.*(..))",
+            pointcut = "execution(* com.zhytnik.library.service.AbstractService.*(..))",
             throwing = "error")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable error) {
         //noinspection StringBufferReplaceableByString
         String msg = new StringBuilder().append(joinPoint.getSignature().toShortString()).
                 append("(").append(Arrays.toString(joinPoint.getArgs())).
                 append(") throw ").append(error).toString();
-        logger.log(Level.INFO, msg);
+        logger.log(Level.WARN, msg);
     }
 }

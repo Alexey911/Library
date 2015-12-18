@@ -10,7 +10,7 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
-public abstract class Service<T extends DomainObject> {
+public abstract class AbstractService<T extends DomainObject> {
     private GenericDao<T> dao;
 
     public abstract T create();

@@ -7,7 +7,7 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
-public class BookService extends Service<Book> {
+public class BookService extends AbstractService<Book> {
     @Override
     public Book create() {
         return new Book();
@@ -20,7 +20,6 @@ public class BookService extends Service<Book> {
         if (!isNull(b.getAnnotation())) {
             b.setAnnotation(b.getAnnotation().trim());
         }
-        super.prepare(b);
     }
 
     @Override

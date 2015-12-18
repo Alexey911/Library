@@ -5,7 +5,7 @@ import com.zhytnik.library.domain.Publisher;
 
 import static java.util.Objects.isNull;
 
-public class PublisherService extends Service<Publisher> {
+public class PublisherService extends AbstractService<Publisher> {
     public PublisherService() {
         super();
     }

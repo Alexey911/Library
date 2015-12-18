@@ -16,7 +16,7 @@ import static java.lang.Boolean.TRUE;
 import static java.util.Objects.isNull;
 
 @SuppressWarnings("deprecation")
-public class UserService extends Service<User> {
+public class UserService extends AbstractService<User> {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -47,18 +47,22 @@ public class UserService extends Service<User> {
 
     @Override
     public void add(User user) throws NotUniqueException {
-        tryPersist(user, true);
-    }
-
-    public void addConfirmedUser(User user) throws NotUniqueException {
         tryPersist(user, false);
     }
 
-    private void tryPersist(User user, boolean autoConfirm) {
+    public void addConfirmedUser(User user) throws NotUniqueException {
+        tryPersist(user, true);
+    }
+
+    private void tryPersist(User user, boolean confirmed) {
         UserDao dao = getUserDao();
         if (dao.hasUniqueLogin(user)) {
             encodeUserPassword(user);
-            setConfirm(user, autoConfirm);
+            if (confirmed) {
+                user.setConfirmed(TRUE);
+            } else {
+                determineAndSetConfirm(user);
+            }
             user.setEnabled(TRUE);
             dao.persist(user);
         } else {
@@ -66,11 +70,7 @@ public class UserService extends Service<User> {
         }
     }
 
-    private void setConfirm(User user, boolean autoConfirm) {
-        if (!autoConfirm) {
-            user.setConfirmed(TRUE);
-            return;
-        }
+    private void determineAndSetConfirm(User user) {
         boolean confirmed = (user.getRole() == USER);
         user.setConfirmed(confirmed);
     }

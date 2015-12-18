@@ -5,7 +5,7 @@ import com.zhytnik.library.domain.Category;
 
 import static java.util.Objects.isNull;
 
-public class CategoryService extends Service<Category> {
+public class CategoryService extends AbstractService<Category> {
     @Override
     public Category create() {
         return new Category();
